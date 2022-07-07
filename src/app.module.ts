@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 //import { ReviewModule } from './apis/reivews/review.module';
 import { CourseModule } from './apis/course/course.module';
+import { ReviewModule } from './apis/reivews/review.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { CourseModule } from './apis/course/course.module';
       autoSchemaFile: './src/commons/graphql/schema.gql',
     }),
     CourseModule,
+    ReviewModule,
   ],
 })
 export class AppModule {}
