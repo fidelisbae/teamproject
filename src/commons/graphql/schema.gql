@@ -29,6 +29,7 @@ type Query {
 
 type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
+  deleteUser(id: String!): Boolean!
 }
 
 input CreateUserInput {

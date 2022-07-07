@@ -21,4 +21,9 @@ export class UserResolver {
   async createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
     return await this.userService.create(createUserInput);
   }
+
+  @Mutation(() => Boolean)
+  async deleteUser(@Args('id') id: string) {
+    return await this.userService.delete(id);
+  }
 }

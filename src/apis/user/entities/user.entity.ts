@@ -14,19 +14,19 @@ export class User {
   @Field(() => String)
   id: string;
 
-  @Column()
+  @Column({ default: null })
   @Field(() => String)
   email: string;
 
-  @Column()
+  @Column({ default: null })
   @Field(() => String)
   password: string;
 
-  @Column()
+  @Column({ default: null })
   @Field(() => String)
   nickname: string;
 
-  @Column()
+  @Column({ default: null })
   @Field(() => String)
   phone: string;
 
