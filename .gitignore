@@ -34,5 +34,6 @@ lerna-debug.log*
 !.vscode/launch.json
 !.vscode/extensions.json
 
-#앱모듈
-/src/app.module.ts
+#깃충돌방지
+/app.module.ts
+/schema.gql
