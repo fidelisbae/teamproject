@@ -36,4 +36,4 @@ lerna-debug.log*
 
 #깃충돌방지
 /app.module.ts
-/schema.gql
+./src/commons/graphql/schema.gql
