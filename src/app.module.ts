@@ -2,10 +2,11 @@ import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { CourseModule } from './apis/course/course.module';
+import { ReviewModule } from './apis/reivews/review.module';
+import { UserModule } from './apis/user/user.module';
 import { AppService } from './app.service';
 import { AppController } from './app.controller';
-import { CourseModule } from './apis/course/course.module';
-import { UserModule } from './apis/user/user.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { UserModule } from './apis/user/user.module';
       autoSchemaFile: './src/commons/graphql/schema.gql',
     }),
     CourseModule,
+    ReviewModule,
     UserModule,
   ],
   providers: [AppService],

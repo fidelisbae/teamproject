@@ -33,3 +33,7 @@ lerna-debug.log*
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+#깃충돌방지
+/app.module.ts
+./src/commons/graphql/schema.gql

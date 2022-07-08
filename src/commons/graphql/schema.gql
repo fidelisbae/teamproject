@@ -2,6 +2,26 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Course {
+  id: String!
+  name: String!
+  price: Int!
+  description: String!
+  pick: Int!
+  courseStartTime: DateTime!
+  courseEndTime: DateTime!
+  imageUrl: String!
+  currentUsers: Int!
+  maxUsers: Int!
+  region: String!
+  maxDiscount: Int!
+  difficulty: String!
+  materials: String!
+  address: String!
+  addressDetail: String!
+  zipCode: String!
+  contents: String!
+
 type User {
   id: String!
   email: String!
@@ -15,6 +35,7 @@ type User {
   businessNumber: String!
   birth: DateTime!
   marketingAgreement: Boolean!
+
 }
 
 """
@@ -23,6 +44,31 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 scalar DateTime
 
 type Query {
+
+  fetchCourse(courseId: String!): Course!
+  fetchCourses: [Course!]!
+}
+
+type Mutation {
+  createCourse(createCourseInput: CreateCourseInput!): Course!
+}
+
+input CreateCourseInput {
+  name: String!
+  price: Int!
+  maxUsers: Int!
+  description: String!
+  maxDiscount: Int!
+  difficulty: String!
+  materials: String!
+  address: String!
+  addressDetail: String!
+  zipCode: String!
+  contents: String!
+  courseStartTime: DateTime!
+  courseEndTime: DateTime!
+  region: String!
+
   fetchUsers: [User!]!
   fetchUser(id: String!): User!
 }
@@ -37,4 +83,5 @@ input CreateUserInput {
   password: String!
   nickname: String!
   phone: String!
+
 }
