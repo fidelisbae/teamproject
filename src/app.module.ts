@@ -2,18 +2,28 @@ import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { TypeOrmModule } from '@nestjs/typeorm';
-
-//import { ReviewModule } from './apis/reivews/review.module';
 import { CourseModule } from './apis/course/course.module';
 import { ReviewModule } from './apis/reivews/review.module';
+import { UserModule } from './apis/user/user.module';
+import { AppService } from './app.service';
+import { AppController } from './app.controller';
 
 @Module({
   imports: [
-    //ReviewModule,
+    // TypeOrmModule.forRoot({
+    //   type: 'mysql',
+    //   host: '172.21.16.7',
+    //   port: 3306,
+    //   username: 'root',
+    //   password: '3565',
+    //   database: 'dabae-database',
+    //   entities: [__dirname + '/apis/*/.entity.*'],
+    //   synchronize: true,
+    //   logging: true,
+    // }),
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: '127.0.0.1',
-      //'172.21.16.7',
       port: 3306,
       username: 'root',
       password: 'root',
@@ -28,6 +38,9 @@ import { ReviewModule } from './apis/reivews/review.module';
     }),
     CourseModule,
     ReviewModule,
+    UserModule,
   ],
+  providers: [AppService],
+  controllers: [AppController],
 })
 export class AppModule {}

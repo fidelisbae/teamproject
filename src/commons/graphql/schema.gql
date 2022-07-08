@@ -21,6 +21,21 @@ type Course {
   addressDetail: String!
   zipCode: String!
   contents: String!
+
+type User {
+  id: String!
+  email: String!
+  password: String!
+  nickname: String!
+  phone: String!
+  gender: String!
+  isHost: Boolean!
+  account: String!
+  businessName: String!
+  businessNumber: String!
+  birth: DateTime!
+  marketingAgreement: Boolean!
+
 }
 
 """
@@ -29,6 +44,7 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 scalar DateTime
 
 type Query {
+
   fetchCourse(courseId: String!): Course!
   fetchCourses: [Course!]!
 }
@@ -52,4 +68,20 @@ input CreateCourseInput {
   courseStartTime: DateTime!
   courseEndTime: DateTime!
   region: String!
+
+  fetchUsers: [User!]!
+  fetchUser(id: String!): User!
+}
+
+type Mutation {
+  createUser(createUserInput: CreateUserInput!): User!
+  deleteUser(id: String!): Boolean!
+}
+
+input CreateUserInput {
+  email: String!
+  password: String!
+  nickname: String!
+  phone: String!
+
 }
