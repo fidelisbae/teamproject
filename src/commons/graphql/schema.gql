@@ -5,7 +5,8 @@
 type Course {
   id: String!
   name: String!
-  price: Int!
+  maxPrice: Int!
+  minPrice: Int!
   description: String!
   pick: Int!
   courseStartTime: DateTime!
@@ -21,6 +22,19 @@ type Course {
   addressDetail: String!
   zipCode: String!
   contents: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Review {
+  id: String!
+  score: Float!
+  content: String!
+  url: String!
+}
 
 type User {
   id: String!
@@ -35,22 +49,22 @@ type User {
   businessNumber: String!
   birth: DateTime!
   marketingAgreement: Boolean!
-
 }
 
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
-
 type Query {
-
   fetchCourse(courseId: String!): Course!
   fetchCourses: [Course!]!
+  fetchUsers: [User!]!
+  fetchUser(id: String!): User!
 }
 
 type Mutation {
   createCourse(createCourseInput: CreateCourseInput!): Course!
+  updateCourse(courseId: String!, updateCourseInput: UpdateCourseInput!): Course!
+  deleteCourse(courseId: String!): Boolean!
+  createReview(reviewId: String!, score: Float!, content: String!, created_At: DateTime!, url: String!): Review!
+  createUser(createUserInput: CreateUserInput!): User!
+  deleteUser(id: String!): Boolean!
 }
 
 input CreateCourseInput {
@@ -68,14 +82,23 @@ input CreateCourseInput {
   courseStartTime: DateTime!
   courseEndTime: DateTime!
   region: String!
-
-  fetchUsers: [User!]!
-  fetchUser(id: String!): User!
 }
 
-type Mutation {
-  createUser(createUserInput: CreateUserInput!): User!
-  deleteUser(id: String!): Boolean!
+input UpdateCourseInput {
+  name: String
+  price: Int
+  maxUsers: Int
+  description: String
+  maxDiscount: Int
+  difficulty: String
+  materials: String
+  address: String
+  addressDetail: String
+  zipCode: String
+  contents: String
+  courseStartTime: DateTime
+  courseEndTime: DateTime
+  region: String
 }
 
 input CreateUserInput {
@@ -83,5 +106,4 @@ input CreateUserInput {
   password: String!
   nickname: String!
   phone: String!
-
 }

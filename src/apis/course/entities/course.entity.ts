@@ -4,9 +4,6 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  JoinTable,
-  ManyToMany,
-  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -23,13 +20,17 @@ export class Course {
 
   @Column()
   @Field(() => Int)
-  price: number;
+  maxPrice: number;
+
+  @Column()
+  @Field(() => Int)
+  minPrice: number;
 
   @Column()
   @Field(() => String)
   description: string;
 
-  @Column({ default: null })
+  @Column({ default: 0 })
   @Field(() => Int)
   pick: number;
 
@@ -51,11 +52,11 @@ export class Course {
   @Field(() => String)
   imageUrl: string;
 
-  @Column({ default: null })
+  @Column({ default: 0 })
   @Field(() => Int)
   currentUsers: number;
 
-  @Column({ default: null })
+  @Column({ default: 0 })
   @Field(() => Int)
   maxUsers: number;
 
@@ -63,7 +64,7 @@ export class Course {
   @Field(() => String)
   region: string;
 
-  @Column({ default: null })
+  @Column({ default: 0 })
   @Field(() => Int)
   maxDiscount: number;
 
