@@ -54,6 +54,7 @@ type Mutation {
   createCourse(createCourseInput: CreateCourseInput!): Course!
   createUser(createUserInput: CreateUserInput!): User!
   deleteUser(id: String!): Boolean!
+  login(email: String!, password: String!): String!
 }
 
 input CreateCourseInput {
