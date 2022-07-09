@@ -9,6 +9,7 @@ import { AppService } from './app.service';
 import { AppController } from './app.controller';
 import { AuthModule } from './apis/auth/auth.module';
 
+
 @Module({
   imports: [
     // TypeOrmModule.forRoot({
@@ -42,7 +43,5 @@ import { AuthModule } from './apis/auth/auth.module';
     UserModule,
     AuthModule,
   ],
-  providers: [AppService],
-  controllers: [AppController],
 })
 export class AppModule {}
