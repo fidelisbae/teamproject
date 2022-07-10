@@ -37,3 +37,8 @@ lerna-debug.log*
 #깃충돌방지
 /app.module.ts
 ./src/commons/graphql/schema.gql
+
+#git 올라가면 안되는거 
+*.env
+
+gcp-file-storage.json

@@ -11,9 +11,8 @@ export class ReviewService {
     private readonly reviewRepository: Repository<Review>, // @InjectRepository(Course) // private readonly courseRepository: Repository<Course>, //   private readonly UserRepository: Repository<User>, //   @InjectRepository(Review) //   private readonly ReviewRepository: Repository<Review>, //   @InjectRepository(User)
   ) {}
 
-  async create({ reviewId, score, content, created_At, url }) {
+  async create({ score, content, created_At, url }) {
     const result = await this.reviewRepository.save({
-      reviewId,
       score,
       content,
       created_At,

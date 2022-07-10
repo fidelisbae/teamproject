@@ -5,10 +5,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { CourseModule } from './apis/course/course.module';
 import { ReviewModule } from './apis/reivews/review.module';
 import { UserModule } from './apis/user/user.module';
-import { AppService } from './app.service';
-import { AppController } from './app.controller';
 import { AuthModule } from './apis/auth/auth.module';
-
+import { FileModule } from './apis/file/file.module';
+import { MainCategory } from './apis/mainCategory/entities/maincategory.entity';
 
 @Module({
   imports: [
@@ -37,11 +36,18 @@ import { AuthModule } from './apis/auth/auth.module';
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: './src/commons/graphql/schema.gql',
+      cors: {
+        origin: '*',
+        credential: 'include',
+        exposedHeaders: ['Authorization', 'Set-Cookie', 'Cookie'],
+      },
     }),
     CourseModule,
     ReviewModule,
     UserModule,
     AuthModule,
+    FileModule,
+    MainCategory,
   ],
 })
 export class AppModule {}

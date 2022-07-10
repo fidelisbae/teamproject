@@ -29,6 +29,12 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type Review {
+  id: String!
+  score: Float!
+  content: String!
+  url: String!
+}
 
 type User {
   id: String!
@@ -45,6 +51,10 @@ type User {
   marketingAgreement: Boolean!
 }
 
+type MainCategory {
+  id: String!
+}
+
 type Query {
   fetchCourse(courseId: String!): Course!
   fetchCourses: [Course!]!
@@ -54,13 +64,21 @@ type Query {
 
 type Mutation {
   createCourse(createCourseInput: CreateCourseInput!): Course!
-
+  updateCourse(courseId: String!, updateCourseInput: UpdateCourseInput!): Course!
+  deleteCourse(courseId: String!): Boolean!
+  createReview(score: Float!, content: String!, created_At: DateTime!, url: String!): Review!
+  createUser(createUserInput: CreateUserInput!): User!
+  deleteUser(id: String!): Boolean!
+  login(email: String!, password: String!): String!
+  uploadFile(files: [Upload!]!): [String!]!
 }
 
 input CreateCourseInput {
   name: String!
   price: Int!
   maxUsers: Int!
+  maxPrice: Int!
+  minPrice: Int!
   description: String!
   maxDiscount: Int!
   difficulty: String!
@@ -69,10 +87,30 @@ input CreateCourseInput {
   addressDetail: String!
   zipCode: String!
   contents: String!
+  imageUrl: String!
   courseStartTime: DateTime!
   courseEndTime: DateTime!
   region: String!
+}
 
+input UpdateCourseInput {
+  name: String
+  price: Int
+  maxUsers: Int
+  maxPrice: Int
+  minPrice: Int
+  description: String
+  maxDiscount: Int
+  difficulty: String
+  materials: String
+  address: String
+  addressDetail: String
+  zipCode: String
+  contents: String
+  imageUrl: String
+  courseStartTime: DateTime
+  courseEndTime: DateTime
+  region: String
 }
 
 input CreateUserInput {
@@ -81,3 +119,6 @@ input CreateUserInput {
   nickname: String!
   phone: String!
 }
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload

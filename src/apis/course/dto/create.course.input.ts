@@ -11,6 +11,12 @@ export class CreateCourseInput {
   @Field(() => Int)
   maxUsers: number;
 
+  @Field(() => Int)
+  maxPrice: number;
+
+  @Field(() => Int)
+  minPrice: number;
+
   @Field(() => String)
   description: string;
 
@@ -34,6 +40,9 @@ export class CreateCourseInput {
 
   @Field(() => String)
   contents: string;
+
+  @Field(() => String)
+  imageUrl: string;
 
   @Field(() => Date)
   courseStartTime: Date;
