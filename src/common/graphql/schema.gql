@@ -29,6 +29,12 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type Review {
+  id: String!
+  score: Float!
+  content: String!
+  url: String!
+}
 
 type User {
   id: String!
@@ -50,11 +56,22 @@ type Query {
   fetchCourses: [Course!]!
   fetchUsers: [User!]!
   fetchUser(id: String!): User!
+  fetchLoginUser: User!
 }
 
 type Mutation {
   createCourse(createCourseInput: CreateCourseInput!): Course!
-
+  updateCourse(courseId: String!, updateCourseInput: UpdateCourseInput!): Course!
+  deleteCourse(courseId: String!): Boolean!
+  createReview(reviewId: String!, score: Float!, content: String!, created_At: DateTime!, url: String!): Review!
+  createUser(createUserInput: CreateUserInput!): User!
+  updateUser(email: String!, updateUserInput: UpdateUserInput!): User!
+  updatePassword(newPassword: String!): User!
+  deleteUser(id: String!): Boolean!
+  deleteLoginUser: Boolean!
+  login(email: String!, password: String!): String!
+  restoreAccessToken: String!
+  logout: String!
 }
 
 input CreateCourseInput {
@@ -72,7 +89,23 @@ input CreateCourseInput {
   courseStartTime: DateTime!
   courseEndTime: DateTime!
   region: String!
+}
 
+input UpdateCourseInput {
+  name: String
+  price: Int
+  maxUsers: Int
+  description: String
+  maxDiscount: Int
+  difficulty: String
+  materials: String
+  address: String
+  addressDetail: String
+  zipCode: String
+  contents: String
+  courseStartTime: DateTime
+  courseEndTime: DateTime
+  region: String
 }
 
 input CreateUserInput {
@@ -80,4 +113,11 @@ input CreateUserInput {
   password: String!
   nickname: String!
   phone: String!
+}
+
+input UpdateUserInput {
+  email: String
+  password: String
+  nickname: String
+  phone: String
 }
