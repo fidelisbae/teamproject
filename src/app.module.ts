@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { CacheModule, Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -8,6 +8,8 @@ import { UserModule } from './apis/user/user.module';
 import { AuthModule } from './apis/auth/auth.module';
 import { FileModule } from './apis/file/file.module';
 import { MainCategory } from './apis/mainCategory/entities/maincategory.entity';
+import { RedisClientOptions } from 'redis';
+import * as redisStore from 'cache-manager-redis-store';
 
 @Module({
   imports: [
@@ -24,7 +26,7 @@ import { MainCategory } from './apis/mainCategory/entities/maincategory.entity';
     // }),
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: '127.0.0.1',
+      host: 'localhost',
       port: 3306,
       username: 'root',
       password: 'root',
@@ -41,6 +43,12 @@ import { MainCategory } from './apis/mainCategory/entities/maincategory.entity';
         credential: 'include',
         exposedHeaders: ['Authorization', 'Set-Cookie', 'Cookie'],
       },
+      context: ({ req, res }) => ({ req, res }),
+    }),
+    CacheModule.register<RedisClientOptions>({
+      store: redisStore,
+      url: 'redis://localhost:6379',
+      isGlobal: true,
     }),
     CourseModule,
     ReviewModule,
