@@ -5,7 +5,6 @@ import { MainCategory } from './entities/maincategory.entity';
 
 @Injectable()
 export class MainCategoryService {
-  //database에 저장
   constructor(
     @InjectRepository(MainCategory)
     private readonly mainCategoryRepository: Repository<MainCategory>,

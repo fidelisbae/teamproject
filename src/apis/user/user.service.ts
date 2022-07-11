@@ -41,31 +41,6 @@ export class UserService {
     }
   }
 
-  async update({ email, updateUserInput }) {
-    const myUser = await this.userRepository.findOne({
-      where: { email: email },
-    });
-
-    const newUser = {
-      ...myUser,
-      email: email,
-      ...updateUserInput,
-    };
-    return await this.userRepository.save(newUser);
-  }
-
-  async updatePassword({ id, hashedpassword: password }) {
-    const myUser = await this.userRepository.findOne({
-      where: { id: id },
-    });
-
-    const newUser = {
-      ...myUser,
-      password,
-    };
-    return await this.userRepository.save(newUser);
-  }
-
   async checkEmail(email) {
     const hasEmail = await this.userRepository.findOne({
       where: { email: email },
@@ -78,7 +53,7 @@ export class UserService {
     }
   }
 
-  async delete({ id }) {
+  async delete(id) {
     const result = await this.userRepository.softDelete({
       id: id,
     });

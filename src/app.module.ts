@@ -24,6 +24,7 @@ import * as redisStore from 'cache-manager-redis-store';
     //   synchronize: true,
     //   logging: true,
     // }),
+
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
@@ -35,6 +36,7 @@ import * as redisStore from 'cache-manager-redis-store';
       synchronize: true,
       logging: true,
     }),
+
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: './src/commons/graphql/schema.gql',
@@ -45,11 +47,13 @@ import * as redisStore from 'cache-manager-redis-store';
       },
       context: ({ req, res }) => ({ req, res }),
     }),
+
     CacheModule.register<RedisClientOptions>({
       store: redisStore,
       url: 'redis://localhost:6379',
       isGlobal: true,
     }),
+
     CourseModule,
     ReviewModule,
     UserModule,
