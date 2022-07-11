@@ -1,12 +1,9 @@
 import { Field, ObjectType, Int } from '@nestjs/graphql';
-import { Geometry } from 'geojson';
 import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  JoinTable,
-  ManyToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
