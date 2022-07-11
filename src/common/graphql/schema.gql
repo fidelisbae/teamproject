@@ -39,15 +39,15 @@ type Review {
 type User {
   id: String!
   email: String!
-  password: String!
   nickname: String!
   phone: String!
-  gender: String!
+  gender: String
   isHost: Boolean!
-  account: String!
-  businessName: String!
-  businessNumber: String!
-  birth: DateTime!
+  account: String
+  bank: String
+  businessName: String
+  businessNumber: String
+  birth: DateTime
   marketingAgreement: Boolean!
 }
 
@@ -65,6 +65,7 @@ type Mutation {
   deleteCourse(courseId: String!): Boolean!
   createReview(reviewId: String!, score: Float!, content: String!, created_At: DateTime!, url: String!): Review!
   createUser(createUserInput: CreateUserInput!): User!
+  createHost(createHostInput: CreateHostInput!): User!
   updateUser(email: String!, updateUserInput: UpdateUserInput!): User!
   updatePassword(newPassword: String!): User!
   deleteUser(id: String!): Boolean!
@@ -109,15 +110,34 @@ input UpdateCourseInput {
 }
 
 input CreateUserInput {
+  isHost: Boolean!
   email: String!
   password: String!
   nickname: String!
   phone: String!
+  marketingAgreement: Boolean!
+}
+
+input CreateHostInput {
+  isHost: Boolean!
+  email: String!
+  password: String!
+  nickname: String!
+  phone: String!
+  marketingAgreement: Boolean!
+  account: String!
+  bank: String!
+  businessName: String!
+  businessNumber: String!
 }
 
 input UpdateUserInput {
+  isHost: Boolean
   email: String
   password: String
   nickname: String
   phone: String
+  marketingAgreement: Boolean
+  gender: String
+  birth: DateTime
 }

@@ -7,6 +7,7 @@ import { UpdateUserInput } from './dto/updateUser.input';
 import { User } from './entities/user.entity';
 import { UserService } from './user.service';
 import * as bcryptjs from 'bcryptjs';
+import { CreateHostInput } from './dto/createHost.input';
 
 @Resolver()
 export class UserResolver {
@@ -27,6 +28,12 @@ export class UserResolver {
     return await this.userService.create(createUserInput);
   }
 
+  @Mutation(() => User)
+  async createHost(@Args('createHostInput') createHostInput: CreateHostInput) {
+    return await this.userService.createHost(createHostInput);
+  }
+
+  @UseGuards(GqlAuthAccessGuard)
   @Mutation(() => User)
   async updateUser(
     @Args('email') email: string,
@@ -56,7 +63,7 @@ export class UserResolver {
 
   @UseGuards(GqlAuthAccessGuard)
   @Mutation(() => Boolean)
-  deleteLoginUser(@CurrentUser() currentUser: ICurrentUser) {
+  async deleteLoginUser(@CurrentUser() currentUser: ICurrentUser) {
     return this.userService.delete({ id: currentUser.id });
   }
 
