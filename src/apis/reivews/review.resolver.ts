@@ -11,14 +11,12 @@ export class ReviewResolver {
 
   @Mutation(() => Review)
   async createReview(
-    @Args('reviewId') reviewId: string,
     @Args('score') score: number,
     @Args('content') content: string,
     @Args('created_At') created_At: Date,
     @Args('url') url: string,
   ) {
     return this.reviewService.create({
-      reviewId,
       score,
       content,
       created_At,

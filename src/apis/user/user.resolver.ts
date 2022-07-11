@@ -1,13 +1,13 @@
-import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { GqlAuthAccessGuard } from 'src/common/auth/gql.auth.guard';
-import { CurrentUser, ICurrentUser } from 'src/common/auth/gql.user.param';
 import { CreateUserInput } from './dto/createUser.input';
-import { UpdateUserInput } from './dto/updateUser.input';
 import { User } from './entities/user.entity';
 import { UserService } from './user.service';
 import * as bcryptjs from 'bcryptjs';
 import { CreateHostInput } from './dto/createHost.input';
+import { GqlAuthAccessGuard } from 'src/common/auth/gql.auth.guard';
+import { UseGuards } from '@nestjs/common';
+import { CurrentUser, ICurrentUser } from 'src/common/auth/gql.user.param';
+import { UpdateUserInput } from './dto/updateUser.input';
 
 @Resolver()
 export class UserResolver {

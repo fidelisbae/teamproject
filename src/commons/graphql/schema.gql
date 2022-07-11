@@ -51,6 +51,10 @@ type User {
   marketingAgreement: Boolean!
 }
 
+type MainCategory {
+  id: String!
+}
+
 type Query {
   fetchCourse(courseId: String!): Course!
   fetchCourses: [Course!]!
@@ -63,7 +67,7 @@ type Mutation {
   createCourse(createCourseInput: CreateCourseInput!): Course!
   updateCourse(courseId: String!, updateCourseInput: UpdateCourseInput!): Course!
   deleteCourse(courseId: String!): Boolean!
-  createReview(reviewId: String!, score: Float!, content: String!, created_At: DateTime!, url: String!): Review!
+  createReview(score: Float!, content: String!, created_At: DateTime!, url: String!): Review!
   createUser(createUserInput: CreateUserInput!): User!
   createHost(createHostInput: CreateHostInput!): User!
   updateUser(email: String!, updateUserInput: UpdateUserInput!): User!
@@ -71,14 +75,15 @@ type Mutation {
   deleteUser(id: String!): Boolean!
   deleteLoginUser: Boolean!
   login(email: String!, password: String!): String!
-  restoreAccessToken: String!
-  logout: String!
+  uploadFile(files: [Upload!]!): [String!]!
 }
 
 input CreateCourseInput {
   name: String!
   price: Int!
   maxUsers: Int!
+  maxPrice: Int!
+  minPrice: Int!
   description: String!
   maxDiscount: Int!
   difficulty: String!
@@ -87,6 +92,7 @@ input CreateCourseInput {
   addressDetail: String!
   zipCode: String!
   contents: String!
+  imageUrl: String!
   courseStartTime: DateTime!
   courseEndTime: DateTime!
   region: String!
@@ -96,6 +102,8 @@ input UpdateCourseInput {
   name: String
   price: Int
   maxUsers: Int
+  maxPrice: Int
+  minPrice: Int
   description: String
   maxDiscount: Int
   difficulty: String
@@ -104,6 +112,7 @@ input UpdateCourseInput {
   addressDetail: String
   zipCode: String
   contents: String
+  imageUrl: String
   courseStartTime: DateTime
   courseEndTime: DateTime
   region: String
@@ -141,3 +150,6 @@ input UpdateUserInput {
   gender: String
   birth: DateTime
 }
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload

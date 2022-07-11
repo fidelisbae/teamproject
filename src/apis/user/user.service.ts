@@ -1,8 +1,4 @@
-import {
-  ConflictException,
-  Injectable,
-  UnprocessableEntityException,
-} from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
@@ -109,7 +105,7 @@ export class UserService {
     }
   }
 
-  async delete({ id }) {
+  async delete(id) {
     const result = await this.userRepository.softDelete({
       id: id,
     });
