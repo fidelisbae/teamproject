@@ -23,4 +23,11 @@ export class SpecificSchedule {
   @Column({ default: 0 })
   @Field(() => Int)
   reservedPerson: number;
+  @Column({ default: null })
+  @Field(() => Date)
+  RecruitmentStartDate: Date;
+
+  @Column({ default: null })
+  @Field(() => Date)
+  RecruitmentEdnDate: Date;
 }

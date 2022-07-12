@@ -39,26 +39,6 @@ export class Course {
 
   @Column()
   @Field(() => String)
-  address: string;
-
-  @Column()
-  @Field(() => String)
-  addressDetail: string;
-
-  @Column()
-  @Field(() => String)
-  zipCode: string;
-
-  @Column({ type: 'decimal', precision: 9, scale: 7 })
-  @Field(() => Float)
-  lat: number;
-
-  @Column({ type: 'decimal', precision: 10, scale: 7 })
-  @Field(() => Float)
-  lng: number;
-
-  @Column()
-  @Field(() => String)
   difficulty: string;
 
   @Column()
