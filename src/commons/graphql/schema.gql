@@ -2,38 +2,12 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Course {
+type MainCategory {
   id: String!
-  name: String!
-  maxPrice: Int!
-  minPrice: Int!
-  description: String!
-  pick: Int!
-  courseStartTime: DateTime!
-  courseEndTime: DateTime!
-  imageUrl: String!
-  currentUsers: Int!
-  maxUsers: Int!
-  region: String!
-  maxDiscount: Int!
-  difficulty: String!
-  materials: String!
-  address: String!
-  addressDetail: String!
-  zipCode: String!
-  contents: String!
 }
 
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
-
-type Review {
-  id: String!
-  score: Float!
-  content: String!
-  url: String!
+type SubCategory {
+  mainCategory: MainCategory!
 }
 
 type User {
@@ -51,22 +25,53 @@ type User {
   marketingAgreement: Boolean!
 }
 
-type MainCategory {
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Course {
   id: String!
+  name: String!
+  maxPrice: Int!
+  minPrice: Int!
+  address: String!
+  addressDetail: String!
+  zipCode: String!
+  lat: Float!
+  lng: Float!
+  difficulty: String!
+  materials: String!
+  contents: String!
+  subCategory: SubCategory!
+  user: [User!]!
+}
+
+type Review {
+  id: String!
+  score: Float!
+  content: String!
+  url: String!
+}
+
+type CourseDate {
+  id: String!
+  courseDate: DateTime!
+  RecruitmentStartDate: DateTime!
+  RecruitmentEdnDate: DateTime!
+  course: Course!
 }
 
 type Query {
-  fetchCourse(courseId: String!): Course!
-  fetchCourses: [Course!]!
   fetchUsers: [User!]!
   fetchUser(id: String!): User!
   fetchLoginUser: User!
+  fetchCourse(courseId: String!): Course!
+  fetchCourses: [Course!]!
+  fethchCourseDate(courseDateId: String!): CourseDate!
 }
 
 type Mutation {
-  createCourse(createCourseInput: CreateCourseInput!): Course!
-  updateCourse(courseId: String!, updateCourseInput: UpdateCourseInput!): Course!
-  deleteCourse(courseId: String!): Boolean!
   createReview(score: Float!, content: String!, created_At: DateTime!, url: String!): Review!
   createUser(createUserInput: CreateUserInput!): User!
   createHost(createHostInput: CreateHostInput!): User!
@@ -76,46 +81,10 @@ type Mutation {
   deleteLoginUser: Boolean!
   login(email: String!, password: String!): String!
   uploadFile(files: [Upload!]!): [String!]!
-}
-
-input CreateCourseInput {
-  name: String!
-  price: Int!
-  maxUsers: Int!
-  maxPrice: Int!
-  minPrice: Int!
-  description: String!
-  maxDiscount: Int!
-  difficulty: String!
-  materials: String!
-  address: String!
-  addressDetail: String!
-  zipCode: String!
-  contents: String!
-  imageUrl: String!
-  courseStartTime: DateTime!
-  courseEndTime: DateTime!
-  region: String!
-}
-
-input UpdateCourseInput {
-  name: String
-  price: Int
-  maxUsers: Int
-  maxPrice: Int
-  minPrice: Int
-  description: String
-  maxDiscount: Int
-  difficulty: String
-  materials: String
-  address: String
-  addressDetail: String
-  zipCode: String
-  contents: String
-  imageUrl: String
-  courseStartTime: DateTime
-  courseEndTime: DateTime
-  region: String
+  createCourse(createCourseInput: CreateCourseInput!): Course!
+  updateCourse(courseId: String!, updateCourseInput: UpdateCourseInput!): Course!
+  deleteCourse(courseId: String!): Boolean!
+  createCourseDate(courseDate: DateTime!, recruitmentStartDate: DateTime!, recruitmentEndDate: DateTime!): CourseDate!
 }
 
 input CreateUserInput {
@@ -153,3 +122,30 @@ input UpdateUserInput {
 
 """The `Upload` scalar type represents a file upload."""
 scalar Upload
+
+input CreateCourseInput {
+  name: String!
+  maxPrice: Int!
+  minPrice: Int!
+  region: String!
+  address: String!
+  addressDetail: String!
+  zipCode: String!
+  difficulty: String!
+  materials: String!
+  contents: String!
+}
+
+input UpdateCourseInput {
+  name: String!
+  maxPrice: Int!
+  minPrice: Int!
+  region: String!
+  address: String!
+  addressDetail: String!
+  zipCode: String!
+  difficulty: String!
+  materials: String!
+  contents: String!
+  status: Boolean!
+}
