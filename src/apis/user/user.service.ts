@@ -30,6 +30,15 @@ export class UserService {
   async create(createUserInput) {
     const check = await this.checkEmail(createUserInput.email);
     if (check) {
+      const passwordAuth =
+        /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,16}$/.test(
+          createUserInput.password,
+        );
+      if (!passwordAuth) {
+        throw new ConflictException(
+          '비밀번호는 영문, 숫자, 특수문자를 최소 1자씩 포함하여 8~16자리로 입력해주세요.',
+        );
+      }
       createUserInput.password = await bcryptjs.hash(
         createUserInput.password,
         10,
