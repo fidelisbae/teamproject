@@ -14,20 +14,20 @@ export class User {
   @Field(() => String)
   id: string;
 
-  @Column({ default: null })
+  @Column()
   @Field(() => String)
   email: string;
 
-  @Column({ default: null })
+  @Column()
   // @Field(() => String)
   password: string;
 
-  @Column({ default: null })
+  @Column()
   @Field(() => String)
   nickname: string;
 
   @Column({ default: null })
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   phone: string;
 
   @Column({ default: null })

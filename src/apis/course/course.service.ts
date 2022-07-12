@@ -30,7 +30,7 @@ export class CourseService {
   }
   async findOne({ courseId }) {
     return await this.courseRepository.findOne({
-      where: { id: courseId },
+      // where: { id: courseId },
       // relations:["subcategory", "review", "user","payment"]
     });
   }

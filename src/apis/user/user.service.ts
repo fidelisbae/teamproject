@@ -21,7 +21,7 @@ export class UserService {
     });
   }
 
-  async findEmail({ email }) {
+  async findEmail(email) {
     return await this.userRepository.findOne({
       where: { email: email },
     });
@@ -39,33 +39,6 @@ export class UserService {
     } else {
       throw new ConflictException('중복된 이메일입니다.');
     }
-  }
-
-  async createHost(createHostInput) {
-    const check = await this.checkEmail(createHostInput.email);
-    if (check) {
-      createHostInput.password = await bcryptjs.hash(
-        createHostInput.password,
-        10,
-      );
-      const result = await this.userRepository.save(createHostInput);
-      return result;
-    } else {
-      throw new ConflictException('중복된 이메일입니다.');
-    }
-  }
-
-  async updateHost({ email, UpdateHostInput }) {
-    const myHost = await this.userRepository.findOne({
-      where: { email: email },
-    });
-
-    const newHost = {
-      ...myHost,
-      email: email,
-      ...UpdateHostInput,
-    };
-    return await this.userRepository.save(newHost);
   }
 
   async update({ email, updateUserInput }) {
