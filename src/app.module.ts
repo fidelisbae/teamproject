@@ -8,6 +8,9 @@ import { UserModule } from './apis/user/user.module';
 import { RedisClientOptions } from 'redis';
 import * as redisStore from 'cache-manager-redis-store';
 import { AuthModule } from './apis/auth/auth.module';
+import { CourseDateModule } from './apis/courseDate/courseDate.module';
+import { FileModule } from './apis/file/file.module';
+import { MainCategory } from './apis/mainCategory/entities/maincategory.entity';
 
 @Module({
   imports: [
@@ -43,10 +46,14 @@ import { AuthModule } from './apis/auth/auth.module';
       url: 'redis://localhost:6379',
       isGlobal: true,
     }),
-    CourseModule,
+
     ReviewModule,
     UserModule,
     AuthModule,
+    FileModule,
+    MainCategory,
+    CourseModule,
+    CourseDateModule,
   ],
 })
 export class AppModule {}
