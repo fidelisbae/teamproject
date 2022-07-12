@@ -12,9 +12,6 @@ export class CreateCourseInput {
   minPrice: number;
 
   @Field(() => String)
-  region: string;
-
-  @Field(() => String)
   address: string;
 
   @Field(() => String)

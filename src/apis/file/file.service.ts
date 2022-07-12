@@ -12,7 +12,7 @@ export class FileService {
     //구글 스토리지 사용하려면 먼저 구글 클라우드 스토리지 설치해야함
     const storage = new Storage({
       projectId: 'dabae-355905',
-      keyFilename: 'gcp-file-storage.json',
+      keyFilename: '/my-secret/gcp-file-storage.json',
     }).bucket('dabaeimage');
 
     const results = await Promise.all(

@@ -40,5 +40,4 @@ lerna-debug.log*
 
 #git 올라가면 안되는거 
 *.env
-yarn.lock
 gcp-file-storage.json

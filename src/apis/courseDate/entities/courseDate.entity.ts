@@ -13,14 +13,6 @@ export class CourseDate {
   @Field(() => Date)
   courseDate: Date;
 
-  @Column({ default: null })
-  @Field(() => Date)
-  RecruitmentStartDate: Date;
-
-  @Column({ default: null })
-  @Field(() => Date)
-  RecruitmentEdnDate: Date;
-
   @ManyToOne(() => Course)
   @Field(() => Course)
   course: Course;

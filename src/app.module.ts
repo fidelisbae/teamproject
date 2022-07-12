@@ -9,6 +9,9 @@ import { RedisClientOptions } from 'redis';
 import * as redisStore from 'cache-manager-redis-store';
 import { AuthModule } from './apis/auth/auth.module';
 import { CourseDateModule } from './apis/courseDate/courseDate.module';
+import { AppService } from './app.service';
+import { AppController } from './app.controller';
+import { CoursePlaceModule } from './apis/coursePlace/coursePlace.module';
 import { FileModule } from './apis/file/file.module';
 import { MainCategory } from './apis/mainCategory/entities/maincategory.entity';
 
@@ -27,10 +30,10 @@ import { MainCategory } from './apis/mainCategory/entities/maincategory.entity';
     // }),
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'localhost',
+      host: '10.86.0.2',
       port: 3306,
       username: 'root',
-      password: 'root',
+      password: '12345',
       database: 'dabae-database',
       entities: [__dirname + '/apis/**/*.entity.*'],
       synchronize: true,
@@ -43,7 +46,7 @@ import { MainCategory } from './apis/mainCategory/entities/maincategory.entity';
     }),
     CacheModule.register<RedisClientOptions>({
       store: redisStore,
-      url: 'redis://localhost:6379',
+      url: 'redis://10.86.1.3:6379',
       isGlobal: true,
     }),
 
@@ -54,6 +57,9 @@ import { MainCategory } from './apis/mainCategory/entities/maincategory.entity';
     MainCategory,
     CourseModule,
     CourseDateModule,
+    CoursePlaceModule,
   ],
+  providers: [AppService],
+  controllers: [AppController],
 })
 export class AppModule {}
