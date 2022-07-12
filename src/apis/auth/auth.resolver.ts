@@ -16,7 +16,8 @@ export class AuthResolver {
     @Args('email') email: string,
     @Args('password') password: string,
   ) {
-    const user = await this.userService.findEmail({ email });
+    const user = await this.userService.findEmail(email);
+    console.log(user);
     const isAuthenticated = await bcryptjs.compare(password, user.password);
     if (!isAuthenticated) {
       throw new UnauthorizedException('비밀번호가 일치하지 않습니다.');

@@ -19,4 +19,16 @@ export class CreateUserInput {
 
   @Field(() => Boolean)
   marketingAgreement: boolean;
+
+  @Field(() => String, { nullable: true })
+  account: string;
+
+  @Field(() => String, { nullable: true })
+  bank: string;
+
+  @Field(() => String, { nullable: true })
+  businessName: string;
+
+  @Field(() => String, { nullable: true })
+  businessNumber: string;
 }

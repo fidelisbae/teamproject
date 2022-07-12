@@ -14,7 +14,7 @@ type User {
   id: String!
   email: String!
   nickname: String!
-  phone: String!
+  phone: String
   gender: String
   isHost: Boolean!
   account: String
@@ -74,7 +74,6 @@ type Query {
 type Mutation {
   createReview(score: Float!, content: String!, created_At: DateTime!, url: String!): Review!
   createUser(createUserInput: CreateUserInput!): User!
-  createHost(createHostInput: CreateHostInput!): User!
   updateUser(email: String!, updateUserInput: UpdateUserInput!): User!
   updatePassword(newPassword: String!): User!
   deleteUser(id: String!): Boolean!
@@ -94,19 +93,10 @@ input CreateUserInput {
   nickname: String!
   phone: String!
   marketingAgreement: Boolean!
-}
-
-input CreateHostInput {
-  isHost: Boolean!
-  email: String!
-  password: String!
-  nickname: String!
-  phone: String!
-  marketingAgreement: Boolean!
-  account: String!
-  bank: String!
-  businessName: String!
-  businessNumber: String!
+  account: String
+  bank: String
+  businessName: String
+  businessNumber: String
 }
 
 input UpdateUserInput {
@@ -116,6 +106,10 @@ input UpdateUserInput {
   nickname: String
   phone: String
   marketingAgreement: Boolean
+  account: String
+  bank: String
+  businessName: String
+  businessNumber: String
   gender: String
   birth: DateTime
 }

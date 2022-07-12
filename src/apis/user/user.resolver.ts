@@ -3,7 +3,6 @@ import { CreateUserInput } from './dto/createUser.input';
 import { User } from './entities/user.entity';
 import { UserService } from './user.service';
 import * as bcryptjs from 'bcryptjs';
-import { CreateHostInput } from './dto/createHost.input';
 import { GqlAuthAccessGuard } from 'src/common/auth/gql.auth.guard';
 import { UseGuards } from '@nestjs/common';
 import { CurrentUser, ICurrentUser } from 'src/common/auth/gql.user.param';
@@ -26,11 +25,6 @@ export class UserResolver {
   @Mutation(() => User)
   async createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
     return await this.userService.create(createUserInput);
-  }
-
-  @Mutation(() => User)
-  async createHost(@Args('createHostInput') createHostInput: CreateHostInput) {
-    return await this.userService.createHost(createHostInput);
   }
 
   @UseGuards(GqlAuthAccessGuard)
