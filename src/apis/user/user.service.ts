@@ -2,6 +2,7 @@ import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
+import * as bcryptjs from 'bcryptjs';
 
 @Injectable()
 export class UserService {
@@ -20,14 +21,49 @@ export class UserService {
     });
   }
 
+  async findEmail(email) {
+    return await this.userRepository.findOne({
+      where: { email: email },
+    });
+  }
+
   async create(createUserInput) {
     const check = await this.checkEmail(createUserInput.email);
     if (check) {
+      createUserInput.password = await bcryptjs.hash(
+        createUserInput.password,
+        10,
+      );
       const result = await this.userRepository.save(createUserInput);
       return result;
     } else {
       throw new ConflictException('중복된 이메일입니다.');
     }
+  }
+
+  async update({ email, updateUserInput }) {
+    const myUser = await this.userRepository.findOne({
+      where: { email: email },
+    });
+
+    const newUser = {
+      ...myUser,
+      email: email,
+      ...updateUserInput,
+    };
+    return await this.userRepository.save(newUser);
+  }
+
+  async updatePassword({ id, hashedpassword: password }) {
+    const myUser = await this.userRepository.findOne({
+      where: { id: id },
+    });
+
+    const newUser = {
+      ...myUser,
+      password,
+    };
+    return await this.userRepository.save(newUser);
   }
 
   async checkEmail(email) {

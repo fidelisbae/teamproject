@@ -1,11 +1,13 @@
-import { Module } from '@nestjs/common';
+import { CacheModule, Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AppService } from './app.service';
-import { AppController } from './app.controller';
 import { CourseModule } from './apis/course/course.module';
+import { ReviewModule } from './apis/reivews/review.module';
 import { UserModule } from './apis/user/user.module';
+import { RedisClientOptions } from 'redis';
+import * as redisStore from 'cache-manager-redis-store';
+import { AuthModule } from './apis/auth/auth.module';
 
 @Module({
   imports: [
@@ -22,7 +24,7 @@ import { UserModule } from './apis/user/user.module';
     // }),
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: '127.0.0.1',
+      host: 'localhost',
       port: 3306,
       username: 'root',
       password: 'root',
@@ -33,12 +35,18 @@ import { UserModule } from './apis/user/user.module';
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      autoSchemaFile: './src/commons/graphql/schema.gql',
+      autoSchemaFile: './src/common/graphql/schema.gql',
+      context: ({ req, res }) => ({ req, res }),
+    }),
+    CacheModule.register<RedisClientOptions>({
+      store: redisStore,
+      url: 'redis://localhost:6379',
+      isGlobal: true,
     }),
     CourseModule,
+    ReviewModule,
     UserModule,
+    AuthModule,
   ],
-  providers: [AppService],
-  controllers: [AppController],
 })
 export class AppModule {}

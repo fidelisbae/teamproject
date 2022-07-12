@@ -14,47 +14,51 @@ export class User {
   @Field(() => String)
   id: string;
 
-  @Column({ default: null })
+  @Column()
   @Field(() => String)
   email: string;
 
-  @Column({ default: null })
-  @Field(() => String)
+  @Column()
+  // @Field(() => String)
   password: string;
 
-  @Column({ default: null })
+  @Column()
   @Field(() => String)
   nickname: string;
 
   @Column({ default: null })
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   phone: string;
 
   @Column({ default: null })
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   gender: string;
 
-  @Column({ default: false })
+  @Column()
   @Field(() => Boolean)
   isHost: boolean;
 
   @Column({ default: null })
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   account: string;
 
   @Column({ default: null })
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
+  bank: string;
+
+  @Column({ default: null })
+  @Field(() => String, { nullable: true })
   businessName: string;
 
   @Column({ default: null })
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   businessNumber: string;
 
   @Column({ default: null })
-  @Field(() => Date)
+  @Field(() => Date, { nullable: true })
   birth: Date;
 
-  @Column({ default: null })
+  @Column()
   @Field(() => Boolean)
   marketingAgreement: boolean;
 

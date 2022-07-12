@@ -2,6 +2,9 @@ import { Field, InputType } from '@nestjs/graphql';
 
 @InputType()
 export class CreateUserInput {
+  @Field(() => Boolean)
+  isHost: boolean;
+
   @Field(() => String)
   email: string;
 
@@ -13,4 +16,19 @@ export class CreateUserInput {
 
   @Field(() => String)
   phone: string;
+
+  @Field(() => Boolean)
+  marketingAgreement: boolean;
+
+  @Field(() => String, { nullable: true })
+  account: string;
+
+  @Field(() => String, { nullable: true })
+  bank: string;
+
+  @Field(() => String, { nullable: true })
+  businessName: string;
+
+  @Field(() => String, { nullable: true })
+  businessNumber: string;
 }
