@@ -1,9 +1,14 @@
-import { Field, ObjectType, Int } from '@nestjs/graphql';
+import { Field, ObjectType, Int, Float } from '@nestjs/graphql';
+import { SubCategory } from 'src/apis/subCategory/entities/subCategry.entity';
+import { User } from 'src/apis/user/entities/user.entity';
 import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -26,55 +31,11 @@ export class Course {
   @Field(() => Int)
   minPrice: number;
 
-  @Column()
-  @Field(() => String)
-  description: string;
-
-  @Column({ default: 0 })
-  @Field(() => Int)
-  pick: number;
-
   @CreateDateColumn()
   createdAt: Date;
 
   @DeleteDateColumn()
   deletedAt: Date;
-
-  @Column()
-  @Field(() => Date)
-  courseStartTime: Date;
-
-  @Column()
-  @Field(() => Date)
-  courseEndTime: Date;
-
-  @Column()
-  @Field(() => String)
-  imageUrl: string;
-
-  @Column({ default: 0 })
-  @Field(() => Int)
-  currentUsers: number;
-
-  @Column({ default: 0 })
-  @Field(() => Int)
-  maxUsers: number;
-
-  @Column()
-  @Field(() => String)
-  region: string;
-
-  @Column({ default: 0 })
-  @Field(() => Int)
-  maxDiscount: number;
-
-  @Column()
-  @Field(() => String)
-  difficulty: string;
-
-  @Column()
-  @Field(() => String)
-  materials: string;
 
   @Column()
   @Field(() => String)
@@ -88,16 +49,32 @@ export class Course {
   @Field(() => String)
   zipCode: string;
 
+  @Column({ type: 'decimal', precision: 9, scale: 7 })
+  @Field(() => Float)
+  lat: number;
+
+  @Column({ type: 'decimal', precision: 10, scale: 7 })
+  @Field(() => Float)
+  lng: number;
+
+  @Column()
+  @Field(() => String)
+  difficulty: string;
+
+  @Column()
+  @Field(() => String)
+  materials: string;
+
   @Column()
   @Field(() => String)
   contents: string;
 
-  //   @JoinTable()
-  //   @ManyToMany(() => User, user => user.id )
-  //   @Field(()=> [User])
-  //   user: User[];
+  @ManyToOne(() => SubCategory)
+  @Field(() => SubCategory)
+  subCategory: SubCategory;
 
-  // @ManyToOne(() => Course)
-  // @Field(() => Course)
-  // course: Course;
+  @JoinTable()
+  @ManyToMany(() => User, (user) => user.id)
+  @Field(() => [User])
+  user: User[];
 }

@@ -17,21 +17,21 @@ export class CourseService {
     const result = await this.courseRepository.save({
       ...course,
       // subCategoryId: { id: subCategoryId },
-      // paymentId: { id: paymentId },
       // userId: { id: userId },
       // reviewId: { id: reviewId },
+      // // paymentId: { id: paymentId },
     });
     // await Promise.all(
     //   url.map((address) => {
     //     return this.
     //   })
-    //);sa
+    // )
     return result;
   }
   async findOne({ courseId }) {
     return await this.courseRepository.findOne({
       where: { id: courseId },
-      // relations:["subcategory", "review", "user","payment"]
+      relations: ['subcategory', 'review', 'user', 'payment'],
     });
   }
   async findAll() {

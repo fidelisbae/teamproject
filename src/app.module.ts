@@ -10,6 +10,7 @@ import { FileModule } from './apis/file/file.module';
 import { MainCategory } from './apis/mainCategory/entities/maincategory.entity';
 import { RedisClientOptions } from 'redis';
 import * as redisStore from 'cache-manager-redis-store';
+import { CourseDateModule } from './apis/courseDate/courseDate.module';
 
 @Module({
   imports: [
@@ -54,12 +55,13 @@ import * as redisStore from 'cache-manager-redis-store';
       isGlobal: true,
     }),
 
-    CourseModule,
     ReviewModule,
     UserModule,
     AuthModule,
     FileModule,
     MainCategory,
+    CourseModule,
+    CourseDateModule,
   ],
 })
 export class AppModule {}
