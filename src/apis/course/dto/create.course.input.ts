@@ -12,9 +12,6 @@ export class CreateCourseInput {
   minPrice: number;
 
   @Field(() => String)
-  region: string;
-
-  @Field(() => String)
   address: string;
 
   @Field(() => String)
@@ -31,4 +28,10 @@ export class CreateCourseInput {
 
   @Field(() => String)
   contents: string;
+
+  @Field(() => Date)
+  openingDate: Date;
+
+  @Field(() => Date)
+  closingDate: Date;
 }
