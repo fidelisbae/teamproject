@@ -5,7 +5,7 @@ import { CourseService } from './course.service';
 import { Course } from './entities/course.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Course])],
+  imports: [TypeOrmModule.forFeature([Course, Image])],
 
   providers: [CourseResolver, CourseService],
 })

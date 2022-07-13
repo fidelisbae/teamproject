@@ -34,4 +34,7 @@ export class CreateCourseInput {
 
   @Field(() => Date)
   closingDate: Date;
+
+  @Field(() => [String])
+  url: string[];
 }
