@@ -1,14 +1,22 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  CACHE_MANAGER,
+  Inject,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import * as bcryptjs from 'bcryptjs';
+import { Cache } from 'cache-manager';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    @Inject(CACHE_MANAGER)
+    private readonly cacheManager: Cache,
   ) {}
 
   async findAll() {
@@ -84,6 +92,7 @@ export class UserService {
 
   async sendToken(phone) {
     const token = String(Math.floor(Math.random() * 10 ** 6)).padStart(6, '0');
+    await this.cacheManager.set(phone, token, { ttl: 180 });
   }
 
   async delete(id) {
