@@ -65,6 +65,7 @@ type CourseDate {
 type Query {
   fetchUsers: [User!]!
   fetchUser(id: String!): User!
+  hasEmail(email: String!): Boolean!
   fetchLoginUser: User!
   fetchCourse(courseId: String!): Course!
   fetchCourses: [Course!]!

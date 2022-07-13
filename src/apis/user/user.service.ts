@@ -28,26 +28,21 @@ export class UserService {
   }
 
   async create(createUserInput) {
-    const check = await this.checkEmail(createUserInput.email);
-    if (check) {
-      const passwordAuth =
-        /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,16}$/.test(
-          createUserInput.password,
-        );
-      if (!passwordAuth) {
-        throw new ConflictException(
-          '비밀번호는 영문, 숫자, 특수문자를 최소 1자씩 포함하여 8~16자리로 입력해주세요.',
-        );
-      }
-      createUserInput.password = await bcryptjs.hash(
+    const passwordAuth =
+      /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,16}$/.test(
         createUserInput.password,
-        10,
       );
-      const result = await this.userRepository.save(createUserInput);
-      return result;
-    } else {
-      throw new ConflictException('중복된 이메일입니다.');
+    if (!passwordAuth) {
+      throw new ConflictException(
+        '비밀번호는 영문, 숫자, 특수문자를 최소 1자씩 포함하여 8~16자리로 입력해주세요.',
+      );
     }
+    createUserInput.password = await bcryptjs.hash(
+      createUserInput.password,
+      10,
+    );
+    const result = await this.userRepository.save(createUserInput);
+    return result;
   }
 
   async update({ email, updateUserInput }) {
@@ -81,10 +76,14 @@ export class UserService {
     });
 
     if (hasEmail === null) {
-      return true;
-    } else {
       return false;
+    } else {
+      return true;
     }
+  }
+
+  async sendToken(phone) {
+    const token = String(Math.floor(Math.random() * 10 ** 6)).padStart(6, '0');
   }
 
   async delete(id) {
