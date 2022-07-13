@@ -7,6 +7,8 @@ import { Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 export class SubCategory {
   @PrimaryGeneratedColumn('uuid')
   @Field(() => String)
+  id: string;
+
   @ManyToOne(() => MainCategory)
   @Field(() => MainCategory)
   mainCategory: MainCategory;

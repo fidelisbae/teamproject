@@ -1,4 +1,6 @@
-import { Field, ObjectType, Int, Float } from '@nestjs/graphql';
+import { Field, ObjectType, Int } from '@nestjs/graphql';
+import { CourseAddressService } from 'src/apis/courseAddress/courseAddress.service';
+import { CourseAddress } from 'src/apis/courseAddress/entities/createCourseAddress.entity';
 import { SubCategory } from 'src/apis/subCategory/entities/subCategry.entity';
 import { User } from 'src/apis/user/entities/user.entity';
 import {
@@ -6,9 +8,11 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinColumn,
   JoinTable,
   ManyToMany,
   ManyToOne,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -49,6 +53,14 @@ export class Course {
   @Field(() => String)
   contents: string;
 
+  @CreateDateColumn()
+  @Field(() => Date)
+  openingDate: Date;
+
+  @DeleteDateColumn()
+  @Field(() => Date)
+  closingDate: Date;
+
   @ManyToOne(() => SubCategory)
   @Field(() => SubCategory)
   subCategory: SubCategory;
@@ -57,4 +69,8 @@ export class Course {
   @ManyToMany(() => User, (user) => user.id)
   @Field(() => [User])
   user: User[];
+
+  @OneToOne(() => CourseAddress)
+  @JoinColumn()
+  courseAddressService: CourseAddressService;
 }

@@ -11,9 +11,10 @@ import { AuthModule } from './apis/auth/auth.module';
 import { CourseDateModule } from './apis/courseDate/courseDate.module';
 import { AppService } from './app.service';
 import { AppController } from './app.controller';
-import { CoursePlaceModule } from './apis/coursePlace/coursePlace.module';
+import { CoursePlaceModule } from './apis/courseAddress/courseAddress.module';
 import { FileModule } from './apis/file/file.module';
 import { MainCategory } from './apis/mainCategory/entities/maincategory.entity';
+import { SpecificScheduleModule } from './apis/specificSchedule/specificSchedule.module';
 
 @Module({
   imports: [
@@ -39,6 +40,18 @@ import { MainCategory } from './apis/mainCategory/entities/maincategory.entity';
       synchronize: true,
       logging: true,
     }),
+    // TypeOrmModule.forRoot({
+    //   type: 'mysql',
+    //   host: 'localhost',
+    //   port: 3306,
+    //   username: 'root',
+    //   password: 'root',
+    //   database: 'dabae-database',
+    //   entities: [__dirname + '/apis/**/*.entity.*'],
+    //   synchronize: true,
+    //   logging: true,
+    // }),
+
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: './src/common/graphql/schema.gql',
@@ -58,6 +71,7 @@ import { MainCategory } from './apis/mainCategory/entities/maincategory.entity';
     CourseModule,
     CourseDateModule,
     CoursePlaceModule,
+    SpecificScheduleModule,
   ],
   providers: [AppService],
   controllers: [AppController],

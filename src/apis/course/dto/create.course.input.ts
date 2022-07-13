@@ -28,4 +28,10 @@ export class CreateCourseInput {
 
   @Field(() => String)
   contents: string;
+
+  @Field(() => Date)
+  openingDate: Date;
+
+  @Field(() => Date)
+  closingDate: Date;
 }
