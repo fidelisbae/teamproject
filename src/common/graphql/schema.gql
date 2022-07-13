@@ -2,26 +2,6 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type User {
-  id: String!
-  email: String!
-  nickname: String!
-  phone: String
-  gender: String
-  isHost: Boolean!
-  account: String
-  bank: String
-  businessName: String
-  businessNumber: String
-  birth: DateTime
-  marketingAgreement: Boolean!
-}
-
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
-
 type CourseAddress {
   id: String!
   address: String!
@@ -51,7 +31,29 @@ type Course {
   openingDate: DateTime!
   closingDate: DateTime!
   subCategory: SubCategory!
-  user: [User!]!
+  user: [User!]
+  pick: Int!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type User {
+  id: String!
+  email: String!
+  nickname: String!
+  phone: String
+  gender: String
+  isHost: Boolean!
+  account: String
+  bank: String
+  businessName: String
+  businessNumber: String
+  birth: DateTime
+  marketingAgreement: Boolean!
+  course: [Course!]
 }
 
 type Review {

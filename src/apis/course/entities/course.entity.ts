@@ -65,12 +65,15 @@ export class Course {
   @Field(() => SubCategory)
   subCategory: SubCategory;
 
-  @JoinTable()
-  @ManyToMany(() => User, (user) => user.id)
-  @Field(() => [User])
+  @ManyToMany(() => User, (user) => user.course)
+  @Field(() => [User], { nullable: true })
   user: User[];
 
   @OneToOne(() => CourseAddress)
   @JoinColumn()
   courseAddressService: CourseAddressService;
+
+  @Column({ default: 0 })
+  @Field(() => Int)
+  pick: number;
 }

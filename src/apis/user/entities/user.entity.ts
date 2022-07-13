@@ -1,9 +1,14 @@
 import { Field, ObjectType } from '@nestjs/graphql';
+import { Course } from 'src/apis/course/entities/course.entity';
 import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinColumn,
+  JoinTable,
+  ManyToMany,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -61,6 +66,11 @@ export class User {
   @Column()
   @Field(() => Boolean)
   marketingAgreement: boolean;
+
+  @JoinTable()
+  @ManyToMany(() => Course, (course) => course.user)
+  @Field(() => [Course], { nullable: true })
+  course: Course[];
 
   @CreateDateColumn()
   createdAt: Date;
