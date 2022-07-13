@@ -1,7 +1,4 @@
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Agent } from 'http';
-import { Repository } from 'typeorm';
 import { Review } from './entities/review.entity';
 import { ReviewService } from './review.service';
 

@@ -15,6 +15,7 @@ import { CoursePlaceModule } from './apis/courseAddress/courseAddress.module';
 import { FileModule } from './apis/file/file.module';
 import { MainCategory } from './apis/mainCategory/entities/maincategory.entity';
 import { SpecificScheduleModule } from './apis/specificSchedule/specificSchedule.module';
+import { PaymentModule } from './apis/payment/payment.module';
 
 @Module({
   imports: [
@@ -73,6 +74,7 @@ import { SpecificScheduleModule } from './apis/specificSchedule/specificSchedule
     CourseDateModule,
     CoursePlaceModule,
     SpecificScheduleModule,
+    PaymentModule,
   ],
   providers: [AppService],
   controllers: [AppController],

@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { Image } from '../image/image.entity';
 import { Course } from './entities/course.entity';
 
 @Injectable()
@@ -8,24 +9,27 @@ export class CourseService {
   constructor(
     @InjectRepository(Course)
     private readonly courseRepository: Repository<Course>,
+    @InjectRepository(Image)
+    private readonly imageRepository: Repository<Image>,
   ) {}
 
-  //subCategoryId, paymentId, userId, reviewId, url,
   async create({ createCourseInput }) {
-    const { ...course } = createCourseInput;
+    const { subCategoryId, courseAddressId, url, ...course } =
+      createCourseInput;
 
     const result = await this.courseRepository.save({
       ...course,
-      // subCategoryId: { id: subCategoryId },
-      // userId: { id: userId },
-      // reviewId: { id: reviewId },
-      // // paymentId: { id: paymentId },
+      subCategory: { id: subCategoryId },
+      courseAddress: { id: courseAddressId },
     });
-    // await Promise.all(
-    //   url.map((address) => {
-    //     return this.
-    //   })
-    // )
+    await Promise.all(
+      url.map((address) => {
+        return this.imageRepository.save({
+          url: address,
+          course: { id: result.id },
+        });
+      }),
+    );
     return result;
   }
   async findOne({ courseId }) {
@@ -39,13 +43,28 @@ export class CourseService {
   }
 
   async update({ courseId, updateCourseInput }) {
-    const { ...updateCourse } = updateCourseInput;
-    const fixedCourse = await this.courseRepository.findOne({
+    const { url, ...updateCourse } = updateCourseInput;
+    const myCourse = await this.courseRepository.findOne({
       where: { id: courseId },
     });
-    //이미지 부분 넣어야함 ⛔️⛔️⛔️⛔️⛔️⛔️⛔️⛔️⛔️⛔️⛔️⛔️⛔️//
+    const prevImage = await this.imageRepository.find({
+      where: { course: { id: courseId } },
+    });
+
+    const prevUrl = prevImage.map((url) => url.url);
+
+    await Promise.all(
+      url.map((image) => {
+        if (!prevUrl.includes(image)) {
+          return this.imageRepository.save({
+            url: image,
+            course: { id: courseId },
+          });
+        }
+      }),
+    );
     const newCourse = {
-      ...fixedCourse,
+      ...myCourse,
       id: courseId,
       ...updateCourse,
     };
