@@ -75,11 +75,14 @@ type Query {
 type Mutation {
   createReview(score: Float!, content: String!, created_At: DateTime!, url: String!): Review!
   createUser(createUserInput: CreateUserInput!): User!
+  sendTokenToPhone(phone: String!): String!
   updateUser(email: String!, updateUserInput: UpdateUserInput!): User!
   updatePassword(newPassword: String!): User!
   deleteUser(id: String!): Boolean!
   deleteLoginUser: Boolean!
   login(email: String!, password: String!): String!
+  restoreAccessToken: String!
+  logout: String!
   uploadFile(files: [Upload!]!): [String!]!
   createCourse(createCourseInput: CreateCourseInput!): Course!
   updateCourse(courseId: String!, updateCourseInput: UpdateCourseInput!): Course!

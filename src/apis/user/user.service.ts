@@ -21,7 +21,7 @@ export class UserService {
     });
   }
 
-  async findEmail(email) {
+  async findEmail({ email }) {
     return await this.userRepository.findOne({
       where: { email: email },
     });

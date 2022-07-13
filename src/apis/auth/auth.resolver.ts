@@ -30,7 +30,7 @@ export class AuthResolver {
     @Args('password') password: string,
     @Context() Context: IContext,
   ) {
-    const user = await this.userService.findOne({ email });
+    const user = await this.userService.findEmail({ email });
     if (!user) throw new UnprocessableEntityException('이메일이 없습니다.');
     const isAuth = await bcryptjs.compare(password, user.password);
     if (!isAuth) {
@@ -71,9 +71,6 @@ export class AuthResolver {
         return ele.match(/Bearer/);
       })[0]
       .split(' ')[1];
-
-    console.log('refresh===', refresh);
-    console.log('access===', access);
 
     try {
       jwt.verify(access, 'myAccessKey');
