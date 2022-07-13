@@ -2,14 +2,6 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type MainCategory {
-  id: String!
-}
-
-type SubCategory {
-  mainCategory: MainCategory!
-}
-
 type User {
   id: String!
   email: String!
@@ -30,19 +22,34 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-type Course {
+type CourseAddress {
   id: String!
-  name: String!
-  maxPrice: Int!
-  minPrice: Int!
   address: String!
   addressDetail: String!
   zipCode: String!
   lat: Float!
   lng: Float!
+}
+
+type MainCategory {
+  id: String!
+}
+
+type SubCategory {
+  id: String!
+  mainCategory: MainCategory!
+}
+
+type Course {
+  id: String!
+  name: String!
+  maxPrice: Int!
+  minPrice: Int!
   difficulty: String!
   materials: String!
   contents: String!
+  openingDate: DateTime!
+  closingDate: DateTime!
   subCategory: SubCategory!
   user: [User!]!
 }
@@ -54,12 +61,22 @@ type Review {
   url: String!
 }
 
+type SpecificSchedule {
+  id: String!
+  courseStartTime: DateTime!
+  courseEndTime: DateTime!
+  maxUsers: Int!
+  reservedPerson: Int!
+  RecruitmentStartDate: DateTime!
+  RecruitmentEdnDate: DateTime!
+  courseDate: CourseDate!
+}
+
 type CourseDate {
   id: String!
   courseDate: DateTime!
-  RecruitmentStartDate: DateTime!
-  RecruitmentEdnDate: DateTime!
   course: Course!
+  specificSchedule: SpecificSchedule!
 }
 
 type Query {
@@ -70,12 +87,15 @@ type Query {
   fetchCourse(courseId: String!): Course!
   fetchCourses: [Course!]!
   fethchCourseDate(courseDateId: String!): CourseDate!
+  fetchCourseAddress(courseAddressId: String!): CourseAddress!
+  fetchSpecificSchedule: SpecificSchedule!
 }
 
 type Mutation {
   createReview(score: Float!, content: String!, created_At: DateTime!, url: String!): Review!
   createUser(createUserInput: CreateUserInput!): User!
   sendTokenToPhone(phone: String!): String!
+  authPhoneOk(phone: String!, inputToken: String!): String!
   updateUser(email: String!, updateUserInput: UpdateUserInput!): User!
   updatePassword(newPassword: String!): User!
   deleteUser(id: String!): Boolean!
@@ -88,6 +108,10 @@ type Mutation {
   updateCourse(courseId: String!, updateCourseInput: UpdateCourseInput!): Course!
   deleteCourse(courseId: String!): Boolean!
   createCourseDate(courseDate: DateTime!, recruitmentStartDate: DateTime!, recruitmentEndDate: DateTime!): CourseDate!
+  createCourseAddress(address: String!, addressDetail: String!, zipCode: String!, lat: Float!, lng: Float!): CourseAddress!
+  createSpecificSchedule(createSpecificScheduleInput: CreateSpecificScheduleInput!): SpecificSchedule!
+  updateSpecificSchedule(specificScheduleId: String!, updateSpecificScheduleInput: UpdateSpecificScheduleInput!): SpecificSchedule!
+  deleteSpecificSchedule(specificScheduleId: String!): Boolean!
 }
 
 input CreateUserInput {
@@ -125,13 +149,14 @@ input CreateCourseInput {
   name: String!
   maxPrice: Int!
   minPrice: Int!
-  region: String!
   address: String!
   addressDetail: String!
   zipCode: String!
   difficulty: String!
   materials: String!
   contents: String!
+  openingDate: DateTime!
+  closingDate: DateTime!
 }
 
 input UpdateCourseInput {
@@ -146,4 +171,24 @@ input UpdateCourseInput {
   materials: String!
   contents: String!
   status: Boolean!
+}
+
+input CreateSpecificScheduleInput {
+  id: String!
+  courseStartTime: DateTime!
+  courseEndTime: DateTime!
+  maxUsers: Int!
+  reservedPerson: Int!
+  RecruitmentStartDate: DateTime!
+  RecruitmentEdnDate: DateTime!
+}
+
+input UpdateSpecificScheduleInput {
+  id: String
+  courseStartTime: DateTime
+  courseEndTime: DateTime
+  maxUsers: Int
+  reservedPerson: Int
+  RecruitmentStartDate: DateTime
+  RecruitmentEdnDate: DateTime
 }

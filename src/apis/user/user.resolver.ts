@@ -33,7 +33,17 @@ export class UserResolver {
   }
 
   @Mutation(() => String)
-  async sendTokenToPhone(@Args('phone') phone: string) {}
+  async sendTokenToPhone(@Args('phone') phone: string) {
+    return await this.userService.sendToken(phone);
+  }
+
+  @Mutation(() => String)
+  async authPhoneOk(
+    @Args('phone') phone: string,
+    @Args('inputToken') inputToken: string,
+  ) {
+    return await this.userService.authPhoneOk(phone, inputToken);
+  }
 
   @UseGuards(GqlAuthAccessGuard)
   @Mutation(() => User)

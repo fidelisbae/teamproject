@@ -1,57 +1,36 @@
-import { CacheModule, Module } from '@nestjs/common';
-import { GraphQLModule } from '@nestjs/graphql';
-import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { CourseModule } from './apis/course/course.module';
-import { ReviewModule } from './apis/reivews/review.module';
-import { UserModule } from './apis/user/user.module';
+import { GraphQLModule } from '@nestjs/graphql';
+import { CacheModule, Module } from '@nestjs/common';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+
 import { RedisClientOptions } from 'redis';
 import * as redisStore from 'cache-manager-redis-store';
-import { AuthModule } from './apis/auth/auth.module';
-import { CourseDateModule } from './apis/courseDate/courseDate.module';
+
 import { AppService } from './app.service';
-import { AppController } from './app.controller';
-import { CoursePlaceModule } from './apis/courseAddress/courseAddress.module';
+import { UserModule } from './apis/user/user.module';
+import { AuthModule } from './apis/auth/auth.module';
 import { FileModule } from './apis/file/file.module';
-import { MainCategory } from './apis/mainCategory/entities/maincategory.entity';
+import { CourseModule } from './apis/course/course.module';
+import { ReviewModule } from './apis/reivews/review.module';
+import { AppController } from './app.controller';
+import { CourseDateModule } from './apis/courseDate/courseDate.module';
+import { CoursePlaceModule } from './apis/courseAddress/courseAddress.module';
+import { MainCategoryModule } from './apis/mainCategory/maincategory.module';
 import { SpecificScheduleModule } from './apis/specificSchedule/specificSchedule.module';
 
 @Module({
   imports: [
-    // 배포용 MYSQL
-    // TypeOrmModule.forRoot({
-    //   type: 'mysql',
-    //   host: '172.21.16.7',
-    //   port: 3306,
-    //   username: 'root',
-    //   password: '3565',
-    //   database: 'dabae-database',
-    //   entities: [__dirname + '/apis/*/.entity.*'],
-    //   synchronize: true,
-    //   logging: true,
-    // }),
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: '10.86.0.2',
+      host: 'localhost',
       port: 3306,
       username: 'root',
-      password: '12345',
+      password: 'root',
       database: 'dabae-database',
       entities: [__dirname + '/apis/**/*.entity.*'],
       synchronize: true,
       logging: true,
     }),
-    // TypeOrmModule.forRoot({
-    //   type: 'mysql',
-    //   host: 'localhost',
-    //   port: 3306,
-    //   username: 'root',
-    //   password: 'root',
-    //   database: 'dabae-database',
-    //   entities: [__dirname + '/apis/**/*.entity.*'],
-    //   synchronize: true,
-    //   logging: true,
-    // }),
 
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
@@ -60,7 +39,7 @@ import { SpecificScheduleModule } from './apis/specificSchedule/specificSchedule
     }),
     CacheModule.register<RedisClientOptions>({
       store: redisStore,
-      url: 'redis://10.86.1.3:6379',
+      url: 'redis://localhost:6379',
       isGlobal: true,
     }),
 
@@ -68,7 +47,7 @@ import { SpecificScheduleModule } from './apis/specificSchedule/specificSchedule
     UserModule,
     AuthModule,
     FileModule,
-    MainCategory,
+    MainCategoryModule,
     CourseModule,
     CourseDateModule,
     CoursePlaceModule,
