@@ -14,6 +14,7 @@ import { MainCategory } from './apis/mainCategory/entities/maincategory.entity';
 
 @Module({
   imports: [
+    // 배포용 MYSQL
     // TypeOrmModule.forRoot({
     //   type: 'mysql',
     //   host: '172.21.16.7',

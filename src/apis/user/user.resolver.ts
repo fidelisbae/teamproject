@@ -22,10 +22,18 @@ export class UserResolver {
     return await this.userService.findOne(id);
   }
 
+  @Query(() => Boolean)
+  async hasEmail(@Args('email') email: string) {
+    return await this.userService.checkEmail(email);
+  }
+
   @Mutation(() => User)
   async createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
     return await this.userService.create(createUserInput);
   }
+
+  @Mutation(() => String)
+  async sendTokenToPhone(@Args('phone') phone: string) {}
 
   @UseGuards(GqlAuthAccessGuard)
   @Mutation(() => User)

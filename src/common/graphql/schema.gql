@@ -1,0 +1,146 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type MainCategory {
+  id: String!
+}
+
+type SubCategory {
+  mainCategory: MainCategory!
+}
+
+type User {
+  id: String!
+  email: String!
+  nickname: String!
+  phone: String
+  gender: String
+  isHost: Boolean!
+  account: String
+  bank: String
+  businessName: String
+  businessNumber: String
+  birth: DateTime
+  marketingAgreement: Boolean!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Course {
+  id: String!
+  name: String!
+  maxPrice: Int!
+  minPrice: Int!
+  address: String!
+  addressDetail: String!
+  zipCode: String!
+  lat: Float!
+  lng: Float!
+  difficulty: String!
+  materials: String!
+  contents: String!
+  subCategory: SubCategory!
+  user: [User!]!
+}
+
+type Review {
+  id: String!
+  score: Float!
+  content: String!
+  url: String!
+}
+
+type CourseDate {
+  id: String!
+  courseDate: DateTime!
+  RecruitmentStartDate: DateTime!
+  RecruitmentEdnDate: DateTime!
+  course: Course!
+}
+
+type Query {
+  fetchUsers: [User!]!
+  fetchUser(id: String!): User!
+  hasEmail(email: String!): Boolean!
+  fetchLoginUser: User!
+  fetchCourse(courseId: String!): Course!
+  fetchCourses: [Course!]!
+  fethchCourseDate(courseDateId: String!): CourseDate!
+}
+
+type Mutation {
+  createReview(score: Float!, content: String!, created_At: DateTime!, url: String!): Review!
+  createUser(createUserInput: CreateUserInput!): User!
+  updateUser(email: String!, updateUserInput: UpdateUserInput!): User!
+  updatePassword(newPassword: String!): User!
+  deleteUser(id: String!): Boolean!
+  deleteLoginUser: Boolean!
+  login(email: String!, password: String!): String!
+  uploadFile(files: [Upload!]!): [String!]!
+  createCourse(createCourseInput: CreateCourseInput!): Course!
+  updateCourse(courseId: String!, updateCourseInput: UpdateCourseInput!): Course!
+  deleteCourse(courseId: String!): Boolean!
+  createCourseDate(courseDate: DateTime!, recruitmentStartDate: DateTime!, recruitmentEndDate: DateTime!): CourseDate!
+}
+
+input CreateUserInput {
+  isHost: Boolean!
+  email: String!
+  password: String!
+  nickname: String!
+  phone: String!
+  marketingAgreement: Boolean!
+  account: String
+  bank: String
+  businessName: String
+  businessNumber: String
+}
+
+input UpdateUserInput {
+  isHost: Boolean
+  email: String
+  password: String
+  nickname: String
+  phone: String
+  marketingAgreement: Boolean
+  account: String
+  bank: String
+  businessName: String
+  businessNumber: String
+  gender: String
+  birth: DateTime
+}
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
+
+input CreateCourseInput {
+  name: String!
+  maxPrice: Int!
+  minPrice: Int!
+  region: String!
+  address: String!
+  addressDetail: String!
+  zipCode: String!
+  difficulty: String!
+  materials: String!
+  contents: String!
+}
+
+input UpdateCourseInput {
+  name: String!
+  maxPrice: Int!
+  minPrice: Int!
+  region: String!
+  address: String!
+  addressDetail: String!
+  zipCode: String!
+  difficulty: String!
+  materials: String!
+  contents: String!
+  status: Boolean!
+}
