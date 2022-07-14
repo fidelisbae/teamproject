@@ -7,7 +7,6 @@ import { Image } from '../image/image.entity';
 
 import { Pick } from '../pick/entities/pick.entity';
 
-
 @Module({
   imports: [TypeOrmModule.forFeature([Course, Image, Pick])],
 

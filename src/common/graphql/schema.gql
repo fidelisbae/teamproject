@@ -57,7 +57,7 @@ type Course {
   maxPrice: Int!
   minPrice: Int!
   difficulty: String!
-  materials: [String!]!
+  materials: String!
   contents: String!
   openingDate: DateTime!
   closingDate: DateTime!

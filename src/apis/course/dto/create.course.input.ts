@@ -39,17 +39,17 @@ export class CreateCourseInput {
   @Field(() => [String])
   url: string[];
 
-  @Column({ type: 'decimal', precision: 9, scale: 7 })
+  @Column({ type: 'decimal', precision: 9, scale: 0 })
   @Field(() => Float)
   lat: number;
 
-  @Column({ type: 'decimal', precision: 10, scale: 7 })
+  @Column({ type: 'decimal', precision: 10, scale: 0 })
   @Field(() => Float)
   lng: number;
 
   @Field(() => String)
   subCategory: string;
-  
+
   // @Field(() => [String], { nullable: true })
   // url?: string[];
 }

@@ -41,7 +41,7 @@ export class Course {
   difficulty: string;
 
   @Column()
-  @Field(() => [String])
+  @Field(() => String)
   materials: string;
 
   @Column()
@@ -72,11 +72,11 @@ export class Course {
   @Field(() => String)
   zipCode: string;
 
-  @Column({ type: 'decimal', precision: 9, scale: 7 })
+  @Column({ type: 'decimal', precision: 16, scale: 13 })
   @Field(() => Float)
   lat: number;
 
-  @Column({ type: 'decimal', precision: 10, scale: 7 })
+  @Column({ type: 'decimal', precision: 16, scale: 13 })
   @Field(() => Float)
   lng: number;
 
