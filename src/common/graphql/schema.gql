@@ -40,15 +40,9 @@ type SpecificSchedule {
   courseDate: CourseDate!
 }
 
-type MainCategory {
+type Category {
   id: String!
   name: String!
-}
-
-type SubCategory {
-  id: String!
-  name: String!
-  mainCategory: MainCategory!
 }
 
 type Course {
@@ -67,7 +61,7 @@ type Course {
   lat: Float
   lng: Float
   specificSchedule: SpecificSchedule!
-  subCategory: SubCategory
+  Category: Category
   pick: Int!
 }
 
@@ -82,6 +76,11 @@ type Review {
   score: Float!
   content: String!
   url: String!
+}
+
+type MainCategory {
+  id: String!
+  name: String!
 }
 
 type Query {
@@ -110,7 +109,7 @@ type Mutation {
   restoreAccessToken: String!
   logout: String!
   uploadFile(files: [Upload!]!): [String!]!
-  createMainCategory(name: String!): MainCategory!
+  createCategory(name: String!): Category!
   createCourse(createCourseInput: CreateCourseInput!): Course!
   updateCourse(courseId: String!, updateCourseInput: UpdateCourseInput!): Course!
   deleteCourse(courseId: String!): Boolean!
@@ -118,7 +117,6 @@ type Mutation {
   createSpecificSchedule(createSpecificScheduleInput: CreateSpecificScheduleInput!): SpecificSchedule!
   updateSpecificSchedule(specificScheduleId: String!, updateSpecificScheduleInput: UpdateSpecificScheduleInput!): SpecificSchedule!
   deleteSpecificSchedule(specificScheduleId: String!): Boolean!
-  createSubCategory(createSubCategoryInput: CreateSubCategoryInput!): SubCategory!
   createPick(createPickInput: CreatePickInput!): Pick!
 }
 
@@ -168,7 +166,7 @@ input CreateCourseInput {
   imageurls: [String!]
   lat: Float
   lng: Float
-  subCategory: String
+  subCategory: String!
 }
 
 input UpdateCourseInput {
@@ -207,11 +205,6 @@ input UpdateSpecificScheduleInput {
   reservedPerson: Int
   RecruitmentStartDate: DateTime
   RecruitmentEdnDate: DateTime
-}
-
-input CreateSubCategoryInput {
-  name: String!
-  mainCategoryId: String!
 }
 
 input CreatePickInput {

@@ -6,9 +6,10 @@ import { Course } from './entities/course.entity';
 import { Pick } from '../pick/entities/pick.entity';
 import { User } from '../user/entities/user.entity';
 import { Image } from '../image/entities/image.entity';
+import { Category } from '../Category/entities/Categry.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Course, User, Image, Pick])],
+  imports: [TypeOrmModule.forFeature([Course, User, Image, Pick, Category])],
 
   providers: [CourseResolver, CourseService],
 })

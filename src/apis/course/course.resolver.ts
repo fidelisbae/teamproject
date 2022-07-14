@@ -35,7 +35,10 @@ export class CourseResolver {
     @Args('courseId') courseId: string,
     @Args('updateCourseInput') updateCourseInput: UpdateCourseInput,
   ) {
-    return await this.courseService.update({ courseId, updateCourseInput });
+    return await this.courseService.update({
+      courseId,
+      updateCourseInput,
+    });
   }
 
   @Mutation(() => Boolean)
