@@ -14,6 +14,7 @@ export class CourseService {
   ) {}
 
   async create({ createCourseInput }) {
+<<<<<<< dev
     const { subCategory, url, ...course } = createCourseInput;
     console.log('=====', course);
     const result = await this.courseRepository.save({
@@ -29,6 +30,24 @@ export class CourseService {
         });
       }),
     );
+=======
+    // const { subCategoryId, courseAddressId, url, ...course } =
+    //   createCourseInput;
+
+    const result = await this.courseRepository.save({
+      ...createCourseInput,
+      // subCategory: { id: subCategoryId },
+      // courseAddress: { id: courseAddressId },
+    });
+    // await Promise.all(
+    //   url.map((address) => {
+    //     return this.imageRepository.save({
+    //       url: address,
+    //       course: { id: result.id },
+    //     });
+    //   }),
+    // );
+>>>>>>> dev
     return result;
   }
   async findOne({ courseId }) {

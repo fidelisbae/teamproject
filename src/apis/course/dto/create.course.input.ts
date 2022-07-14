@@ -49,4 +49,7 @@ export class CreateCourseInput {
 
   @Field(() => String)
   subCategory: string;
+  
+  // @Field(() => [String], { nullable: true })
+  // url?: string[];
 }

@@ -2,7 +2,31 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+<<<<<<< dev
 type CourseDate {
+=======
+type User {
+  id: String!
+  email: String!
+  nickname: String!
+  phone: String
+  gender: String
+  isHost: Boolean!
+  account: String
+  bank: String
+  businessName: String
+  businessNumber: String
+  birth: DateTime
+  marketingAgreement: Boolean!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type CourseAddress {
+>>>>>>> dev
   id: String!
   courseDate: DateTime!
   course: Course!
@@ -46,6 +70,7 @@ type Course {
   contents: String!
   openingDate: DateTime!
   closingDate: DateTime!
+<<<<<<< dev
   courseDate: DateTime!
   address: String!
   addressDetail: String!
@@ -60,19 +85,16 @@ type Course {
 }
 
 type User {
+=======
+  subCategory: SubCategory
+  pick: Int!
+}
+
+type Pick {
+>>>>>>> dev
   id: String!
-  email: String!
-  nickname: String!
-  phone: String
-  gender: String
-  isHost: Boolean!
-  account: String
-  bank: String
-  businessName: String
-  businessNumber: String
-  birth: DateTime
-  marketingAgreement: Boolean!
-  course: [Course!]
+  course: Course!
+  user: User!
 }
 
 type Review {
@@ -91,6 +113,7 @@ type Query {
   fetchCourses: [Course!]!
   fethchCourseDate(courseDateId: String!): CourseDate!
   fetchSpecificSchedule: SpecificSchedule!
+  fetchPicks: [Pick!]!
 }
 
 type Mutation {
@@ -114,7 +137,11 @@ type Mutation {
   createSpecificSchedule(createSpecificScheduleInput: CreateSpecificScheduleInput!): SpecificSchedule!
   updateSpecificSchedule(specificScheduleId: String!, updateSpecificScheduleInput: UpdateSpecificScheduleInput!): SpecificSchedule!
   deleteSpecificSchedule(specificScheduleId: String!): Boolean!
+<<<<<<< dev
   createSubCategory(createSubCategoryInput: CreateSubCategoryInput!): SubCategory!
+=======
+  createPick(createPickInput: CreatePickInput!): Pick!
+>>>>>>> dev
 }
 
 input CreateUserInput {
@@ -200,7 +227,13 @@ input UpdateSpecificScheduleInput {
   RecruitmentEdnDate: DateTime
 }
 
+<<<<<<< dev
 input CreateSubCategoryInput {
   name: String!
   mainCategoryId: String!
+=======
+input CreatePickInput {
+  user: String!
+  course: String!
+>>>>>>> dev
 }

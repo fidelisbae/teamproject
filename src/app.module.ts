@@ -16,7 +16,9 @@ import { AppController } from './app.controller';
 import { CourseDateModule } from './apis/courseDate/courseDate.module';
 import { MainCategoryModule } from './apis/mainCategory/maincategory.module';
 import { SpecificScheduleModule } from './apis/specificSchedule/specificSchedule.module';
+
 import { SubCategoryModule } from './apis/subCategory/subCategory.module';
+import { PickModule } from './apis/pick/pick.module';
 
 @Module({
   imports: [
@@ -74,6 +76,7 @@ import { SubCategoryModule } from './apis/subCategory/subCategory.module';
     CourseDateModule,
     SpecificScheduleModule,
     SubCategoryModule,
+    PickModule,
   ],
   providers: [AppService],
   controllers: [AppController],
