@@ -37,7 +37,7 @@ export class UserResolver {
     return await this.userService.sendToken(phone);
   }
 
-  @Mutation(() => String)
+  @Mutation(() => Boolean)
   async authPhoneOk(
     @Args('phone') phone: string,
     @Args('inputToken') inputToken: string,

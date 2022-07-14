@@ -14,23 +14,21 @@ export class CourseService {
   ) {}
 
   async create({ createCourseInput }) {
-<<<<<<< dev
-    const { subCategory, url, ...course } = createCourseInput;
-    console.log('=====', course);
-    const result = await this.courseRepository.save({
-      ...course,
-      subCategory: { id: subCategory }, //
-    });
-    console.log(result);
-    await Promise.all(
-      url.map((address) => {
-        return this.imageRepository.save({
-          url: address,
-          course: { id: result.id },
-        });
-      }),
-    );
-=======
+    // const { subCategory, url, ...course } = createCourseInput;
+    // console.log('=====', course);
+    // const result = await this.courseRepository.save({
+    //   ...course,
+    //   subCategory: { id: subCategory }, //
+    // });
+    // console.log(result);
+    // await Promise.all(
+    //   url.map((address) => {
+    //     return this.imageRepository.save({
+    //       url: address,
+    //       course: { id: result.id },
+    //     });
+    //   }),
+    // );
     // const { subCategoryId, courseAddressId, url, ...course } =
     //   createCourseInput;
 
@@ -47,7 +45,6 @@ export class CourseService {
     //     });
     //   }),
     // );
->>>>>>> dev
     return result;
   }
   async findOne({ courseId }) {

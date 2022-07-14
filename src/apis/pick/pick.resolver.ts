@@ -12,8 +12,16 @@ export class PickResolver {
     return await this.pickService.findAll();
   }
 
+  @Query(() => [String])
+  async fetchPicksByUser(@Args('userID') userID: string) {
+    return await this.pickService.picksByUser(userID);
+  }
+
   @Mutation(() => Pick)
   async createPick(@Args('createPickInput') createPickInput: CreatePickInput) {
-    return await this.pickService.create(createPickInput);
+    return await this.pickService.create(
+      createPickInput.course,
+      createPickInput.user,
+    );
   }
 }
