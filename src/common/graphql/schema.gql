@@ -2,6 +2,9 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+<<<<<<< dev
+type CourseDate {
+=======
 type User {
   id: String!
   email: String!
@@ -23,49 +26,17 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 scalar DateTime
 
 type CourseAddress {
+>>>>>>> dev
   id: String!
-  address: String!
-  addressDetail: String!
-  zipCode: String!
-  lat: Float!
-  lng: Float!
-}
-
-type MainCategory {
-  id: String!
-}
-
-type SubCategory {
-  id: String!
-  mainCategory: MainCategory!
-}
-
-type Course {
-  id: String!
-  name: String!
-  maxPrice: Int!
-  minPrice: Int!
-  difficulty: String!
-  materials: String!
-  contents: String!
-  openingDate: DateTime!
-  closingDate: DateTime!
-  subCategory: SubCategory
-  pick: Int!
-}
-
-type Pick {
-  id: String!
+  courseDate: DateTime!
   course: Course!
-  user: User!
+  specificSchedule: SpecificSchedule!
 }
 
-type Review {
-  id: String!
-  score: Float!
-  content: String!
-  url: String!
-}
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
 
 type SpecificSchedule {
   id: String!
@@ -78,11 +49,59 @@ type SpecificSchedule {
   courseDate: CourseDate!
 }
 
-type CourseDate {
+type MainCategory {
   id: String!
+  name: String!
+}
+
+type SubCategory {
+  id: String!
+  name: String!
+  mainCategory: MainCategory!
+}
+
+type Course {
+  id: String!
+  name: String!
+  maxPrice: Int!
+  minPrice: Int!
+  difficulty: String!
+  materials: [String!]!
+  contents: String!
+  openingDate: DateTime!
+  closingDate: DateTime!
+<<<<<<< dev
   courseDate: DateTime!
+  address: String!
+  addressDetail: String!
+  zipCode: String!
+  lat: Float!
+  lng: Float!
   course: Course!
   specificSchedule: SpecificSchedule!
+  subCategory: SubCategory!
+  user: [User!]
+  pick: Int!
+}
+
+type User {
+=======
+  subCategory: SubCategory
+  pick: Int!
+}
+
+type Pick {
+>>>>>>> dev
+  id: String!
+  course: Course!
+  user: User!
+}
+
+type Review {
+  id: String!
+  score: Float!
+  content: String!
+  url: String!
 }
 
 type Query {
@@ -93,7 +112,6 @@ type Query {
   fetchCourse(courseId: String!): Course!
   fetchCourses: [Course!]!
   fethchCourseDate(courseDateId: String!): CourseDate!
-  fetchCourseAddress(courseAddressId: String!): CourseAddress!
   fetchSpecificSchedule: SpecificSchedule!
   fetchPicks: [Pick!]!
 }
@@ -111,15 +129,19 @@ type Mutation {
   restoreAccessToken: String!
   logout: String!
   uploadFile(files: [Upload!]!): [String!]!
+  createMainCategory(name: String!): MainCategory!
   createCourse(createCourseInput: CreateCourseInput!): Course!
   updateCourse(courseId: String!, updateCourseInput: UpdateCourseInput!): Course!
   deleteCourse(courseId: String!): Boolean!
   createCourseDate(courseDate: DateTime!, recruitmentStartDate: DateTime!, recruitmentEndDate: DateTime!): CourseDate!
-  createCourseAddress(address: String!, addressDetail: String!, zipCode: String!, lat: Float!, lng: Float!): CourseAddress!
   createSpecificSchedule(createSpecificScheduleInput: CreateSpecificScheduleInput!): SpecificSchedule!
   updateSpecificSchedule(specificScheduleId: String!, updateSpecificScheduleInput: UpdateSpecificScheduleInput!): SpecificSchedule!
   deleteSpecificSchedule(specificScheduleId: String!): Boolean!
+<<<<<<< dev
+  createSubCategory(createSubCategoryInput: CreateSubCategoryInput!): SubCategory!
+=======
   createPick(createPickInput: CreatePickInput!): Pick!
+>>>>>>> dev
 }
 
 input CreateUserInput {
@@ -165,6 +187,10 @@ input CreateCourseInput {
   contents: String!
   openingDate: DateTime!
   closingDate: DateTime!
+  url: [String!]!
+  lat: Float!
+  lng: Float!
+  subCategory: String!
 }
 
 input UpdateCourseInput {
@@ -201,7 +227,13 @@ input UpdateSpecificScheduleInput {
   RecruitmentEdnDate: DateTime
 }
 
+<<<<<<< dev
+input CreateSubCategoryInput {
+  name: String!
+  mainCategoryId: String!
+=======
 input CreatePickInput {
   user: String!
   course: String!
+>>>>>>> dev
 }

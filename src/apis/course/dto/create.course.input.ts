@@ -1,4 +1,5 @@
-import { Field, InputType, Int } from '@nestjs/graphql';
+import { Field, Float, InputType, Int } from '@nestjs/graphql';
+import { Column } from 'typeorm';
 
 @InputType()
 export class CreateCourseInput {
@@ -35,6 +36,20 @@ export class CreateCourseInput {
   @Field(() => Date)
   closingDate: Date;
 
+  @Field(() => [String])
+  url: string[];
+
+  @Column({ type: 'decimal', precision: 9, scale: 7 })
+  @Field(() => Float)
+  lat: number;
+
+  @Column({ type: 'decimal', precision: 10, scale: 7 })
+  @Field(() => Float)
+  lng: number;
+
+  @Field(() => String)
+  subCategory: string;
+  
   // @Field(() => [String], { nullable: true })
   // url?: string[];
 }
