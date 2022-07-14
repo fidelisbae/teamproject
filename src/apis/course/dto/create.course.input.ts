@@ -47,6 +47,6 @@ export class CreateCourseInput {
   @Field(() => Float, { nullable: true })
   lng: number;
 
-  @Field(() => String, { nullable: true })
+  @Field(() => String)
   subCategory: string;
 }

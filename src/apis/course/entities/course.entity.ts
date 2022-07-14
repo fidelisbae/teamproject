@@ -1,6 +1,6 @@
 import { Field, ObjectType, Int, Float } from '@nestjs/graphql';
 import { SpecificSchedule } from 'src/apis/specificSchedule/entities/specificSchedule.entity';
-import { SubCategory } from 'src/apis/subCategory/entities/subCategry.entity';
+import { Category } from 'src/apis/Category/entities/Categry.entity';
 import {
   Column,
   CreateDateColumn,
@@ -80,9 +80,9 @@ export class Course {
   @Field(() => SpecificSchedule)
   specificSchedule: SpecificSchedule;
 
-  @ManyToOne(() => SubCategory)
-  @Field(() => SubCategory, { nullable: true })
-  subCategory: SubCategory;
+  @ManyToOne(() => Category)
+  @Field(() => Category, { nullable: true })
+  Category: Category;
 
   @Column({ default: 0 })
   @Field(() => Int)
