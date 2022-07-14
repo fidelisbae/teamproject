@@ -1,6 +1,5 @@
-import { Field, ObjectType, Int } from '@nestjs/graphql';
-import { CourseAddressService } from 'src/apis/courseAddress/courseAddress.service';
-import { CourseAddress } from 'src/apis/courseAddress/entities/createCourseAddress.entity';
+import { Field, ObjectType, Int, Float } from '@nestjs/graphql';
+import { SpecificSchedule } from 'src/apis/specificSchedule/entities/specificSchedule.entity';
 import { SubCategory } from 'src/apis/subCategory/entities/subCategry.entity';
 import { User } from 'src/apis/user/entities/user.entity';
 import {
@@ -8,11 +7,9 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  JoinColumn,
-  JoinTable,
   ManyToMany,
   ManyToOne,
-  OneToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -46,7 +43,7 @@ export class Course {
   difficulty: string;
 
   @Column()
-  @Field(() => String)
+  @Field(() => [String])
   materials: string;
 
   @Column()
@@ -61,6 +58,38 @@ export class Course {
   @Field(() => Date)
   closingDate: Date;
 
+  @Column({ default: null })
+  @Field(() => Date)
+  courseDate: Date;
+
+  @Column()
+  @Field(() => String)
+  address: string;
+
+  @Column()
+  @Field(() => String)
+  addressDetail: string;
+
+  @Column()
+  @Field(() => String)
+  zipCode: string;
+
+  @Column({ type: 'decimal', precision: 9, scale: 7 })
+  @Field(() => Float)
+  lat: number;
+
+  @Column({ type: 'decimal', precision: 10, scale: 7 })
+  @Field(() => Float)
+  lng: number;
+
+  @ManyToOne(() => Course)
+  @Field(() => Course)
+  course: Course;
+
+  @OneToMany(() => SpecificSchedule, (specificSchedule) => specificSchedule.id)
+  @Field(() => SpecificSchedule)
+  specificSchedule: SpecificSchedule;
+
   @ManyToOne(() => SubCategory)
   @Field(() => SubCategory)
   subCategory: SubCategory;
@@ -68,10 +97,6 @@ export class Course {
   @ManyToMany(() => User, (user) => user.course)
   @Field(() => [User], { nullable: true })
   user: User[];
-
-  @OneToOne(() => CourseAddress)
-  @JoinColumn()
-  courseAddressService: CourseAddressService;
 
   @Column({ default: 0 })
   @Field(() => Int)

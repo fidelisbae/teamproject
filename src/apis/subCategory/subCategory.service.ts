@@ -4,13 +4,19 @@ import { SubCategory } from './entities/subCategry.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
-export class subCategoryService {
+export class SubCategoryService {
   constructor(
     @InjectRepository(SubCategory)
     private readonly subCategoryRepository: Repository<SubCategory>,
   ) {}
-  //   async create({ mainCategoryId }) {
-  //     const result = await this.subCategoryRepository.save({ mainCategoryId });
-  //     return result;
-  //   }
+
+  async create({ createSubCategoryInput }) {
+    const { mainCategoryId, ...subCategory } = createSubCategoryInput;
+
+    const result2 = await this.subCategoryRepository.save({
+      ...subCategory,
+      mainCategory: { id: mainCategoryId },
+    });
+    return result2;
+  }
 }

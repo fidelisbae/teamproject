@@ -2,21 +2,37 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type CourseAddress {
+type CourseDate {
   id: String!
-  address: String!
-  addressDetail: String!
-  zipCode: String!
-  lat: Float!
-  lng: Float!
+  courseDate: DateTime!
+  course: Course!
+  specificSchedule: SpecificSchedule!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type SpecificSchedule {
+  id: String!
+  courseStartTime: DateTime!
+  courseEndTime: DateTime!
+  maxUsers: Int!
+  reservedPerson: Int!
+  RecruitmentStartDate: DateTime!
+  RecruitmentEdnDate: DateTime!
+  courseDate: CourseDate!
 }
 
 type MainCategory {
   id: String!
+  name: String!
 }
 
 type SubCategory {
   id: String!
+  name: String!
   mainCategory: MainCategory!
 }
 
@@ -26,19 +42,22 @@ type Course {
   maxPrice: Int!
   minPrice: Int!
   difficulty: String!
-  materials: String!
+  materials: [String!]!
   contents: String!
   openingDate: DateTime!
   closingDate: DateTime!
+  courseDate: DateTime!
+  address: String!
+  addressDetail: String!
+  zipCode: String!
+  lat: Float!
+  lng: Float!
+  course: Course!
+  specificSchedule: SpecificSchedule!
   subCategory: SubCategory!
   user: [User!]
   pick: Int!
 }
-
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
 
 type User {
   id: String!
@@ -63,24 +82,6 @@ type Review {
   url: String!
 }
 
-type SpecificSchedule {
-  id: String!
-  courseStartTime: DateTime!
-  courseEndTime: DateTime!
-  maxUsers: Int!
-  reservedPerson: Int!
-  RecruitmentStartDate: DateTime!
-  RecruitmentEdnDate: DateTime!
-  courseDate: CourseDate!
-}
-
-type CourseDate {
-  id: String!
-  courseDate: DateTime!
-  course: Course!
-  specificSchedule: SpecificSchedule!
-}
-
 type Query {
   fetchUsers: [User!]!
   fetchUser(id: String!): User!
@@ -89,7 +90,6 @@ type Query {
   fetchCourse(courseId: String!): Course!
   fetchCourses: [Course!]!
   fethchCourseDate(courseDateId: String!): CourseDate!
-  fetchCourseAddress(courseAddressId: String!): CourseAddress!
   fetchSpecificSchedule: SpecificSchedule!
 }
 
@@ -106,14 +106,15 @@ type Mutation {
   restoreAccessToken: String!
   logout: String!
   uploadFile(files: [Upload!]!): [String!]!
+  createMainCategory(name: String!): MainCategory!
   createCourse(createCourseInput: CreateCourseInput!): Course!
   updateCourse(courseId: String!, updateCourseInput: UpdateCourseInput!): Course!
   deleteCourse(courseId: String!): Boolean!
   createCourseDate(courseDate: DateTime!, recruitmentStartDate: DateTime!, recruitmentEndDate: DateTime!): CourseDate!
-  createCourseAddress(address: String!, addressDetail: String!, zipCode: String!, lat: Float!, lng: Float!): CourseAddress!
   createSpecificSchedule(createSpecificScheduleInput: CreateSpecificScheduleInput!): SpecificSchedule!
   updateSpecificSchedule(specificScheduleId: String!, updateSpecificScheduleInput: UpdateSpecificScheduleInput!): SpecificSchedule!
   deleteSpecificSchedule(specificScheduleId: String!): Boolean!
+  createSubCategory(createSubCategoryInput: CreateSubCategoryInput!): SubCategory!
 }
 
 input CreateUserInput {
@@ -159,6 +160,10 @@ input CreateCourseInput {
   contents: String!
   openingDate: DateTime!
   closingDate: DateTime!
+  url: [String!]!
+  lat: Float!
+  lng: Float!
+  subCategory: String!
 }
 
 input UpdateCourseInput {
@@ -193,4 +198,9 @@ input UpdateSpecificScheduleInput {
   reservedPerson: Int
   RecruitmentStartDate: DateTime
   RecruitmentEdnDate: DateTime
+}
+
+input CreateSubCategoryInput {
+  name: String!
+  mainCategoryId: String!
 }

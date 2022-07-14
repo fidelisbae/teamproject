@@ -9,4 +9,9 @@ export class MainCategoryService {
     @InjectRepository(MainCategory)
     private readonly mainCategoryRepository: Repository<MainCategory>,
   ) {}
+
+  async create({ name }) {
+    const result = await this.mainCategoryRepository.save({ name });
+    return result;
+  }
 }

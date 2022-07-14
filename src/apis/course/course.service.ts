@@ -14,14 +14,13 @@ export class CourseService {
   ) {}
 
   async create({ createCourseInput }) {
-    const { subCategoryId, courseAddressId, url, ...course } =
-      createCourseInput;
-
+    const { subCategory, url, ...course } = createCourseInput;
+    console.log('=====', course);
     const result = await this.courseRepository.save({
       ...course,
-      subCategory: { id: subCategoryId },
-      courseAddress: { id: courseAddressId },
+      subCategory: { id: subCategory }, //
     });
+    console.log(result);
     await Promise.all(
       url.map((address) => {
         return this.imageRepository.save({
