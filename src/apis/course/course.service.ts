@@ -13,43 +13,26 @@ export class CourseService {
     private readonly imageRepository: Repository<Image>,
   ) {}
 
-  async create(createCourseInput) {
-    return await this.courseRepository.save(createCourseInput);
+  async create({ createCourseInput }) {
+    const { subCategory, url, ...course } = createCourseInput;
+    console.log('=====', course);
+    const result = await this.courseRepository.save({
+      ...course,
+      subCategory: { id: subCategory },
+    });
+    console.log(result);
+    await Promise.all(
+      url.map((address) => {
+        return this.imageRepository.save({
+          url: address,
+          course: { id: result.id },
+        });
+      }),
+    );
 
-    // const { subCategory, url, ...course } = createCourseInput;
-    // console.log('=====', course);
-    // const result = await this.courseRepository.save({
-    //   ...course,
-    //   subCategory: { id: subCategory }, //
-    // });
-    // console.log(result);
-    // await Promise.all(
-    //   url.map((address) => {
-    //     return this.imageRepository.save({
-    //       url: address,
-    //       course: { id: result.id },
-    //     });
-    //   }),
-    // );
-    // const { subCategoryId, courseAddressId, url, ...course } =
-    //   createCourseInput;
-
-    //     const result = await this.courseRepository.save({
-    //       ...createCourseInput,
-    //       // subCategory: { id: subCategoryId },
-    //       // courseAddress: { id: courseAddressId },
-    //     });
-    // await Promise.all(
-    //   url.map((address) => {
-    //     return this.imageRepository.save({
-    //       url: address,
-    //       course: { id: result.id },
-    //     });
-    //   }),
-    // );
-
-    //     return result;
+    return result;
   }
+
   async findOne({ courseId }) {
     return await this.courseRepository.findOne({
       where: { id: courseId },
@@ -61,7 +44,7 @@ export class CourseService {
   }
 
   async update({ courseId, updateCourseInput }) {
-    const { url, ...updateCourse } = updateCourseInput;
+    const { imageurls, ...updateCourse } = updateCourseInput;
     const myCourse = await this.courseRepository.findOne({
       where: { id: courseId },
     });
@@ -69,13 +52,13 @@ export class CourseService {
       where: { course: { id: courseId } },
     });
 
-    const prevUrl = prevImage.map((url) => url.url);
+    const prevUrl = prevImage.map((imageurls) => imageurls.url);
 
     await Promise.all(
-      url.map((image) => {
+      imageurls.map((image) => {
         if (!prevUrl.includes(image)) {
           return this.imageRepository.save({
-            url: image,
+            imageurls: image,
             course: { id: courseId },
           });
         }

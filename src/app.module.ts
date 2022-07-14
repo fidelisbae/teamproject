@@ -35,7 +35,7 @@ import { PickModule } from './apis/pick/pick.module';
       logging: true,
     }),
 
-    // 배포 mySQL
+    //  배포 mySQL
     // TypeOrmModule.forRoot({
     //   type: 'mysql',
     //   host: '10.86.0.2',
@@ -57,7 +57,7 @@ import { PickModule } from './apis/pick/pick.module';
         credentials: true,
       },
     }),
-    // //  로컬 Redis
+    // // //  로컬 Redis
     CacheModule.register<RedisClientOptions>({
       store: redisStore,
       url: 'redis://localhost:6379',
