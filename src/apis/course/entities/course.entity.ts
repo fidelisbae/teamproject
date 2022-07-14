@@ -62,12 +62,12 @@ export class Course {
   closingDate: Date;
 
   @ManyToOne(() => SubCategory)
-  @Field(() => SubCategory)
+  @Field(() => SubCategory, { nullable: true })
   subCategory: SubCategory;
 
-  @ManyToMany(() => User, (user) => user.course)
-  @Field(() => [User], { nullable: true })
-  user: User[];
+  // @ManyToMany(() => User, (user) => user.course)
+  // @Field(() => [User], { nullable: true })
+  // user: User[];
 
   @OneToOne(() => CourseAddress)
   @JoinColumn()

@@ -17,7 +17,7 @@ import { CourseDateModule } from './apis/courseDate/courseDate.module';
 import { CoursePlaceModule } from './apis/courseAddress/courseAddress.module';
 import { MainCategoryModule } from './apis/mainCategory/maincategory.module';
 import { SpecificScheduleModule } from './apis/specificSchedule/specificSchedule.module';
-import { PaymentModule } from './apis/payment/payment.module';
+import { PickModule } from './apis/pick/pick.module';
 
 @Module({
   imports: [
@@ -53,7 +53,7 @@ import { PaymentModule } from './apis/payment/payment.module';
     CourseDateModule,
     CoursePlaceModule,
     SpecificScheduleModule,
-    PaymentModule,
+    PickModule,
   ],
   providers: [AppService],
   controllers: [AppController],

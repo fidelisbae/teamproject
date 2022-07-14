@@ -14,22 +14,22 @@ export class CourseService {
   ) {}
 
   async create({ createCourseInput }) {
-    const { subCategoryId, courseAddressId, url, ...course } =
-      createCourseInput;
+    // const { subCategoryId, courseAddressId, url, ...course } =
+    //   createCourseInput;
 
     const result = await this.courseRepository.save({
-      ...course,
-      subCategory: { id: subCategoryId },
-      courseAddress: { id: courseAddressId },
+      ...createCourseInput,
+      // subCategory: { id: subCategoryId },
+      // courseAddress: { id: courseAddressId },
     });
-    await Promise.all(
-      url.map((address) => {
-        return this.imageRepository.save({
-          url: address,
-          course: { id: result.id },
-        });
-      }),
-    );
+    // await Promise.all(
+    //   url.map((address) => {
+    //     return this.imageRepository.save({
+    //       url: address,
+    //       course: { id: result.id },
+    //     });
+    //   }),
+    // );
     return result;
   }
   async findOne({ courseId }) {
