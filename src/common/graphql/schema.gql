@@ -57,7 +57,6 @@ type Course {
   maxPrice: Int!
   minPrice: Int!
   difficulty: String!
-  materials: String!
   contents: String!
   openingDate: DateTime!
   closingDate: DateTime!
@@ -65,8 +64,8 @@ type Course {
   address: String!
   addressDetail: String!
   zipCode: String!
-  lat: Float!
-  lng: Float!
+  lat: Float
+  lng: Float
   specificSchedule: SpecificSchedule!
   subCategory: SubCategory
   pick: Int!
@@ -162,28 +161,32 @@ input CreateCourseInput {
   addressDetail: String!
   zipCode: String!
   difficulty: String!
-  materials: String!
+  materials: [String!]
   contents: String!
   openingDate: DateTime!
   closingDate: DateTime!
-  url: [String!]!
-  lat: Float!
-  lng: Float!
-  subCategory: String!
+  urls: [String!]
+  lat: Float
+  lng: Float
+  subCategory: String
 }
 
 input UpdateCourseInput {
-  name: String!
-  maxPrice: Int!
-  minPrice: Int!
-  region: String!
-  address: String!
-  addressDetail: String!
-  zipCode: String!
-  difficulty: String!
-  materials: String!
-  contents: String!
-  status: Boolean!
+  name: String
+  maxPrice: Int
+  minPrice: Int
+  address: String
+  addressDetail: String
+  zipCode: String
+  difficulty: String
+  materials: [String!]
+  contents: String
+  openingDate: DateTime
+  closingDate: DateTime
+  urls: [String!]
+  lat: Float
+  lng: Float
+  subCategory: String
 }
 
 input CreateSpecificScheduleInput {

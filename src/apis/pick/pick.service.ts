@@ -42,6 +42,8 @@ export class PickService {
       where: { id: course },
     });
     console.log(pickedCourse);
+    pickedCourse.pick = pickedCourse.pick + 1;
+    await this.courseRepository.save(pickedCourse);
     const result = await this.pickRepository.save({ course, user });
     return result;
   }

@@ -42,10 +42,6 @@ export class Course {
 
   @Column()
   @Field(() => String)
-  materials: string;
-
-  @Column()
-  @Field(() => String)
   contents: string;
 
   @CreateDateColumn()
@@ -73,11 +69,11 @@ export class Course {
   zipCode: string;
 
   @Column({ type: 'decimal', precision: 16, scale: 13 })
-  @Field(() => Float)
+  @Field(() => Float, { nullable: true })
   lat: number;
 
   @Column({ type: 'decimal', precision: 16, scale: 13 })
-  @Field(() => Float)
+  @Field(() => Float, { nullable: true })
   lng: number;
 
   @OneToMany(() => SpecificSchedule, (specificSchedule) => specificSchedule.id)
@@ -87,10 +83,6 @@ export class Course {
   @ManyToOne(() => SubCategory)
   @Field(() => SubCategory, { nullable: true })
   subCategory: SubCategory;
-
-  // @ManyToMany(() => User, (user) => user.course)
-  // @Field(() => [User], { nullable: true })
-  // user: User[];
 
   @Column({ default: 0 })
   @Field(() => Int)

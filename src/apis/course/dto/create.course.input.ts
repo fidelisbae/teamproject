@@ -24,8 +24,8 @@ export class CreateCourseInput {
   @Field(() => String)
   difficulty: string;
 
-  @Field(() => String)
-  materials: string;
+  @Field(() => [String], { nullable: true })
+  materials: string[];
 
   @Field(() => String)
   contents: string;
@@ -36,20 +36,17 @@ export class CreateCourseInput {
   @Field(() => Date)
   closingDate: Date;
 
-  @Field(() => [String])
-  url: string[];
+  @Field(() => [String], { nullable: true })
+  urls: string[];
 
   @Column({ type: 'decimal', precision: 9, scale: 0 })
-  @Field(() => Float)
+  @Field(() => Float, { nullable: true })
   lat: number;
 
   @Column({ type: 'decimal', precision: 10, scale: 0 })
-  @Field(() => Float)
+  @Field(() => Float, { nullable: true })
   lng: number;
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   subCategory: string;
-
-  // @Field(() => [String], { nullable: true })
-  // url?: string[];
 }

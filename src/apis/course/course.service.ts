@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Image } from '../image/image.entity';
+import { Image } from '../image/entities/image.entity';
 import { Course } from './entities/course.entity';
 
 @Injectable()
@@ -13,23 +13,8 @@ export class CourseService {
     private readonly imageRepository: Repository<Image>,
   ) {}
 
-  async create({ createCourseInput }) {
-
-    const { subCategory, url, ...course } = createCourseInput;
-    console.log('=====', course);
-    const result = await this.courseRepository.save({
-      ...course,
-      subCategory: { id: subCategory }, //
-    });
-    console.log(result);
-    await Promise.all(
-      url.map((address) => {
-        return this.imageRepository.save({
-          url: address,
-          course: { id: result.id },
-        });
-      }),
-    );
+  async create(createCourseInput) {
+    return await this.courseRepository.save(createCourseInput);
 
     // const { subCategory, url, ...course } = createCourseInput;
     // console.log('=====', course);
@@ -49,11 +34,11 @@ export class CourseService {
     // const { subCategoryId, courseAddressId, url, ...course } =
     //   createCourseInput;
 
-//     const result = await this.courseRepository.save({
-//       ...createCourseInput,
-//       // subCategory: { id: subCategoryId },
-//       // courseAddress: { id: courseAddressId },
-//     });
+    //     const result = await this.courseRepository.save({
+    //       ...createCourseInput,
+    //       // subCategory: { id: subCategoryId },
+    //       // courseAddress: { id: courseAddressId },
+    //     });
     // await Promise.all(
     //   url.map((address) => {
     //     return this.imageRepository.save({
@@ -63,7 +48,7 @@ export class CourseService {
     //   }),
     // );
 
-//     return result;
+    //     return result;
   }
   async findOne({ courseId }) {
     return await this.courseRepository.findOne({
