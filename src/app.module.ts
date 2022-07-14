@@ -1,5 +1,7 @@
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { GraphQLModule } from '@nestjs/graphql';
 import { CacheModule, Module } from '@nestjs/common';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { RedisClientOptions } from 'redis';
 import * as redisStore from 'cache-manager-redis-store';
 import { AppService } from './app.service';
@@ -11,7 +13,6 @@ import { ReviewModule } from './apis/reivews/review.module';
 import { AppController } from './app.controller';
 import { CourseDateModule } from './apis/courseDate/courseDate.module';
 import { SpecificScheduleModule } from './apis/specificSchedule/specificSchedule.module';
-
 import { PickModule } from './apis/pick/pick.module';
 import { CategoryModule } from './apis/Category/Category.module';
 
@@ -28,6 +29,15 @@ import { CategoryModule } from './apis/Category/Category.module';
       synchronize: true,
       logging: true,
     }),
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      driver: ApolloDriver,
+      autoSchemaFile: './src/common/graphql/schema.gql',
+      context: ({ req, res }) => ({ req, res }),
+      cors: {
+        origin: 'http://localhost:3000',
+        credentials: true,
+      },
+    }),
     CacheModule.register<RedisClientOptions>({
       store: redisStore,
       url: 'redis://10.86.1.3:6379',
@@ -41,7 +51,6 @@ import { CategoryModule } from './apis/Category/Category.module';
     CourseModule,
     CourseDateModule,
     SpecificScheduleModule,
-    CategoryModule,
     PickModule,
   ],
   providers: [AppService],

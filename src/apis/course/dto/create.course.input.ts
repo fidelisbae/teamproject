@@ -48,5 +48,5 @@ export class CreateCourseInput {
   lng: number;
 
   @Field(() => String)
-  subCategory: string;
+  Category: string;
 }
