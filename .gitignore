@@ -1,6 +1,7 @@
 # compiled output
 /dist
 /node_modules
+/key/gcp-file-storage.json
 
 # Logs
 logs

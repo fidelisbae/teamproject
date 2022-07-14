@@ -165,7 +165,7 @@ input CreateCourseInput {
   contents: String!
   openingDate: DateTime!
   closingDate: DateTime!
-  urls: [String!]
+  imageurls: [String!]
   lat: Float
   lng: Float
   subCategory: String
@@ -183,7 +183,7 @@ input UpdateCourseInput {
   contents: String
   openingDate: DateTime
   closingDate: DateTime
-  urls: [String!]
+  imageurls: [String!]
   lat: Float
   lng: Float
   subCategory: String

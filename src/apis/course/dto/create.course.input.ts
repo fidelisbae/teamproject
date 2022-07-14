@@ -37,7 +37,7 @@ export class CreateCourseInput {
   closingDate: Date;
 
   @Field(() => [String], { nullable: true })
-  urls: string[];
+  imageurls: string[];
 
   @Column({ type: 'decimal', precision: 9, scale: 0 })
   @Field(() => Float, { nullable: true })
