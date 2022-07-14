@@ -67,7 +67,6 @@ type Course {
   zipCode: String!
   lat: Float!
   lng: Float!
-  course: Course!
   specificSchedule: SpecificSchedule!
   subCategory: SubCategory
   pick: Int!
@@ -96,13 +95,14 @@ type Query {
   fethchCourseDate(courseDateId: String!): CourseDate!
   fetchSpecificSchedule: SpecificSchedule!
   fetchPicks: [Pick!]!
+  fetchPicksByUser(userID: String!): [String!]!
 }
 
 type Mutation {
   createReview(score: Float!, content: String!, created_At: DateTime!, url: String!): Review!
   createUser(createUserInput: CreateUserInput!): User!
   sendTokenToPhone(phone: String!): String!
-  authPhoneOk(phone: String!, inputToken: String!): String!
+  authPhoneOk(phone: String!, inputToken: String!): Boolean!
   updateUser(email: String!, updateUserInput: UpdateUserInput!): User!
   updatePassword(newPassword: String!): User!
   deleteUser(id: String!): Boolean!

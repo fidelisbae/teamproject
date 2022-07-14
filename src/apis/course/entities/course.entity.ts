@@ -1,13 +1,11 @@
 import { Field, ObjectType, Int, Float } from '@nestjs/graphql';
 import { SpecificSchedule } from 'src/apis/specificSchedule/entities/specificSchedule.entity';
 import { SubCategory } from 'src/apis/subCategory/entities/subCategry.entity';
-import { User } from 'src/apis/user/entities/user.entity';
 import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -81,10 +79,6 @@ export class Course {
   @Column({ type: 'decimal', precision: 16, scale: 13 })
   @Field(() => Float)
   lng: number;
-
-  @ManyToOne(() => Course)
-  @Field(() => Course)
-  course: Course;
 
   @OneToMany(() => SpecificSchedule, (specificSchedule) => specificSchedule.id)
   @Field(() => SpecificSchedule)

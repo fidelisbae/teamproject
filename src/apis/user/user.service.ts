@@ -93,6 +93,8 @@ export class UserService {
   }
 
   async sendToken(phone: string) {
+    // 핸드폰번호인증절차 추가
+
     const token = String(Math.floor(Math.random() * 10 ** 6)).padStart(6, '0');
     console.log(token);
     await this.cacheManager.set(phone, token, { ttl: 180 });
@@ -102,22 +104,22 @@ export class UserService {
 
     // 문자 요금 청구될까봐 주석처리해둠
 
-    // const messageService = new coolsms(SMS_KEY, SMS_SECRET);
-    // const result = await messageService.sendOne({
-    //   to: phone,
-    //   from: process.env.SMS_SENDER,
-    //   text: `[다배] 요청하신 인증번호는 [${token}] 입니다.`,
-    //   autoTypeDetect: true,
-    // });
+    const messageService = new coolsms(SMS_KEY, SMS_SECRET);
+    const result = await messageService.sendOne({
+      to: phone,
+      from: process.env.SMS_SENDER,
+      text: `[다배] 요청하신 인증번호는 [${token}] 입니다.`,
+      autoTypeDetect: true,
+    });
     return '핸드폰으로 인증번호를 전송했습니다.';
   }
 
   async authPhoneOk(phone: string, inputToken: string) {
     const token = await this.cacheManager.get(phone);
     if (token === inputToken) {
-      return '인증이 완료되었습니다.';
+      return true;
     } else {
-      return '인증에 실패하였습니다.';
+      return false;
     }
   }
 
