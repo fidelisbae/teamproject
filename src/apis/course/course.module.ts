@@ -10,7 +10,7 @@ import { Category } from '../category/entities/categry.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Course, User, Image, Pick, Category])],
-
+  exports: [CourseService],
   providers: [CourseResolver, CourseService],
 })
 export class CourseModule {}

@@ -61,6 +61,7 @@ type Course {
   specificSchedule: SpecificSchedule!
   category: Category
   pick: Int!
+  imageurls: String
 }
 
 type Pick {
@@ -74,6 +75,7 @@ type Review {
   score: Float!
   content: String!
   url: String!
+  course: Course!
 }
 
 type Query {
@@ -101,11 +103,11 @@ type Mutation {
   login(email: String!, password: String!): String!
   restoreAccessToken: String!
   logout: String!
-  uploadFile(files: [Upload!]!): [String!]!
-  createCategory(name: String!): Category!
+  uploadFile(files: [Upload!]!, courseID: String!): [String!]!
   createCourse(createCourseInput: CreateCourseInput!): Course!
   updateCourse(courseId: String!, updateCourseInput: UpdateCourseInput!): Course!
   deleteCourse(courseId: String!): Boolean!
+  createCategory(name: String!): Category!
   createCourseDate(courseDate: DateTime!, recruitmentStartDate: DateTime!, recruitmentEndDate: DateTime!): CourseDate!
   createSpecificSchedule(createSpecificScheduleInput: CreateSpecificScheduleInput!): SpecificSchedule!
   updateSpecificSchedule(specificScheduleId: String!, updateSpecificScheduleInput: UpdateSpecificScheduleInput!): SpecificSchedule!
@@ -156,8 +158,7 @@ input CreateCourseInput {
   contents: String!
   openingDate: DateTime!
   closingDate: DateTime!
-  imageURLs: [String!]
-  category: String!
+  category: String
 }
 
 input UpdateCourseInput {
@@ -172,7 +173,6 @@ input UpdateCourseInput {
   contents: String
   openingDate: DateTime
   closingDate: DateTime
-  imageURLs: [String!]
   category: String
 }
 

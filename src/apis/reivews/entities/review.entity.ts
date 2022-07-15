@@ -1,4 +1,5 @@
 import { Field, ObjectType, Int, Float } from '@nestjs/graphql';
+import { Course } from 'src/apis/course/entities/course.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -29,9 +30,9 @@ export class Review {
   @Field(() => String)
   url: string;
 
-  //     @ManyToOne(() => Course)
-  //     @Field(() => Course)
-  //     course : Course;
+  @ManyToOne(() => Course)
+  @Field(() => Course)
+  course: Course;
 
   //     @ManyToOne(() => User)
   //     @Field(() => User)
