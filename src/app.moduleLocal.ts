@@ -13,7 +13,6 @@ import { ReviewModule } from './apis/reivews/review.module';
 import { AppController } from './app.controller';
 import { CourseDateModule } from './apis/courseDate/courseDate.module';
 import { SpecificScheduleModule } from './apis/specificSchedule/specificSchedule.module';
-
 import { PickModule } from './apis/pick/pick.module';
 import { CategoryModule } from './apis/category/category.module';
 
