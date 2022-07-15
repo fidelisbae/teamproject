@@ -28,6 +28,7 @@ export class PickService {
     });
 
     const result = [];
+    console.log(allPicks);
     for (let i = 0; i < allPicks.length; i++) {
       if (allPicks[i].user.id === userID) {
         result.push(allPicks[i].course.id);
@@ -41,7 +42,7 @@ export class PickService {
     const pickedCourse = await this.courseRepository.findOne({
       where: { id: course },
     });
-    console.log(pickedCourse);
+
     pickedCourse.pick = pickedCourse.pick + 1;
     await this.courseRepository.save(pickedCourse);
     const result = await this.pickRepository.save({ course, user });

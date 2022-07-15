@@ -62,11 +62,6 @@ export class User {
   @Field(() => Boolean)
   marketingAgreement: boolean;
 
-  // @JoinTable()
-  // @ManyToMany(() => Course, (course) => course.user)
-  // @Field(() => [Course], { nullable: true })
-  // course: Course[];
-
   @CreateDateColumn()
   createdAt: Date;
 
