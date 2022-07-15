@@ -30,7 +30,7 @@ export class CourseService {
 
     const result = await this.courseRepository.save({
       ...items,
-      Category: categoryResult.id,
+      category: categoryResult.id,
     });
     return result;
   }
@@ -38,7 +38,7 @@ export class CourseService {
   async findOne({ courseId }) {
     return await this.courseRepository.findOne({
       where: { id: courseId },
-      relations: ['subcategory', 'review', 'user', 'payment'],
+      relations: ['category', 'review', 'user', 'payment'],
     });
   }
   async findAll() {
