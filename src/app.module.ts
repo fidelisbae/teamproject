@@ -53,13 +53,13 @@ import { CategoryModule } from './apis/category/category.module';
       autoSchemaFile: './src/common/graphql/schema.gql',
       context: ({ req, res }) => ({ req, res }),
       cors: {
-        origin: 'http://localhost:3000',
+        origin: 'http://127.0.0.1:3000',
         credentials: true,
       },
     }),
     CacheModule.register<RedisClientOptions>({
       store: redisStore,
-      url: 'redis://my-redis:6379',
+      url: 'redis://localhost:6379',
       isGlobal: true,
     }),
     ReviewModule,

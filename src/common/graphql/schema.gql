@@ -7,7 +7,7 @@ type User {
   email: String!
   nickname: String!
   phone: String
-  gender: String
+  gender: Boolean
   isHost: Boolean!
   account: String
   bank: String
@@ -61,6 +61,7 @@ type Course {
   specificSchedule: SpecificSchedule!
   category: Category
   pick: Int!
+  imageurls: [String!]
 }
 
 type Pick {
@@ -96,8 +97,7 @@ type Mutation {
   authPhoneOk(phone: String!, inputToken: String!): Boolean!
   updateUser(email: String!, updateUserInput: UpdateUserInput!): User!
   updatePassword(newPassword: String!): User!
-  deleteUser(id: String!): Boolean!
-  deleteLoginUser: Boolean!
+  deleteLoginUser(inputPassword: String!): Boolean!
   login(email: String!, password: String!): String!
   restoreAccessToken: String!
   logout: String!
@@ -137,7 +137,7 @@ input UpdateUserInput {
   bank: String
   businessName: String
   businessNumber: String
-  gender: String
+  gender: Boolean
   birth: DateTime
 }
 
@@ -156,7 +156,6 @@ input CreateCourseInput {
   contents: String!
   openingDate: DateTime!
   closingDate: DateTime!
-  imageURLs: [String!]
   category: String!
 }
 
@@ -172,7 +171,6 @@ input UpdateCourseInput {
   contents: String
   openingDate: DateTime
   closingDate: DateTime
-  imageURLs: [String!]
   category: String
 }
 

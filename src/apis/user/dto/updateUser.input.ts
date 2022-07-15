@@ -3,8 +3,8 @@ import { CreateUserInput } from './createUser.input';
 
 @InputType()
 export class UpdateUserInput extends PartialType(CreateUserInput) {
-  @Field(() => String, { nullable: true })
-  gender: string;
+  @Field(() => Boolean, { nullable: true })
+  gender: boolean;
 
   @Field(() => Date, { nullable: true })
   birth: Date;

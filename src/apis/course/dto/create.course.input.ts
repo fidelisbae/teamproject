@@ -35,8 +35,8 @@ export class CreateCourseInput {
   @Field(() => Date)
   closingDate: Date;
 
-  @Field(() => [String], { nullable: true })
-  imageURLs: string[];
+  // @Field(() => [String], { nullable: true })
+  // imageURLs: string[];
 
   @Field(() => String)
   category: string;

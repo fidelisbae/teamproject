@@ -3,6 +3,7 @@ import {
   Injectable,
   CACHE_MANAGER,
   Inject,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -11,6 +12,7 @@ import * as bcryptjs from 'bcryptjs';
 import { Cache } from 'cache-manager';
 import coolsms from 'coolsms-node-sdk';
 import 'dotenv/config';
+import { CurrentUser } from 'src/common/auth/gql.user.param';
 
 @Injectable()
 export class UserService {
@@ -123,7 +125,11 @@ export class UserService {
     }
   }
 
-  async delete(id) {
+  async delete(id, password, inputPassword) {
+    const isAuth = await bcryptjs.compare(password, inputPassword);
+    if (!isAuth) {
+      throw new UnauthorizedException('비밀번호가 틀렸습니다.');
+    }
     const result = await this.userRepository.softDelete({
       id: id,
     });
