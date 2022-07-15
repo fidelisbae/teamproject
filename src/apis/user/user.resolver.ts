@@ -73,9 +73,9 @@ export class UserResolver {
     @Args('newPassword') newPassword: string,
   ) {
     const hashedpassword = await bcryptjs.hash(newPassword, 10);
-    const id = currentUser.id;
+    const email = currentUser.email;
     return await this.userService.updatePassword({
-      id,
+      email,
       hashedpassword,
     });
   }
@@ -100,5 +100,14 @@ export class UserResolver {
     @CurrentUser() currentUser: ICurrentUser, //
   ) {
     return await this.userService.findEmail({ email: currentUser.email });
+  }
+
+  @Mutation(() => User)
+  async forgotPassword(
+    @Args('email') email: string,
+    @Args('newPassword') newPassword: string,
+  ) {
+    const hashedpassword = await bcryptjs.hash(newPassword, 10);
+    return await this.userService.updatePassword({ email, hashedpassword });
   }
 }

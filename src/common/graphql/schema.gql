@@ -100,6 +100,7 @@ type Mutation {
 
   """회원탈퇴 api,로그인된 유저가 비밀번호 체크 후에 유저삭제"""
   deleteLoginUser(inputPassword: String!): Boolean!
+  forgotPassword(email: String!, newPassword: String!): User!
   login(email: String!, password: String!): String!
   restoreAccessToken: String!
   logout: String!

@@ -70,9 +70,9 @@ export class UserService {
     return await this.userRepository.save(newUser);
   }
 
-  async updatePassword({ id, hashedpassword: password }) {
+  async updatePassword({ email, hashedpassword: password }) {
     const myUser = await this.userRepository.findOne({
-      where: { id: id },
+      where: { email: email },
     });
 
     const newUser = {
