@@ -70,9 +70,9 @@ export class UserService {
     return await this.userRepository.save(newUser);
   }
 
-  async updatePassword({ id, hashedpassword: password }) {
+  async updatePassword({ email, hashedpassword: password }) {
     const myUser = await this.userRepository.findOne({
-      where: { id: id },
+      where: { email: email },
     });
 
     const newUser = {
@@ -83,22 +83,29 @@ export class UserService {
   }
 
   async checkEmail(email) {
+    const emailForm = /^[a-zA-Z0-9+-.]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$/.test(
+      email,
+    );
     const hasEmail = await this.userRepository.findOne({
       where: { email: email },
     });
 
-    if (hasEmail === null) {
-      return false;
-    } else {
+    if (hasEmail === null && emailForm) {
       return true;
+    } else {
+      return false;
     }
+  }
+
+  async checkPhone(phone) {
+    const phoneForm = /^010-?([0-9]{4})-?([0-9]{4})$/.test(phone);
+    return phoneForm;
   }
 
   async sendToken(phone: string) {
     // 핸드폰번호인증절차 추가
 
     const token = String(Math.floor(Math.random() * 10 ** 6)).padStart(6, '0');
-    console.log(token);
     await this.cacheManager.set(phone, token, { ttl: 180 });
     const SMS_KEY = process.env.SMS_KEY;
     const SMS_SECRET = process.env.SMS_SECRET;
@@ -125,15 +132,14 @@ export class UserService {
     }
   }
 
-  async delete(id, password, inputPassword) {
-    const isAuth = await bcryptjs.compare(password, inputPassword);
+  async delete(id: string, password: string, inputPassword: string) {
+    const isAuth = await bcryptjs.compare(inputPassword, password);
     if (!isAuth) {
       throw new UnauthorizedException('비밀번호가 틀렸습니다.');
     }
     const result = await this.userRepository.softDelete({
       id: id,
     });
-    console.log(result.affected);
     return result.affected ? true : false;
   }
 }

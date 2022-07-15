@@ -4,7 +4,7 @@ import { User } from './entities/user.entity';
 import { UserService } from './user.service';
 import * as bcryptjs from 'bcryptjs';
 import { GqlAuthAccessGuard } from 'src/common/auth/gql.auth.guard';
-import { UseGuards } from '@nestjs/common';
+import { ConflictException, UseGuards } from '@nestjs/common';
 import { CurrentUser, ICurrentUser } from 'src/common/auth/gql.user.param';
 import { UpdateUserInput } from './dto/updateUser.input';
 
@@ -22,18 +22,30 @@ export class UserResolver {
     return await this.userService.findOne(id);
   }
 
-  @Query(() => Boolean)
-  async hasEmail(@Args('email') email: string) {
+  @Mutation(() => Boolean)
+  async checkEmail(@Args('email') email: string) {
     return await this.userService.checkEmail(email);
   }
 
   @Mutation(() => User)
   async createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
+    const check1 = await this.userService.checkEmail(createUserInput.email);
+    if (!check1) {
+      throw new ConflictException('이메일이 올바르지 않습니다.');
+    }
+    const check2 = await this.userService.checkPhone(createUserInput.phone);
+    if (!check2) {
+      throw new ConflictException('핸드폰번호가 올바르지 않습니다.');
+    }
     return await this.userService.create(createUserInput);
   }
 
   @Mutation(() => String)
   async sendTokenToPhone(@Args('phone') phone: string) {
+    const check = await this.userService.checkPhone(phone);
+    if (!check) {
+      throw new ConflictException('핸드폰번호가 올바르지 않습니다.');
+    }
     return await this.userService.sendToken(phone);
   }
 
@@ -61,21 +73,24 @@ export class UserResolver {
     @Args('newPassword') newPassword: string,
   ) {
     const hashedpassword = await bcryptjs.hash(newPassword, 10);
-    const id = currentUser.id;
+    const email = currentUser.email;
     return await this.userService.updatePassword({
-      id,
+      email,
       hashedpassword,
     });
   }
 
   @UseGuards(GqlAuthAccessGuard)
-  @Mutation(() => Boolean)
+  @Mutation(() => Boolean, {
+    description: '회원탈퇴 api,로그인된 유저가 비밀번호 체크 후에 유저삭제',
+  })
   async deleteLoginUser(
     @CurrentUser() currentUser: ICurrentUser,
     @Args('inputPassword') inputPassword: string,
   ) {
+    const user = await this.userService.findOne(currentUser.id);
     const id = currentUser.id;
-    const password = currentUser.password;
+    const password = user.password;
     return this.userService.delete(id, password, inputPassword);
   }
 
@@ -85,5 +100,14 @@ export class UserResolver {
     @CurrentUser() currentUser: ICurrentUser, //
   ) {
     return await this.userService.findEmail({ email: currentUser.email });
+  }
+
+  @Mutation(() => User)
+  async forgotPassword(
+    @Args('email') email: string,
+    @Args('newPassword') newPassword: string,
+  ) {
+    const hashedpassword = await bcryptjs.hash(newPassword, 10);
+    return await this.userService.updatePassword({ email, hashedpassword });
   }
 }

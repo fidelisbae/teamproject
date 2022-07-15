@@ -87,7 +87,4 @@ export class Course {
   @Column({ default: 0 })
   @Field(() => Int)
   pick: number;
-
-  @Field(() => String, { nullable: true })
-  imageurls: string;
 }
