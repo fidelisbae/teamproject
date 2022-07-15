@@ -83,15 +83,23 @@ export class UserService {
   }
 
   async checkEmail(email) {
+    const emailForm = /^[a-zA-Z0-9+-.]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$/.test(
+      email,
+    );
     const hasEmail = await this.userRepository.findOne({
       where: { email: email },
     });
 
-    if (hasEmail === null) {
-      return false;
-    } else {
+    if (hasEmail === null && emailForm) {
       return true;
+    } else {
+      return false;
     }
+  }
+
+  async checkPhone(phone) {
+    const phoneForm = /^010-?([0-9]{4})-?([0-9]{4})$/.test(phone);
+    return phoneForm;
   }
 
   async sendToken(phone: string) {
@@ -125,8 +133,10 @@ export class UserService {
     }
   }
 
-  async delete(id, password, inputPassword) {
-    const isAuth = await bcryptjs.compare(password, inputPassword);
+  async delete(id: string, password: string, inputPassword: string) {
+    console.log('password===', password);
+    console.log('inputPassword===', inputPassword);
+    const isAuth = await bcryptjs.compare(inputPassword, password);
     if (!isAuth) {
       throw new UnauthorizedException('비밀번호가 틀렸습니다.');
     }

@@ -61,9 +61,6 @@ type Course {
   specificSchedule: SpecificSchedule!
   category: Category
   pick: Int!
-  imageurls: String
-
-
 }
 
 type Pick {
@@ -83,7 +80,6 @@ type Review {
 type Query {
   fetchUsers: [User!]!
   fetchUser(id: String!): User!
-  hasEmail(email: String!): Boolean!
   fetchLoginUser: User!
   fetchCourse(courseId: String!): Course!
   fetchCourses: [Course!]!
@@ -95,11 +91,14 @@ type Query {
 
 type Mutation {
   createReview(score: Float!, content: String!, created_At: DateTime!, url: String!): Review!
+  checkEmail(email: String!): Boolean!
   createUser(createUserInput: CreateUserInput!): User!
   sendTokenToPhone(phone: String!): String!
   authPhoneOk(phone: String!, inputToken: String!): Boolean!
   updateUser(email: String!, updateUserInput: UpdateUserInput!): User!
   updatePassword(newPassword: String!): User!
+
+  """회원탈퇴 api,로그인된 유저가 비밀번호 체크 후에 유저삭제"""
   deleteLoginUser(inputPassword: String!): Boolean!
   login(email: String!, password: String!): String!
   restoreAccessToken: String!
@@ -159,9 +158,7 @@ input CreateCourseInput {
   contents: String!
   openingDate: DateTime!
   closingDate: DateTime!
-
   category: String!
-
 }
 
 input UpdateCourseInput {
