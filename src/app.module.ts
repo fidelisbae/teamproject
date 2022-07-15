@@ -15,6 +15,7 @@ import { CourseDateModule } from './apis/courseDate/courseDate.module';
 import { SpecificScheduleModule } from './apis/specificSchedule/specificSchedule.module';
 import { PickModule } from './apis/pick/pick.module';
 import { CategoryModule } from './apis/category/category.module';
+import { PaymentModule } from './apis/payment/payment.module';
 
 @Module({
   imports: [
@@ -39,10 +40,10 @@ import { CategoryModule } from './apis/category/category.module';
     // 로컬용
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: '127.0.0.1',
+      host: '10.86.0.2',
       port: 3306,
       username: 'root',
-      password: 'root',
+      password: '12345',
       database: 'dabae-database',
       entities: [__dirname + '/apis/**/*.entity.*'],
       synchronize: true,
@@ -53,13 +54,13 @@ import { CategoryModule } from './apis/category/category.module';
       autoSchemaFile: './src/common/graphql/schema.gql',
       context: ({ req, res }) => ({ req, res }),
       cors: {
-        origin: 'http://127.0.0.1:3000',
+        origin: 'http://localhost:3000',
         credentials: true,
       },
     }),
     CacheModule.register<RedisClientOptions>({
       store: redisStore,
-      url: 'redis://localhost:6379',
+      url: 'redis://10.86.1.3:6379',
       isGlobal: true,
     }),
     ReviewModule,
@@ -71,6 +72,7 @@ import { CategoryModule } from './apis/category/category.module';
     CourseDateModule,
     SpecificScheduleModule,
     PickModule,
+    PaymentModule,
   ],
   providers: [AppService],
   controllers: [AppController],
