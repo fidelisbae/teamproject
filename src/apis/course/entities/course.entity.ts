@@ -18,7 +18,7 @@ export class Course {
   @Field(() => String)
   id: string;
 
-  @Column()
+  @Column({ default: null })
   @Field(() => String)
   name: string;
 
@@ -88,6 +88,6 @@ export class Course {
   @Field(() => Int)
   pick: number;
 
-  @Field(() => [String], { nullable: true })
-  imageurls: string[];
+  @Field(() => String, { nullable: true })
+  imageurls: string;
 }
