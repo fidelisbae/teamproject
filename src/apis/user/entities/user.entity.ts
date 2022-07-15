@@ -31,8 +31,8 @@ export class User {
   phone: string;
 
   @Column({ default: null })
-  @Field(() => String, { nullable: true })
-  gender: string;
+  @Field(() => Boolean, { nullable: true })
+  gender: boolean;
 
   @Column()
   @Field(() => Boolean)

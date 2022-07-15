@@ -68,15 +68,15 @@ export class UserResolver {
     });
   }
 
-  @Mutation(() => Boolean)
-  async deleteUser(@Args('id') id: string) {
-    return await this.userService.delete({ id });
-  }
-
   @UseGuards(GqlAuthAccessGuard)
   @Mutation(() => Boolean)
-  async deleteLoginUser(@CurrentUser() currentUser: ICurrentUser) {
-    return this.userService.delete({ id: currentUser.id });
+  async deleteLoginUser(
+    @CurrentUser() currentUser: ICurrentUser,
+    @Args('inputPassword') inputPassword: string,
+  ) {
+    const id = currentUser.id;
+    const password = currentUser.password;
+    return this.userService.delete(id, password, inputPassword);
   }
 
   @UseGuards(GqlAuthAccessGuard)
