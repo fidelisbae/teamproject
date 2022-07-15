@@ -15,7 +15,7 @@ import { CourseDateModule } from './apis/courseDate/courseDate.module';
 import { SpecificScheduleModule } from './apis/specificSchedule/specificSchedule.module';
 
 import { PickModule } from './apis/pick/pick.module';
-import { CategoryModule } from './apis/Category/Category.module';
+import { CategoryModule } from './apis/category/category.module';
 
 @Module({
   imports: [

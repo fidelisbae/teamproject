@@ -58,10 +58,8 @@ type Course {
   address: String!
   addressDetail: String!
   zipCode: String!
-  lat: Float
-  lng: Float
   specificSchedule: SpecificSchedule!
-  Category: Category
+  category: Category
   pick: Int!
 }
 
@@ -76,11 +74,6 @@ type Review {
   score: Float!
   content: String!
   url: String!
-}
-
-type MainCategory {
-  id: String!
-  name: String!
 }
 
 type Query {
@@ -163,10 +156,8 @@ input CreateCourseInput {
   contents: String!
   openingDate: DateTime!
   closingDate: DateTime!
-  imageurls: [String!]
-  lat: Float
-  lng: Float
-  subCategory: String!
+  imageURLs: [String!]
+  category: String!
 }
 
 input UpdateCourseInput {
@@ -181,10 +172,8 @@ input UpdateCourseInput {
   contents: String
   openingDate: DateTime
   closingDate: DateTime
-  imageurls: [String!]
-  lat: Float
-  lng: Float
-  subCategory: String
+  imageURLs: [String!]
+  category: String
 }
 
 input CreateSpecificScheduleInput {

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Category } from '../Category/entities/Categry.entity';
+import { Category } from '../category/entities/categry.entity';
 import { Image } from '../image/entities/image.entity';
 import { Course } from './entities/course.entity';
 
@@ -13,32 +13,33 @@ export class CourseService {
     @InjectRepository(Image)
     private readonly imageRepository: Repository<Image>,
     @InjectRepository(Category)
-    private readonly CategoryRepository: Repository<Category>,
+    private readonly categoryRepository: Repository<Category>,
   ) {}
 
   async create({ createCourseInput }) {
     const { category, ...items } = createCourseInput;
-    let categoryResult = await this.CategoryRepository.findOne({
+    let categoryResult = await this.categoryRepository.findOne({
       where: { name: category },
     });
 
     if (!categoryResult) {
-      categoryResult = await this.CategoryRepository.save({
+      categoryResult = await this.categoryRepository.save({
         name: category,
       });
     }
 
     const result = await this.courseRepository.save({
       ...items,
-      Category: categoryResult.id,
+      category: categoryResult.id,
     });
+    console.log(result);
     return result;
   }
 
   async findOne({ courseId }) {
     return await this.courseRepository.findOne({
       where: { id: courseId },
-      relations: ['subcategory', 'review', 'user', 'payment'],
+      relations: ['category', 'review', 'user', 'payment'],
     });
   }
   async findAll() {

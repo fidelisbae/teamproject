@@ -1,6 +1,6 @@
 import { Field, ObjectType, Int, Float } from '@nestjs/graphql';
 import { SpecificSchedule } from 'src/apis/specificSchedule/entities/specificSchedule.entity';
-import { Category } from 'src/apis/Category/entities/Categry.entity';
+import { Category } from 'src/apis/category/entities/categry.entity';
 import {
   Column,
   CreateDateColumn,
@@ -68,13 +68,13 @@ export class Course {
   @Field(() => String)
   zipCode: string;
 
-  @Column({ type: 'decimal', precision: 16, scale: 13 })
-  @Field(() => Float, { nullable: true })
-  lat: number;
+  // @Column({ type: 'decimal', precision: 16, scale: 13 })
+  // @Field(() => Float, { nullable: true })
+  // lat: number;
 
-  @Column({ type: 'decimal', precision: 16, scale: 13 })
-  @Field(() => Float, { nullable: true })
-  lng: number;
+  // @Column({ type: 'decimal', precision: 16, scale: 13 })
+  // @Field(() => Float, { nullable: true })
+  // lng: number;
 
   @OneToMany(() => SpecificSchedule, (specificSchedule) => specificSchedule.id)
   @Field(() => SpecificSchedule)
@@ -82,7 +82,7 @@ export class Course {
 
   @ManyToOne(() => Category)
   @Field(() => Category, { nullable: true })
-  Category: Category;
+  category: Category;
 
   @Column({ default: 0 })
   @Field(() => Int)
