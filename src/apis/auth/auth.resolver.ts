@@ -36,7 +36,7 @@ export class AuthResolver {
     if (!isAuth) {
       throw new UnprocessableEntityException('비밀번호가 틀렸습니다.');
     }
-    await this.authService.setRefreshToken({
+    const re = await this.authService.setRefreshToken({
       user,
       res: Context.req.res,
     });
@@ -75,12 +75,12 @@ export class AuthResolver {
     try {
       jwt.verify(access, 'myAccessKey');
       jwt.verify(refresh, 'myRefreshKey');
+
+      await this.cacheManager.set(access, 'accessToken', { ttl: 3600 });
+      await this.cacheManager.set(refresh, 'refreshToken', { ttl: 3600 * 14 });
     } catch {
       throw new UnauthorizedException();
     }
-
-    await this.cacheManager.set(access, 'accessToken', { ttl: 3600 });
-    await this.cacheManager.set(refresh, 'refreshToken', { ttl: 3600 * 14 });
 
     return '로그아웃에 성공했습니다';
   }

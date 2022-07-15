@@ -106,7 +106,6 @@ export class UserService {
     // 핸드폰번호인증절차 추가
 
     const token = String(Math.floor(Math.random() * 10 ** 6)).padStart(6, '0');
-    console.log(token);
     await this.cacheManager.set(phone, token, { ttl: 180 });
     const SMS_KEY = process.env.SMS_KEY;
     const SMS_SECRET = process.env.SMS_SECRET;
@@ -134,8 +133,6 @@ export class UserService {
   }
 
   async delete(id: string, password: string, inputPassword: string) {
-    console.log('password===', password);
-    console.log('inputPassword===', inputPassword);
     const isAuth = await bcryptjs.compare(inputPassword, password);
     if (!isAuth) {
       throw new UnauthorizedException('비밀번호가 틀렸습니다.');
@@ -143,7 +140,6 @@ export class UserService {
     const result = await this.userRepository.softDelete({
       id: id,
     });
-    console.log(result.affected);
     return result.affected ? true : false;
   }
 }
