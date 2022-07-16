@@ -40,6 +40,7 @@ export class AuthResolver {
       user,
       res: Context.req.res,
     });
+    console.log(re);
     const accessToken = await this.authService.getAccessToken({ user });
     return accessToken;
   }

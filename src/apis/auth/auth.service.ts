@@ -18,7 +18,7 @@ export class AuthService {
       { email: user.email, sub: user.id },
       {
         secret: 'myRefreshKey',
-        expiresIn: '2w',
+        expiresIn: '6h',
       },
     );
     // 개발환경
