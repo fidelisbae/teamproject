@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { RelationId, Repository } from 'typeorm';
 import { Course } from '../course/entities/course.entity';
 import { User } from '../user/entities/user.entity';
 import { Pick } from './entities/pick.entity';
@@ -28,7 +28,6 @@ export class PickService {
     });
 
     const result = [];
-    console.log(allPicks);
     for (let i = 0; i < allPicks.length; i++) {
       if (allPicks[i].user.id === userID) {
         result.push(allPicks[i].course.id);
@@ -42,6 +41,15 @@ export class PickService {
     const pickedCourse = await this.courseRepository.findOne({
       where: { id: course },
     });
+    const allPicks = await this.pickRepository.find({
+      relations: ['user', 'course'],
+    });
+    for (let i = 0; i < allPicks.length; i++) {
+      if (allPicks[i].user.id === user && allPicks[i].course.id === course) {
+        pickedCourse.pick = pickedCourse.pick - 1;
+        return await this.pickRepository.delete(allPicks[i]);
+      }
+    }
 
     pickedCourse.pick = pickedCourse.pick + 1;
     await this.courseRepository.save(pickedCourse);

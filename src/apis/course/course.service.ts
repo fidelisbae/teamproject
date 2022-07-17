@@ -32,7 +32,6 @@ export class CourseService {
       ...items,
       category: categoryResult.id,
     });
-    console.log(result);
     return result;
   }
 

@@ -32,7 +32,6 @@ export class FileService {
         }),
       )) as string[]
     ).filter((v) => v !== null);
-    console.log(results);
 
     const course = await this.courseService.findOne({ courseId });
 
