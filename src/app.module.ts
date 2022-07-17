@@ -55,7 +55,8 @@ import { PaymentModule } from './apis/payment/payment.module';
       context: ({ req, res }) => ({ req, res }),
       cors: {
         origin: 'http://localhost:3000',
-        credentials: true,
+        credentials: 'include',
+        exposedHeaders: ['Authorization', 'Set-Cookie', 'Cookie'],
       },
     }),
     CacheModule.register<RedisClientOptions>({

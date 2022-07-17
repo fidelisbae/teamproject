@@ -105,7 +105,7 @@ type Query {
   fetchPicks: [Pick!]!
   fetchPicksByUser(userID: String!): [String!]!
   fetchPayments: [Payment!]!
-  fetchPayment(nickname: String!): Payment!
+  fetchPayment(email: String!): Payment!
 }
 
 type Mutation {
@@ -133,8 +133,7 @@ type Mutation {
   updateSpecificSchedule(specificScheduleId: String!, updateSpecificScheduleInput: UpdateSpecificScheduleInput!): SpecificSchedule!
   deleteSpecificSchedule(specificScheduleId: String!): Boolean!
   createPick(createPickInput: CreatePickInput!): Pick!
-  createPayment(amount: Float!, quantity: Float!, price: Float!, impUid: String!): Payment!
-  cancelPayment(impUid: String!): Boolean!
+  createPayment(createPaymentInput: CreatePaymentInput!): Payment!
 }
 
 input CreateUserInput {
@@ -221,4 +220,13 @@ input UpdateSpecificScheduleInput {
 input CreatePickInput {
   user: String!
   course: String!
+}
+
+input CreatePaymentInput {
+  userId: String!
+  impUid: String
+  price: Int!
+  quantity: Int!
+  amount: Int!
+  courseId: String!
 }

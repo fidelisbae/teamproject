@@ -1,9 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly jwtService: JwtService) {}
+  constructor(
+    private readonly jwtService: JwtService,
+    private readonly userService: UserService,
+  ) {}
 
   getAccessToken({ user }) {
     const accessToken = this.jwtService.sign(
@@ -35,5 +39,21 @@ export class AuthService {
     //   `refreshToken=${refreshToken}; path=/; domain=.dabae.co.kr; SameSite=None; Secure; httpOnly;`,
     // );
     res.setHeader('Set-Cookie', `refreshToken=${refreshToken}; path=/;`);
+  }
+  async doWork({ req, res }) {
+    let user = await this.userService.findOne({ email: req.user.email });
+
+    if (!user) {
+      user = await this.userService.create({
+        email: req.user.email,
+        pwd: req.user.pwd,
+        nickname: req.user.nickname,
+        phone: req.user.phone,
+      });
+    }
+    this.setRefreshToken({ user, res });
+
+    console.log(user);
+    res.redirect('http://localhost:3000');
   }
 }

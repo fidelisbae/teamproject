@@ -1,52 +1,31 @@
-import { Injectable, UnprocessableEntityException } from '@nestjs/common';
+import { UnprocessableEntityException } from '@nestjs/common';
 import axios from 'axios';
 import 'dotenv/config';
 
-@Injectable({})
 export class IamportService {
   async getToken() {
-    const data = await axios({
+    const getToken = await axios({
       url: 'https://api.iamport.kr/users/getToken',
-      method: 'post',
+      method: 'post', // POST method
       headers: { 'Content-Type': 'application/json' }, // "Content-Type": "application/json"
       data: {
-        imp_key: process.env.IMP_API_KEY, // REST API키
-        imp_secret: process.env.IMP_API_SECREAT,
+        imp_key: process.env.IMP_KEY, // REST API키
+        imp_secret: process.env.IMP_SECRET, // REST API Secret
       },
     });
-    return data.data.response.access_token;
+    return getToken.data.response.access_token;
   }
 
-  async getPaymentData({ access_token, imp_uid }) {
+  async checkToken({ impUid: impUid }) {
+    const getToken = await this.getToken();
     try {
       const data = await axios({
-        url: `https://api.iamport.kr/payments/${imp_uid}`, // imp_uid 전달
-        method: 'get', // GET method
-        headers: { Authorization: access_token }, // 인증 토큰 Authorization header에 추가
+        url: `https://api.iamport.kr/payments/${impUid}`,
+        method: 'get',
+        headers: { Authorization: getToken },
       });
-      return data;
     } catch (error) {
-      //console.log(error.response.status);
-      throw new UnprocessableEntityException('에러입니다');
+      throw new UnprocessableEntityException('존재하지 않는 결제내역');
     }
-  }
-  async cancelPayment({
-    access_token,
-    imp_uid,
-    amount: cancel_request_amount,
-  }) {
-    const data = await axios({
-      url: 'https://api.iamport.kr/payments/cancel',
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: access_token,
-      },
-      data: {
-        imp_uid, // imp_uid를 환불 `unique key`로 입력
-        amount: cancel_request_amount, // 가맹점 클라이언트로부터 받은 환불금액
-      },
-    });
-    console.log(data);
   }
 }
