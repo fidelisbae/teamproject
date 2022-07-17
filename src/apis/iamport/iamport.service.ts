@@ -1,7 +1,8 @@
-import { UnprocessableEntityException } from '@nestjs/common';
+import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import axios from 'axios';
 import 'dotenv/config';
 
+@Injectable()
 export class IamportService {
   async getToken() {
     const getToken = await axios({
@@ -16,7 +17,7 @@ export class IamportService {
     return getToken.data.response.access_token;
   }
 
-  async checkToken({ impUid: impUid }) {
+  async getData({ impUid }) {
     const getToken = await this.getToken();
     try {
       const data = await axios({
@@ -24,6 +25,7 @@ export class IamportService {
         method: 'get',
         headers: { Authorization: getToken },
       });
+      return data.data.response;
     } catch (error) {
       throw new UnprocessableEntityException('존재하지 않는 결제내역');
     }

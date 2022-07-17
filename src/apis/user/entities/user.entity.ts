@@ -1,4 +1,4 @@
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, Int, ObjectType } from '@nestjs/graphql';
 import {
   Column,
   CreateDateColumn,
@@ -29,6 +29,10 @@ export class User {
   @Column({ default: null })
   @Field(() => String, { nullable: true })
   phone: string;
+
+  @Column({ default: 0 })
+  @Field(() => Int)
+  point: number;
 
   @Column({ default: null })
   @Field(() => Boolean, { nullable: true })
