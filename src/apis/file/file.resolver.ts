@@ -3,14 +3,13 @@ import { FileUpload, GraphQLUpload } from 'graphql-upload';
 import { FileService } from './file.service';
 
 @Resolver()
-export class fileResolve {
+export class FileResolver {
   constructor(private readonly fileService: FileService) {}
 
   @Mutation(() => [String])
-  uploadFile(
+  async uploadFile(
     @Args({ name: 'files', type: () => [GraphQLUpload] }) files: FileUpload[],
-    @Args('courseID') courseID: string,
   ) {
-    return this.fileService.upload(files, courseID);
+    return await this.fileService.upload(files);
   }
 }
