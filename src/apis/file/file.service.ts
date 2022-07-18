@@ -11,8 +11,10 @@ export class FileService {
     @InjectRepository(Image)
     private readonly imageRepository: Repository<Image>,
     private readonly courseService: CourseService,
-  ) {} //courseId
-  async upload(files, courseId) {
+
+  ) {}
+  async upload(files) {
+
     const waitedFiles = await Promise.all(files);
 
     const storage = new Storage({
@@ -32,12 +34,6 @@ export class FileService {
         }),
       )) as string[]
     ).filter((v) => v !== null);
-
-    const course = await this.courseService.findOne({ courseId });
-
-    for (let i = 0; i < results.length; i++) {
-      await this.imageRepository.save({ url: results[i], course: course });
-    }
 
     return results;
   }
