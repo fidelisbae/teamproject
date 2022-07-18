@@ -11,6 +11,26 @@ import { Course } from './entities/course.entity';
 export class CourseResolver {
   constructor(private readonly courseService: CourseService) {}
 
+  @Query(() => Course)
+  async fetchCourse(@Args('courseId') courseId: string) {
+    return await this.courseService.findOne({ courseId });
+  }
+
+  @Query(() => [Course])
+  async fetchCourses() {
+    return await this.courseService.findAll();
+  }
+
+  @Query(() => [Course], { description: '코스 이름으로 코스를 검색하는 api' })
+  async searchCourse(@Args('input') input: string) {
+    return await this.courseService.search(input);
+  }
+
+  @Query(() => [Course])
+  async hotCourses() {
+    return await this.courseService.hotCourses();
+  }
+
   @UseGuards(GqlAuthAccessGuard)
   @Mutation(() => Course)
   createCourse(
@@ -20,17 +40,7 @@ export class CourseResolver {
     return this.courseService.create({ createCourseInput, currentUser });
   }
 
-  @Query(() => Course)
-  fetchCourse(@Args('courseId') courseId: string) {
-    console.log();
-    return this.courseService.findOne({ courseId });
-  }
-
-  @Query(() => [Course])
-  async fetchCourses() {
-    return await this.courseService.findAll();
-  }
-
+  // 호스트 본인이 쓴 글만 수정할 수 있도록 해야함
   @Mutation(() => Course) //호스트가 바꾸는 거
   async updateCourse(
     @Args('courseId') courseId: string,
@@ -42,6 +52,7 @@ export class CourseResolver {
     });
   }
 
+  // 호스트 본인이 쓴 글만 삭제할 수 있도록 해야함
   @Mutation(() => Boolean)
   deleteCourse(
     @Args('courseId') courseId: string, //

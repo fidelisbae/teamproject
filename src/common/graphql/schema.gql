@@ -110,6 +110,10 @@ type Query {
   fetchLoginUser: User!
   fetchCourse(courseId: String!): Course!
   fetchCourses: [Course!]!
+
+  """코스 이름으로 코스를 검색하는 api"""
+  searchCourse(input: String!): [Course!]!
+  hotCourses: [Course!]!
   fethchCourseDate(courseDateId: String!): CourseDate!
   fetchSpecificSchedule: SpecificSchedule!
   fetchPicks: [Pick!]!

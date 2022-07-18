@@ -80,6 +80,7 @@ export class Course {
   @OneToMany(() => Image, (imageURLs) => imageURLs.course)
   @Field(() => [Image])
   imageURLs: Image[];
+
   // @Column({ type: 'decimal', precision: 16, scale: 13 })
   // @Field(() => Float, { nullable: true })
   // lat: number;

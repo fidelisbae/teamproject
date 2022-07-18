@@ -19,6 +19,45 @@ export class CourseService {
     private readonly userRepository: Repository<User>,
   ) {}
 
+  async findOne({ courseId }) {
+    return await this.courseRepository.findOne({
+      where: { id: courseId },
+      relations: ['specificSchedule', 'category', 'user', 'imageURLs', 'host'],
+    });
+  }
+  async findAll() {
+    return await this.courseRepository.find();
+  }
+
+  async search(input: string) {
+    const allCourses = await this.courseRepository.find();
+    const result = [];
+    for (let i = 0; i < allCourses.length; i++) {
+      if (allCourses[i].name.includes(input)) {
+        result.push(allCourses[i]);
+      }
+    }
+    return result;
+  }
+
+  async hotCourses() {
+    const allCourses = await this.courseRepository.find();
+    const result = [];
+    for (let j = 0; j < 5; j++) {
+      let max = allCourses[0];
+      let num = 0;
+      for (let i = 0; i < allCourses.length; i++) {
+        if (max.pick < allCourses[i].pick) {
+          max = allCourses[i];
+          num = i;
+        }
+      }
+      allCourses.splice(num, 1);
+      result.push(max);
+    }
+    return result;
+  }
+
   async create({ createCourseInput, currentUser }) {
     const { imageURLs, category, ...items } = createCourseInput;
     let categoryResult = await this.categoryRepository.findOne({
@@ -50,16 +89,6 @@ export class CourseService {
       host: hostUser,
     });
     return result;
-  }
-
-  async findOne({ courseId }) {
-    return await this.courseRepository.findOne({
-      where: { id: courseId },
-      relations: ['specificSchedule', 'category', 'user', 'imageURLs', 'host'],
-    });
-  }
-  async findAll() {
-    return await this.courseRepository.find();
   }
 
   async update({ courseId, updateCourseInput }) {
