@@ -40,4 +40,7 @@ export class CreateCourseInput {
 
   @Field(() => String)
   category: string;
+
+  @Field(() => String)
+  specificScheduleId: string;
 }

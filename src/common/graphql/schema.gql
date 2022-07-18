@@ -2,33 +2,17 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type User {
-  id: String!
-  email: String!
-  nickname: String!
-  phone: String
-  point: Int!
-  gender: Boolean
-  isHost: Boolean!
-  account: String
-  bank: String
-  businessName: String
-  businessNumber: String
-  birth: DateTime
-  marketingAgreement: Boolean!
-}
-
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
-
 type CourseDate {
   id: String!
   courseDate: DateTime!
   course: Course!
   specificSchedule: SpecificSchedule!
 }
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
 
 type SpecificSchedule {
   id: String!
@@ -65,10 +49,27 @@ type Course {
   address: String!
   addressDetail: String!
   zipCode: String!
+  host: User!
   imageURLs: [Image!]!
   specificSchedule: SpecificSchedule!
   category: Category
   pick: Int!
+}
+
+type User {
+  id: String!
+  email: String!
+  nickname: String!
+  phone: String
+  point: Int!
+  gender: Boolean
+  isHost: Boolean!
+  account: String
+  bank: String
+  businessName: String
+  businessNumber: String
+  birth: DateTime
+  marketingAgreement: Boolean!
 }
 
 type Pick {
@@ -187,6 +188,7 @@ input CreateCourseInput {
   closingDate: DateTime!
   imageURLs: [String!]
   category: String!
+  specificScheduleId: String!
 }
 
 input UpdateCourseInput {
@@ -203,6 +205,7 @@ input UpdateCourseInput {
   closingDate: DateTime
   imageURLs: [String!]
   category: String
+  specificScheduleId: String
 }
 
 input CreateSpecificScheduleInput {
