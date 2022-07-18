@@ -132,14 +132,17 @@ export class UserService {
     }
   }
 
-  async delete(id: string, password: string, inputPassword: string) {
-    const isAuth = await bcryptjs.compare(inputPassword, password);
-    if (!isAuth) {
-      throw new UnauthorizedException('비밀번호가 틀렸습니다.');
-    }
+  async delete(id: string) {
     const result = await this.userRepository.softDelete({
       id: id,
     });
     return result.affected ? true : false;
+  }
+
+  async checkPassword(inputPassword: string, password: string) {
+    const isAuth = await bcryptjs.compare(inputPassword, password);
+    if (!isAuth) {
+      throw new UnauthorizedException('비밀번호가 틀렸습니다.');
+    }
   }
 }

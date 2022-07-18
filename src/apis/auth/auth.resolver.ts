@@ -51,10 +51,9 @@ export class AuthResolver {
     @Context() context: IContext,
     @CurrentUser() currentUser: ICurrentUser,
   ) {
-    const user = currentUser;
-    // context.res.setHeader
-    await this.authService.setRefreshToken({ user, res: context.res });
-    const accessToken = await this.authService.getAccessToken({ user });
+    const user = await this.userService.findOne(currentUser.id);
+    await this.authService.setRefreshToken({ user: user, res: context.res });
+    const accessToken = await this.authService.getAccessToken({ user: user });
     return accessToken;
   }
 
