@@ -42,12 +42,14 @@ export class PaymentService {
     });
 
     // Payment 만들기
+
     const result = await this.paymentRepository.save({
       ...createPaymentInput,
       course: courseFound,
       user: userFound,
       status: PAYMENT_STATUS_ENUM.PAYMENT,
     });
+    console.log(result);
 
     // 최대가격 - 최소가격 / 최대가격 × 100% = 최대할인율
     const max = courseFound.maxPrice;

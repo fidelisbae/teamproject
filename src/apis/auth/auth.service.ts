@@ -53,7 +53,7 @@ export class AuthService {
     if (!user) {
       user = await this.userService.create({
         email: req.user.email,
-        pwd: req.user.pwd,
+        password: req.user.password,
         nickname: req.user.nickname,
         phone: req.user.phone,
       });
