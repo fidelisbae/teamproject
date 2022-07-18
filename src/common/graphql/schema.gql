@@ -46,6 +46,12 @@ type Category {
   name: String!
 }
 
+type Image {
+  id: String!
+  imageurls: String!
+  course: Course!
+}
+
 type Course {
   id: String!
   name: String!
@@ -59,7 +65,7 @@ type Course {
   address: String!
   addressDetail: String!
   zipCode: String!
-  imageUrl: String!
+  imageURLs: [Image!]!
   specificSchedule: SpecificSchedule!
   category: Category
   pick: Int!

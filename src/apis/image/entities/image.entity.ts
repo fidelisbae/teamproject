@@ -13,7 +13,7 @@ export class Image {
   @Field(() => String)
   imageurls: string;
 
-  @ManyToOne(() => Course)
+  @ManyToOne(() => Course, (course) => course.imageURLs)
   @Field(() => Course)
   course: Course;
 }

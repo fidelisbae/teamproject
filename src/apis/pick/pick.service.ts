@@ -47,7 +47,7 @@ export class PickService {
     for (let i = 0; i < allPicks.length; i++) {
       if (allPicks[i].user.id === user && allPicks[i].course.id === course) {
         pickedCourse.pick = pickedCourse.pick - 1;
-        return await this.pickRepository.delete(allPicks[i]);
+        return await this.pickRepository.delete({ id: allPicks[i].id });
       }
     }
 
