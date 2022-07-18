@@ -7,7 +7,7 @@ import * as redisStore from 'cache-manager-redis-store';
 import { AppService } from './app.service';
 import { UserModule } from './apis/user/user.module';
 import { AuthModule } from './apis/auth/auth.module';
-import { FileModule } from './apis/file/file.module';
+
 import { CourseModule } from './apis/course/course.module';
 import { ReviewModule } from './apis/reivews/review.module';
 import { AppController } from './app.controller';
@@ -56,6 +56,7 @@ import { PaymentModule } from './apis/payment/payment.module';
       cors: {
         origin: 'http://localhost:3000',
         credentials: 'include',
+        methods: ['GET', 'HEAD', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
         exposedHeaders: ['Authorization', 'Set-Cookie', 'Cookie'],
       },
     }),
@@ -67,7 +68,7 @@ import { PaymentModule } from './apis/payment/payment.module';
     ReviewModule,
     UserModule,
     AuthModule,
-    FileModule,
+    // FileModule,
     CategoryModule,
     CourseModule,
     CourseDateModule,

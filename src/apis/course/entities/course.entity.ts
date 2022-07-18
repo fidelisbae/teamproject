@@ -68,6 +68,9 @@ export class Course {
   @Field(() => String)
   zipCode: string;
 
+  @Column()
+  @Field(() => String)
+  imageUrl: string;
   // @Column({ type: 'decimal', precision: 16, scale: 13 })
   // @Field(() => Float, { nullable: true })
   // lat: number;

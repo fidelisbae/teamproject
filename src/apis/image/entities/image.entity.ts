@@ -11,7 +11,7 @@ export class Image {
 
   @Column()
   @Field(() => String)
-  url: string;
+  imageurls: string;
 
   @ManyToOne(() => Course)
   @Field(() => Course)

@@ -17,7 +17,7 @@ export class CourseService {
   ) {}
 
   async create({ createCourseInput }) {
-    const { category, ...items } = createCourseInput;
+    const { imageURLs, category, ...items } = createCourseInput;
     let categoryResult = await this.categoryRepository.findOne({
       where: { name: category },
     });
@@ -32,6 +32,14 @@ export class CourseService {
       ...items,
       category: categoryResult.id,
     });
+    await Promise.all(
+      imageURLs.map((url) => {
+        return this.imageRepository.save({
+          imageurls: url,
+          course: { id: result.id },
+        });
+      }),
+    );
     return result;
   }
 
@@ -53,7 +61,7 @@ export class CourseService {
     const prevImage = await this.imageRepository.find({
       where: { course: { id: courseId } },
     });
-    const prevUrl = prevImage.map((imageurls) => imageurls.url);
+    const prevUrl = prevImage.map((imageurls) => imageurls.imageurls);
 
     await Promise.all(
       imageurls.map((image) => {

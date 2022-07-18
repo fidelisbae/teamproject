@@ -1,5 +1,6 @@
 import { Field, ObjectType, Int, Float } from '@nestjs/graphql';
 import { Course } from 'src/apis/course/entities/course.entity';
+import { User } from 'src/apis/user/entities/user.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -34,7 +35,7 @@ export class Review {
   @Field(() => Course)
   course: Course;
 
-  //     @ManyToOne(() => User)
-  //     @Field(() => User)
-  //     writer : User;
+  @ManyToOne(() => User)
+  @Field(() => User)
+  writer: User;
 }
