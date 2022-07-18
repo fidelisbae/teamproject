@@ -22,6 +22,7 @@ export class CourseResolver {
 
   @Query(() => Course)
   fetchCourse(@Args('courseId') courseId: string) {
+    console.log();
     return this.courseService.findOne({ courseId });
   }
 
