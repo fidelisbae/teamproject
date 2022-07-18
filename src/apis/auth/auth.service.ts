@@ -63,7 +63,7 @@ export class AuthService {
       userFound = await this.userRepository.save({
         name: req.user.name,
         email: req.user.email,
-        password: req.user.pwd,
+        password: req.user.password,
         nickname: req.user.nickname,
         phone: req.user.phone,
         birth: req.user.DOB,

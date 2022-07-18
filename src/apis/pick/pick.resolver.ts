@@ -17,9 +17,9 @@ export class PickResolver {
     return await this.pickService.picksByUser(userID);
   }
 
-  @Mutation(() => Pick)
-  async createPick(@Args('createPickInput') createPickInput: CreatePickInput) {
-    return await this.pickService.create(
+  @Mutation(() => Boolean)
+  async togglePick(@Args('createPickInput') createPickInput: CreatePickInput) {
+    return await this.pickService.toggle(
       createPickInput.course,
       createPickInput.user,
     );
