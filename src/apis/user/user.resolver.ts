@@ -67,17 +67,36 @@ export class UserResolver {
   }
 
   @UseGuards(GqlAuthAccessGuard)
-  @Mutation(() => User)
+  @Mutation(() => Boolean, {
+    description:
+      '유저가 마이페이지에서 비밀번호를 변경하는 api, 기존 비밀번호를 체크 후에 새 비밀번호를 양식에 따라 입력받는다.',
+  })
   async updatePassword(
     @CurrentUser() currentUser: ICurrentUser,
     @Args('newPassword') newPassword: string,
+    @Args('inputPassword') inputPassword: string,
   ) {
+    const passwordAuth =
+      /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,16}$/.test(
+        newPassword,
+      );
+    if (!passwordAuth) {
+      throw new ConflictException(
+        '비밀번호는 영문, 숫자, 특수문자를 최소 1자씩 포함하여 8~16자리로 입력해주세요.',
+      );
+    }
+
+    const user = await this.userService.findOne(currentUser.id);
+    const currentPassword = user.password;
+
     const hashedpassword = await bcryptjs.hash(newPassword, 10);
     const email = currentUser.email;
-    return await this.userService.updatePassword({
+    await this.userService.checkPassword(inputPassword, currentPassword);
+    await this.userService.updatePassword({
       email,
       hashedpassword,
     });
+    return true;
   }
 
   @UseGuards(GqlAuthAccessGuard)
@@ -91,7 +110,8 @@ export class UserResolver {
     const user = await this.userService.findOne(currentUser.id);
     const id = currentUser.id;
     const password = user.password;
-    return this.userService.delete(id, password, inputPassword);
+    await this.userService.checkPassword(inputPassword, password);
+    return this.userService.delete(id);
   }
 
   @UseGuards(GqlAuthAccessGuard)
