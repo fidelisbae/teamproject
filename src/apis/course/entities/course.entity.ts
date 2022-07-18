@@ -6,10 +6,12 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinTable,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Image } from 'src/apis/image/entities/image.entity';
 
 @Entity()
 @ObjectType()
@@ -68,9 +70,10 @@ export class Course {
   @Field(() => String)
   zipCode: string;
 
-  @Column()
-  @Field(() => String)
-  imageUrl: string;
+  @JoinTable()
+  @OneToMany(() => Image, (imageURLs) => imageURLs.course)
+  @Field(() => [Image])
+  imageURLs: Image[];
   // @Column({ type: 'decimal', precision: 16, scale: 13 })
   // @Field(() => Float, { nullable: true })
   // lat: number;

@@ -58,8 +58,10 @@ export class PickService {
     for (let i = 0; i < allPicks.length; i++) {
       if (allPicks[i].user.id === user && allPicks[i].course.id === course) {
         pickedCourse.pick = pickedCourse.pick - 1;
+
         await this.pickRepository.softDelete({ id: allPicks[i].id });
         return false;
+
       }
     }
 

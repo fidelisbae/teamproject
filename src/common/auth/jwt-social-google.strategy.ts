@@ -12,16 +12,15 @@ export class JwtGoogleStrategy extends PassportStrategy(Strategy, 'google') {
     });
   }
   validate(accestoken, refreshToken, profile) {
-    console.log(accestoken);
-    console.log(refreshToken);
-    console.log(profile);
     return {
       email: profile.emails[0].value,
+      nickname: 'sammmm',
       pwd: '12093812093',
       name: profile.displayName,
       phone: '01034781231',
       address: '',
       DOB: '2002-04-12',
+      isHost: false,
     };
   }
 }

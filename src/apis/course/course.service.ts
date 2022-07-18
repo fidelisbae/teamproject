@@ -28,18 +28,19 @@ export class CourseService {
       });
     }
 
-    const result = await this.courseRepository.save({
-      ...items,
-      category: categoryResult.id,
-    });
-    await Promise.all(
+    const imgs = await Promise.all(
       imageURLs.map((url) => {
         return this.imageRepository.save({
           imageurls: url,
-          course: { id: result.id },
         });
       }),
     );
+
+    const result = await this.courseRepository.save({
+      ...items,
+      category: categoryResult,
+      imageURLs: imgs,
+    });
     return result;
   }
 
