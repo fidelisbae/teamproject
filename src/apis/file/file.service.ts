@@ -12,7 +12,7 @@ export class FileService {
     private readonly imageRepository: Repository<Image>,
     private readonly courseService: CourseService,
   ) {} //courseId
-  async upload(files, courseID) {
+  async upload(files, courseId) {
     const waitedFiles = await Promise.all(files);
 
     const storage = new Storage({
