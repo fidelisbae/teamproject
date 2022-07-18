@@ -17,7 +17,7 @@ export class CourseResolver {
     @CurrentUser() currentUser: ICurrentUser,
     @Args('createCourseInput') createCourseInput: CreateCourseInput,
   ) {
-    return this.courseService.create({ createCourseInput });
+    return this.courseService.create({ createCourseInput, currentUser });
   }
 
   @Query(() => Course)

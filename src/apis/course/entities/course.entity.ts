@@ -7,11 +7,13 @@ import {
   DeleteDateColumn,
   Entity,
   JoinTable,
+  ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Image } from 'src/apis/image/entities/image.entity';
+import { User } from 'src/apis/user/entities/user.entity';
 
 @Entity()
 @ObjectType()
@@ -70,6 +72,10 @@ export class Course {
   @Field(() => String)
   zipCode: string;
 
+  @ManyToOne(() => User)
+  @Field(() => User)
+  host: User;
+
   @JoinTable()
   @OneToMany(() => Image, (imageURLs) => imageURLs.course)
   @Field(() => [Image])
@@ -93,4 +99,8 @@ export class Course {
   @Column({ default: 0 })
   @Field(() => Int)
   pick: number;
+
+  @JoinTable()
+  @ManyToMany(() => User, (user) => user.course)
+  user: User[];
 }

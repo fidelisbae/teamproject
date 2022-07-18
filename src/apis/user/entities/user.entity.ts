@@ -1,9 +1,12 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { Course } from 'src/apis/course/entities/course.entity';
 import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinTable,
+  ManyToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -71,4 +74,7 @@ export class User {
 
   @DeleteDateColumn()
   deletedAt: Date;
+
+  @ManyToMany(() => Course, (course) => course.user)
+  course: Course[];
 }

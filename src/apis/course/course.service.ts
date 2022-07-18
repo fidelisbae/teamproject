@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Category } from '../category/entities/categry.entity';
 import { Image } from '../image/entities/image.entity';
+import { User } from '../user/entities/user.entity';
 import { Course } from './entities/course.entity';
 
 @Injectable()
@@ -14,12 +15,18 @@ export class CourseService {
     private readonly imageRepository: Repository<Image>,
     @InjectRepository(Category)
     private readonly categoryRepository: Repository<Category>,
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
   ) {}
 
-  async create({ createCourseInput }) {
+  async create({ createCourseInput, currentUser }) {
     const { imageURLs, category, ...items } = createCourseInput;
     let categoryResult = await this.categoryRepository.findOne({
       where: { name: category },
+    });
+
+    const hostUser = await this.userRepository.findOne({
+      where: { email: currentUser.email },
     });
 
     if (!categoryResult) {
@@ -40,6 +47,7 @@ export class CourseService {
       ...items,
       category: categoryResult,
       imageURLs: imgs,
+      host: hostUser,
     });
     return result;
   }
@@ -47,7 +55,7 @@ export class CourseService {
   async findOne({ courseId }) {
     return await this.courseRepository.findOne({
       where: { id: courseId },
-      //relations: ['specificSchedule', 'category'],
+      relations: ['specificSchedule', 'category', 'user', 'imageURLs', 'host'],
     });
   }
   async findAll() {

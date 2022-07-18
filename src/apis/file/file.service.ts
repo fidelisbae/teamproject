@@ -11,8 +11,10 @@ export class FileService {
     @InjectRepository(Image)
     private readonly imageRepository: Repository<Image>,
     private readonly courseService: CourseService,
+
   ) {}
   async upload(files) {
+
     const waitedFiles = await Promise.all(files);
 
     const storage = new Storage({

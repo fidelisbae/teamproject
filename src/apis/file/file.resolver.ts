@@ -9,7 +9,9 @@ export class FileResolver {
   @Mutation(() => [String])
   async uploadFile(
     @Args({ name: 'files', type: () => [GraphQLUpload] }) files: FileUpload[],
+
   ) {
     return await this.fileService.upload(files);
+
   }
 }
