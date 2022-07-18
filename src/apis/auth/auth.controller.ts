@@ -25,19 +25,20 @@ export class AuthController {
   @Get('/login/google')
   @UseGuards(AuthGuard('google'))
   async loginGoogle(@Req() req: Request & IOAuthUser, @Res() res: Response) {
-    return this.authService.doWork({ req, res });
+    return this.authService.createSocialUser({ req, res });
   }
 
   @Get('/login/naver')
   @UseGuards(AuthGuard('naver'))
   async loginNaver(@Req() req: Request & IOAuthUser, @Res() res: Response) {
-    return this.authService.doWork({ req, res });
+    console.log(res);
+    return this.authService.createSocialUser({ req, res });
   }
 
   @Get('/login/kakao')
   @UseGuards(AuthGuard('kakaotalk'))
   async loginKakao(@Req() req: Request & IOAuthUser, @Res() res: Response) {
     console.log('kakao--');
-    return this.authService.doWork({ req, res });
+    return this.authService.createSocialUser({ req, res });
   }
 }

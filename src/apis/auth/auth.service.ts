@@ -1,5 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { User } from '../user/entities/user.entity';
 import { UserService } from '../user/user.service';
 
 @Injectable()
@@ -7,6 +10,8 @@ export class AuthService {
   constructor(
     private readonly jwtService: JwtService,
     private readonly userService: UserService,
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
   ) {}
 
   getAccessToken({ user }) {
@@ -47,20 +52,28 @@ export class AuthService {
     //local 할때
     // res.setHeader('Set-Cookie', `refreshToken=${refreshToken}; path=/;`);
   }
-  async doWork({ req, res }) {
-    let user = await this.userService.findOne({ email: req.user.email });
+  async createSocialUser({ req, res }) {
+    let userFound = await this.userRepository.findOne({
+      where: { email: req.user.email },
+    });
 
-    if (!user) {
-      user = await this.userService.create({
+    console.log(userFound);
+
+    if (!userFound) {
+      userFound = await this.userRepository.save({
+        name: req.user.name,
         email: req.user.email,
         password: req.user.password,
         nickname: req.user.nickname,
         phone: req.user.phone,
+        birth: req.user.DOB,
+        isHost: req.user.isHost,
+        marketingAgreement: true,
       });
     }
-    this.setRefreshToken({ user, res });
+    this.setRefreshToken({ user: userFound, res });
 
-    console.log(user);
     res.redirect('http://localhost:3000');
+    return userFound;
   }
 }
