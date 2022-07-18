@@ -1,6 +1,7 @@
+import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { GqlAuthAccessGuard } from 'src/common/auth/gql.auth.guard';
+import { CurrentUser, ICurrentUser } from 'src/common/auth/gql.user.param';
 import { CourseService } from './course.service';
 import { CreateCourseInput } from './dto/create.course.input';
 import { UpdateCourseInput } from './dto/update.course.input';
@@ -8,22 +9,20 @@ import { Course } from './entities/course.entity';
 
 @Resolver()
 export class CourseResolver {
-  constructor(
-    private readonly courseService: CourseService,
-    @InjectRepository(Course)
-    private readonly courseRepository: Repository<Course>,
-  ) {}
+  constructor(private readonly courseService: CourseService) {}
 
+  @UseGuards(GqlAuthAccessGuard)
   @Mutation(() => Course)
   createCourse(
+    @CurrentUser() currentUser: ICurrentUser,
     @Args('createCourseInput') createCourseInput: CreateCourseInput,
   ) {
-    return this.courseService.create({
-      createCourseInput,
-    });
+    return this.courseService.create({ createCourseInput });
   }
+
   @Query(() => Course)
   fetchCourse(@Args('courseId') courseId: string) {
+    console.log();
     return this.courseService.findOne({ courseId });
   }
 
@@ -37,7 +36,10 @@ export class CourseResolver {
     @Args('courseId') courseId: string,
     @Args('updateCourseInput') updateCourseInput: UpdateCourseInput,
   ) {
-    return await this.courseService.update({ courseId, updateCourseInput });
+    return await this.courseService.update({
+      courseId,
+      updateCourseInput,
+    });
   }
 
   @Mutation(() => Boolean)

@@ -1,14 +1,26 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  CACHE_MANAGER,
+  Inject,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import * as bcryptjs from 'bcryptjs';
+import { Cache } from 'cache-manager';
+import coolsms from 'coolsms-node-sdk';
+import 'dotenv/config';
+import { CurrentUser } from 'src/common/auth/gql.user.param';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    @Inject(CACHE_MANAGER)
+    private readonly cacheManager: Cache,
   ) {}
 
   async findAll() {
@@ -21,7 +33,7 @@ export class UserService {
     });
   }
 
-  async findEmail(email) {
+  async findEmail({ email }) {
     return await this.userRepository.findOne({
       where: { email: email },
     });
@@ -58,9 +70,9 @@ export class UserService {
     return await this.userRepository.save(newUser);
   }
 
-  async updatePassword({ id, hashedpassword: password }) {
+  async updatePassword({ email, hashedpassword: password }) {
     const myUser = await this.userRepository.findOne({
-      where: { id: id },
+      where: { email: email },
     });
 
     const newUser = {
@@ -71,26 +83,66 @@ export class UserService {
   }
 
   async checkEmail(email) {
+    const emailForm = /^[a-zA-Z0-9+-.]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$/.test(
+      email,
+    );
     const hasEmail = await this.userRepository.findOne({
       where: { email: email },
     });
 
-    if (hasEmail === null) {
-      return false;
-    } else {
+    if (hasEmail === null && emailForm) {
       return true;
+    } else {
+      return false;
     }
   }
 
-  async sendToken(phone) {
-    const token = String(Math.floor(Math.random() * 10 ** 6)).padStart(6, '0');
+  async checkPhone(phone) {
+    const phoneForm = /^010-?([0-9]{4})-?([0-9]{4})$/.test(phone);
+    return phoneForm;
   }
 
-  async delete(id) {
+  async sendToken(phone: string) {
+    // 핸드폰번호인증절차 추가
+
+    const token = String(Math.floor(Math.random() * 10 ** 6)).padStart(6, '0');
+    await this.cacheManager.set(phone, token, { ttl: 180 });
+    const SMS_KEY = process.env.SMS_KEY;
+    const SMS_SECRET = process.env.SMS_SECRET;
+    const SMS_SENDER = process.env.SMS_SENDER;
+
+    // 문자 요금 청구될까봐 주석처리해둠
+
+    const messageService = new coolsms(SMS_KEY, SMS_SECRET);
+    const result = await messageService.sendOne({
+      to: phone,
+      from: process.env.SMS_SENDER,
+      text: `[다배] 요청하신 인증번호는 [${token}] 입니다.`,
+      autoTypeDetect: true,
+    });
+    return '핸드폰으로 인증번호를 전송했습니다.';
+  }
+
+  async authPhoneOk(phone: string, inputToken: string) {
+    const token = await this.cacheManager.get(phone);
+    if (token === inputToken) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  async delete(id: string) {
     const result = await this.userRepository.softDelete({
       id: id,
     });
-    console.log(result.affected);
     return result.affected ? true : false;
+  }
+
+  async checkPassword(inputPassword: string, password: string) {
+    const isAuth = await bcryptjs.compare(inputPassword, password);
+    if (!isAuth) {
+      throw new UnauthorizedException('비밀번호가 틀렸습니다.');
+    }
   }
 }

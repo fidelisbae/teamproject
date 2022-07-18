@@ -1,14 +1,13 @@
 import { Field, ObjectType, Int, Float } from '@nestjs/graphql';
-import { SubCategory } from 'src/apis/subCategory/entities/subCategry.entity';
-import { User } from 'src/apis/user/entities/user.entity';
+import { SpecificSchedule } from 'src/apis/specificSchedule/entities/specificSchedule.entity';
+import { Category } from 'src/apis/category/entities/categry.entity';
 import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  JoinTable,
-  ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -19,7 +18,7 @@ export class Course {
   @Field(() => String)
   id: string;
 
-  @Column()
+  @Column({ default: null })
   @Field(() => String)
   name: string;
 
@@ -39,6 +38,26 @@ export class Course {
 
   @Column()
   @Field(() => String)
+  difficulty: string;
+
+  @Column()
+  @Field(() => String)
+  contents: string;
+
+  @CreateDateColumn()
+  @Field(() => Date)
+  openingDate: Date;
+
+  @DeleteDateColumn()
+  @Field(() => Date)
+  closingDate: Date;
+
+  @Column({ default: null })
+  @Field(() => Date)
+  courseDate: Date;
+
+  @Column()
+  @Field(() => String)
   address: string;
 
   @Column()
@@ -49,32 +68,26 @@ export class Course {
   @Field(() => String)
   zipCode: string;
 
-  @Column({ type: 'decimal', precision: 9, scale: 7 })
-  @Field(() => Float)
-  lat: number;
-
-  @Column({ type: 'decimal', precision: 10, scale: 7 })
-  @Field(() => Float)
-  lng: number;
-
   @Column()
   @Field(() => String)
-  difficulty: string;
+  imageUrl: string;
+  // @Column({ type: 'decimal', precision: 16, scale: 13 })
+  // @Field(() => Float, { nullable: true })
+  // lat: number;
 
-  @Column()
-  @Field(() => String)
-  materials: string;
+  // @Column({ type: 'decimal', precision: 16, scale: 13 })
+  // @Field(() => Float, { nullable: true })
+  // lng: number;
 
-  @Column()
-  @Field(() => String)
-  contents: string;
+  @OneToMany(() => SpecificSchedule, (specificSchedule) => specificSchedule.id)
+  @Field(() => SpecificSchedule)
+  specificSchedule: SpecificSchedule;
 
-  @ManyToOne(() => SubCategory)
-  @Field(() => SubCategory)
-  subCategory: SubCategory;
+  @ManyToOne(() => Category)
+  @Field(() => Category, { nullable: true })
+  category: Category;
 
-  @JoinTable()
-  @ManyToMany(() => User, (user) => user.id)
-  @Field(() => [User])
-  user: User[];
+  @Column({ default: 0 })
+  @Field(() => Int)
+  pick: number;
 }

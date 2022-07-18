@@ -5,7 +5,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/apis/user/entities/user.entity';
 import { Repository } from 'typeorm';
 import { Cache } from 'cache-manager';
-import { SchemaTextFieldPhonetics } from 'redis';
 
 export class JwtAccessStrategy extends PassportStrategy(Strategy, 'access') {
   constructor(

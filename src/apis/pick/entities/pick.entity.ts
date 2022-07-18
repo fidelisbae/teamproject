@@ -1,7 +1,14 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { Field, ObjectType } from '@nestjs/graphql';
 import { Course } from 'src/apis/course/entities/course.entity';
 import { User } from 'src/apis/user/entities/user.entity';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 @ObjectType()
@@ -10,15 +17,19 @@ export class Pick {
   @Field(() => String)
   id: string;
 
-  @Column({ default: 0 })
-  @Field(() => Int)
-  pick: number;
-
+  @JoinColumn()
   @ManyToOne(() => Course)
   @Field(() => Course)
   course: Course;
 
+  @JoinColumn()
   @ManyToOne(() => User)
   @Field(() => User)
   user: User;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @DeleteDateColumn()
+  deletedAt: Date;
 }

@@ -2,20 +2,13 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type MainCategory {
-  id: String!
-}
-
-type SubCategory {
-  mainCategory: MainCategory!
-}
-
 type User {
   id: String!
   email: String!
   nickname: String!
   phone: String
-  gender: String
+  point: Int!
+  gender: Boolean
   isHost: Boolean!
   account: String
   bank: String
@@ -30,21 +23,52 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type CourseDate {
+  id: String!
+  courseDate: DateTime!
+  course: Course!
+  specificSchedule: SpecificSchedule!
+}
+
+type SpecificSchedule {
+  id: String!
+  courseStartTime: DateTime!
+  courseEndTime: DateTime!
+  maxUsers: Int!
+  reservedPerson: Int!
+  RecruitmentStartDate: DateTime!
+  RecruitmentEdnDate: DateTime!
+  courseDate: CourseDate!
+}
+
+type Category {
+  id: String!
+  name: String!
+}
+
 type Course {
   id: String!
   name: String!
   maxPrice: Int!
   minPrice: Int!
+  difficulty: String!
+  contents: String!
+  openingDate: DateTime!
+  closingDate: DateTime!
+  courseDate: DateTime!
   address: String!
   addressDetail: String!
   zipCode: String!
-  lat: Float!
-  lng: Float!
-  difficulty: String!
-  materials: String!
-  contents: String!
-  subCategory: SubCategory!
-  user: [User!]!
+  imageUrl: String!
+  specificSchedule: SpecificSchedule!
+  category: Category
+  pick: Int!
+}
+
+type Pick {
+  id: String!
+  course: Course!
+  user: User!
 }
 
 type Review {
@@ -52,39 +76,69 @@ type Review {
   score: Float!
   content: String!
   url: String!
+  course: Course!
+  writer: User!
 }
 
-type CourseDate {
+type Payment {
   id: String!
-  courseDate: DateTime!
-  RecruitmentStartDate: DateTime!
-  RecruitmentEdnDate: DateTime!
+  status: PAYMENT_STATUS_ENUM!
+  createdAt: DateTime!
+  price: Int!
+  quantity: Int!
+  amount: Int!
+  impUid: String
   course: Course!
+  user: User!
+}
+
+enum PAYMENT_STATUS_ENUM {
+  PAYMENT
+  CANCEL
 }
 
 type Query {
   fetchUsers: [User!]!
   fetchUser(id: String!): User!
-  hasEmail(email: String!): Boolean!
   fetchLoginUser: User!
   fetchCourse(courseId: String!): Course!
   fetchCourses: [Course!]!
   fethchCourseDate(courseDateId: String!): CourseDate!
+  fetchSpecificSchedule: SpecificSchedule!
+  fetchPicks: [Pick!]!
+  fetchPicksByUser(userID: String!): [String!]!
+  fetchPayments: [Payment!]!
+  fetchPayment(email: String!): Payment!
 }
 
 type Mutation {
   createReview(score: Float!, content: String!, created_At: DateTime!, url: String!): Review!
+  checkEmail(email: String!): Boolean!
   createUser(createUserInput: CreateUserInput!): User!
+  sendTokenToPhone(phone: String!): String!
+  authPhoneOk(phone: String!, inputToken: String!): Boolean!
   updateUser(email: String!, updateUserInput: UpdateUserInput!): User!
-  updatePassword(newPassword: String!): User!
-  deleteUser(id: String!): Boolean!
-  deleteLoginUser: Boolean!
+
+  """유저가 마이페이지에서 비밀번호를 변경하는 api, 기존 비밀번호를 체크 후에 새 비밀번호를 양식에 따라 입력받는다."""
+  updatePassword(newPassword: String!, inputPassword: String!): Boolean!
+
+  """회원탈퇴 api,로그인된 유저가 비밀번호 체크 후에 유저삭제"""
+  deleteLoginUser(inputPassword: String!): Boolean!
+  forgotPassword(email: String!, newPassword: String!): User!
   login(email: String!, password: String!): String!
-  uploadFile(files: [Upload!]!): [String!]!
+  restoreAccessToken: String!
+  logout: String!
+  createCategory(name: String!): Category!
   createCourse(createCourseInput: CreateCourseInput!): Course!
   updateCourse(courseId: String!, updateCourseInput: UpdateCourseInput!): Course!
   deleteCourse(courseId: String!): Boolean!
   createCourseDate(courseDate: DateTime!, recruitmentStartDate: DateTime!, recruitmentEndDate: DateTime!): CourseDate!
+  createSpecificSchedule(createSpecificScheduleInput: CreateSpecificScheduleInput!): SpecificSchedule!
+  updateSpecificSchedule(specificScheduleId: String!, updateSpecificScheduleInput: UpdateSpecificScheduleInput!): SpecificSchedule!
+  deleteSpecificSchedule(specificScheduleId: String!): Boolean!
+  togglePick(createPickInput: CreatePickInput!): Boolean!
+  createPayment(createPaymentInput: CreatePaymentInput!): Payment!
+  cancelPayment(impUid: String!): Boolean!
 }
 
 input CreateUserInput {
@@ -111,36 +165,72 @@ input UpdateUserInput {
   bank: String
   businessName: String
   businessNumber: String
-  gender: String
+  gender: Boolean
   birth: DateTime
 }
-
-"""The `Upload` scalar type represents a file upload."""
-scalar Upload
 
 input CreateCourseInput {
   name: String!
   maxPrice: Int!
   minPrice: Int!
-  region: String!
   address: String!
   addressDetail: String!
   zipCode: String!
   difficulty: String!
-  materials: String!
+  materials: [String!]
   contents: String!
+  openingDate: DateTime!
+  closingDate: DateTime!
+  imageURLs: [String!]
+  category: String!
 }
 
 input UpdateCourseInput {
-  name: String!
-  maxPrice: Int!
-  minPrice: Int!
-  region: String!
-  address: String!
-  addressDetail: String!
-  zipCode: String!
-  difficulty: String!
-  materials: String!
-  contents: String!
-  status: Boolean!
+  name: String
+  maxPrice: Int
+  minPrice: Int
+  address: String
+  addressDetail: String
+  zipCode: String
+  difficulty: String
+  materials: [String!]
+  contents: String
+  openingDate: DateTime
+  closingDate: DateTime
+  imageURLs: [String!]
+  category: String
+}
+
+input CreateSpecificScheduleInput {
+  id: String!
+  courseStartTime: DateTime!
+  courseEndTime: DateTime!
+  maxUsers: Int!
+  reservedPerson: Int!
+  RecruitmentStartDate: DateTime!
+  RecruitmentEdnDate: DateTime!
+}
+
+input UpdateSpecificScheduleInput {
+  id: String
+  courseStartTime: DateTime
+  courseEndTime: DateTime
+  maxUsers: Int
+  reservedPerson: Int
+  RecruitmentStartDate: DateTime
+  RecruitmentEdnDate: DateTime
+}
+
+input CreatePickInput {
+  user: String!
+  course: String!
+}
+
+input CreatePaymentInput {
+  userId: String!
+  impUid: String
+  price: Int!
+  quantity: Int!
+  amount: Int!
+  courseId: String!
 }

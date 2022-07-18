@@ -30,16 +30,17 @@ export class AuthResolver {
     @Args('password') password: string,
     @Context() Context: IContext,
   ) {
-    const user = await this.userService.findOne({ email });
+    const user = await this.userService.findEmail({ email });
     if (!user) throw new UnprocessableEntityException('이메일이 없습니다.');
     const isAuth = await bcryptjs.compare(password, user.password);
     if (!isAuth) {
       throw new UnprocessableEntityException('비밀번호가 틀렸습니다.');
     }
-    await this.authService.setRefreshToken({
+    const re = await this.authService.setRefreshToken({
       user,
       res: Context.req.res,
     });
+    console.log(re);
     const accessToken = await this.authService.getAccessToken({ user });
     return accessToken;
   }
@@ -50,10 +51,9 @@ export class AuthResolver {
     @Context() context: IContext,
     @CurrentUser() currentUser: ICurrentUser,
   ) {
-    const user = currentUser;
-    // context.res.setHeader
-    await this.authService.setRefreshToken({ user, res: context.res });
-    const accessToken = await this.authService.getAccessToken({ user });
+    const user = await this.userService.findOne(currentUser.id);
+    await this.authService.setRefreshToken({ user: user, res: context.res });
+    const accessToken = await this.authService.getAccessToken({ user: user });
     return accessToken;
   }
 
@@ -72,18 +72,15 @@ export class AuthResolver {
       })[0]
       .split(' ')[1];
 
-    console.log('refresh===', refresh);
-    console.log('access===', access);
-
     try {
       jwt.verify(access, 'myAccessKey');
       jwt.verify(refresh, 'myRefreshKey');
+
+      await this.cacheManager.set(access, 'accessToken', { ttl: 3600 });
+      await this.cacheManager.set(refresh, 'refreshToken', { ttl: 3600 * 14 });
     } catch {
       throw new UnauthorizedException();
     }
-
-    await this.cacheManager.set(access, 'accessToken', { ttl: 3600 });
-    await this.cacheManager.set(refresh, 'refreshToken', { ttl: 3600 * 14 });
 
     return '로그아웃에 성공했습니다';
   }

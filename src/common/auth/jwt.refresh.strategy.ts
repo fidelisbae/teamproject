@@ -1,21 +1,46 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  CACHE_MANAGER,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-jwt';
+import { Cache } from 'cache-manager';
 
 @Injectable()
 export class JwtRefreshStrategy extends PassportStrategy(Strategy, 'refresh') {
-  constructor() {
+  constructor(
+    @Inject(CACHE_MANAGER)
+    private readonly cacheManager: Cache,
+  ) {
     super({
       jwtFromRequest: (req) => {
-        const cookie = req.headers.cookie;
-        const refreshToken = cookie.replace('refreshToken=', '');
-        return refreshToken;
+        try {
+          const cookie = req.headers.cookie;
+          const refreshToken = cookie.replace('refreshToken=', '');
+          return refreshToken;
+        } catch (e) {
+          throw new UnauthorizedException();
+        }
       },
+
       secretOrKey: 'myRefreshKey',
+      passReqToCallback: true,
     });
   }
 
-  validate(payload: any) {
+  async validate(req, payload: any) {
+    const rawHeadersInRefreshToken = req.rawHeaders
+      .filter((ele) => {
+        return ele.match(/refresh/);
+      })[0]
+      .split('=')[1];
+
+    const check = await this.cacheManager.get(rawHeadersInRefreshToken);
+
+    if (check) throw new UnauthorizedException();
+
     return {
       id: payload.sub,
       email: payload.email,
