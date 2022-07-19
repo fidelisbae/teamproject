@@ -44,7 +44,7 @@ export class CourseService {
   async hotCourses() {
     const allCourses = await this.courseRepository.find();
     const result = [];
-    for (let j = 0; j < 5; j++) {
+    for (let j = 0; j < 4; j++) {
       let max = allCourses[0];
       let num = 0;
       for (let i = 0; i < allCourses.length; i++) {

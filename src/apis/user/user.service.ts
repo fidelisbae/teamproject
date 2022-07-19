@@ -97,10 +97,8 @@ export class UserService {
     }
   }
 
-  async checkPhone(phone) {
-    const phoneForm = /^[a-zA-Z0-9+-.]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$/.test(
-      phone,
-    );
+  async checkPhone(phone: string) {
+    const phoneForm = /^010-?([0-9]{4})-?([0-9]{4})$/.test(phone);
     const hasPhone = await this.userRepository.findOne({
       where: { phone: phone },
     });
