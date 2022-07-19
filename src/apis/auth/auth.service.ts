@@ -40,10 +40,10 @@ export class AuthService {
     //   'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers',
     // );
     //배포할 때
-    res.setHeader(
-      'Set-Cookie',
-      `refreshToken=${refreshToken}; path=/; domain=.dabae.co.kr; SameSite=None; Secure; httpOnly;`,
-    );
+    // res.setHeader(
+    //   'Set-Cookie',
+    //   `refreshToken=${refreshToken}; path=/; domain=.dabae.co.kr; SameSite=None; Secure; httpOnly;`,
+    // );
     //ngrok 켤 때
     // res.setHeader(
     //   'Set-Cookie',

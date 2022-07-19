@@ -11,16 +11,18 @@ export class CourseDateResolver {
     @Args('courseDate') courseDate: Date,
     @Args('recruitmentStartDate') recruitmentStartDate: Date,
     @Args('recruitmentEndDate') recruitmentEndDate: Date,
+    @Args('courseId') courseId: string,
   ) {
     return this.courseDateService.create({
       courseDate,
       recruitmentStartDate,
       recruitmentEndDate,
+      courseId,
     });
   }
 
   @Query(() => CourseDate)
-  fethchCourseDate(@Args('courseDateId') courseDateId: string) {
-    return this.courseDateService.findOne({ courseDateId });
+  async fethchCourseDate(@Args('courseDateId') courseDateId: string) {
+    return await this.courseDateService.findOne({ courseDateId });
   }
 }
