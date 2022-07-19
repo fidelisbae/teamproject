@@ -75,38 +75,38 @@ export class CourseService {
       });
     }
 
-    const imgs = await Promise.all(
-      imageURLs.map((url) => {
-        return this.imageRepository.save({
-          imageurls: url,
-        });
-      }),
-    );
+    // const imgs = await Promise.all(
+    //   imageURLs.map((url) => {
+    //     return this.imageRepository.save({
+    //       imageURLs: url,
+    //     });
+    //   }),
+    // );
 
     const result = await this.courseRepository.save({
       ...items,
       category: categoryResult,
-      imageURLs: imgs,
+      // imageURLs: imgs,
       host: hostUser,
     });
     return result;
   }
 
   async update({ courseId, updateCourseInput }) {
-    const { imageurls, ...updateCourse } = updateCourseInput;
+    const { imageURLs, ...updateCourse } = updateCourseInput;
     const myCourse = await this.courseRepository.findOne({
       where: { id: courseId },
     });
     const prevImage = await this.imageRepository.find({
       where: { course: { id: courseId } },
     });
-    const prevUrl = prevImage.map((imageurls) => imageurls.imageurls);
+    const prevUrl = prevImage.map((imageURLs) => imageURLs.imageURLs);
 
     await Promise.all(
-      imageurls.map((image) => {
+      imageURLs.map((image) => {
         if (!prevUrl.includes(image)) {
           return this.imageRepository.save({
-            imageurls: image,
+            imageURLs: image,
             course: { id: courseId },
           });
         }

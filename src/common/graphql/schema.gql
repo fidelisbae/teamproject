@@ -32,7 +32,7 @@ type Category {
 
 type Image {
   id: String!
-  imageurls: String!
+  imageURLs: String!
   course: Course!
 }
 
@@ -111,7 +111,9 @@ type Query {
   fetchCourse(courseId: String!): Course!
   fetchCourses: [Course!]!
 
-  """코스 이름으로 코스를 검색하는 api"""
+  """
+  코스 이름으로 코스를 검색하는 api
+  """
   searchCourse(input: String!): [Course!]!
   hotCourses: [Course!]!
   fethchCourseDate(courseDateId: String!): CourseDate!
@@ -123,9 +125,16 @@ type Query {
 }
 
 type Mutation {
-  createReview(score: Float!, content: String!, created_At: DateTime!, url: String!): Review!
+  createReview(
+    score: Float!
+    content: String!
+    created_At: DateTime!
+    url: String!
+  ): Review!
 
-  """이메일 중복을 체크하는 api, 이메일이 중복이면 false, 중복이아니면 true 또한, 이메일이 올바른 양식인지도 판별함"""
+  """
+  이메일 중복을 체크하는 api, 이메일이 중복이면 false, 중복이아니면 true 또한, 이메일이 올바른 양식인지도 판별함
+  """
   checkEmail(email: String!): Boolean!
 
   """
@@ -133,17 +142,23 @@ type Mutation {
   """
   checkPhone(phone: String!): Boolean!
 
-  """닉네임 중복을 체크하는 api, 닉네임이 중복이면 false, 중복이아니면 true"""
+  """
+  닉네임 중복을 체크하는 api, 닉네임이 중복이면 false, 중복이아니면 true
+  """
   checkNickname(nickname: String!): Boolean!
   createUser(createUserInput: CreateUserInput!): User!
   sendTokenToPhone(phone: String!): String!
   authPhoneOk(phone: String!, inputToken: String!): Boolean!
   updateUser(email: String!, updateUserInput: UpdateUserInput!): User!
 
-  """유저가 마이페이지에서 비밀번호를 변경하는 api, 기존 비밀번호를 체크 후에 새 비밀번호를 양식에 따라 입력받는다."""
+  """
+  유저가 마이페이지에서 비밀번호를 변경하는 api, 기존 비밀번호를 체크 후에 새 비밀번호를 양식에 따라 입력받는다.
+  """
   updatePassword(newPassword: String!, inputPassword: String!): Boolean!
 
-  """회원탈퇴 api,로그인된 유저가 비밀번호 체크 후에 유저삭제"""
+  """
+  회원탈퇴 api,로그인된 유저가 비밀번호 체크 후에 유저삭제
+  """
   deleteLoginUser(inputPassword: String!): Boolean!
   forgotPassword(email: String!, newPassword: String!): User!
   login(email: String!, password: String!): String!
@@ -152,11 +167,23 @@ type Mutation {
   uploadFile(files: [Upload!]!): [String!]!
   createCategory(name: String!): Category!
   createCourse(createCourseInput: CreateCourseInput!): Course!
-  updateCourse(courseId: String!, updateCourseInput: UpdateCourseInput!): Course!
+  updateCourse(
+    courseId: String!
+    updateCourseInput: UpdateCourseInput!
+  ): Course!
   deleteCourse(courseId: String!): Boolean!
-  createCourseDate(courseDate: DateTime!, recruitmentStartDate: DateTime!, recruitmentEndDate: DateTime!): CourseDate!
-  createSpecificSchedule(createSpecificScheduleInput: CreateSpecificScheduleInput!): SpecificSchedule!
-  updateSpecificSchedule(specificScheduleId: String!, updateSpecificScheduleInput: UpdateSpecificScheduleInput!): SpecificSchedule!
+  createCourseDate(
+    courseDate: DateTime!
+    recruitmentStartDate: DateTime!
+    recruitmentEndDate: DateTime!
+  ): CourseDate!
+  createSpecificSchedule(
+    createSpecificScheduleInput: CreateSpecificScheduleInput!
+  ): SpecificSchedule!
+  updateSpecificSchedule(
+    specificScheduleId: String!
+    updateSpecificScheduleInput: UpdateSpecificScheduleInput!
+  ): SpecificSchedule!
   deleteSpecificSchedule(specificScheduleId: String!): Boolean!
   togglePick(createPickInput: CreatePickInput!): Boolean!
   createPayment(createPaymentInput: CreatePaymentInput!): Payment!
@@ -191,7 +218,9 @@ input UpdateUserInput {
   birth: DateTime
 }
 
-"""The `Upload` scalar type represents a file upload."""
+"""
+The `Upload` scalar type represents a file upload.
+"""
 scalar Upload
 
 input CreateCourseInput {

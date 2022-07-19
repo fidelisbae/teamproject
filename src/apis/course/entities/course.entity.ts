@@ -100,8 +100,4 @@ export class Course {
   @Column({ default: 0 })
   @Field(() => Int)
   pick: number;
-
-  @JoinTable()
-  @ManyToMany(() => User, (user) => user.course)
-  user: User[];
 }
