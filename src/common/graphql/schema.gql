@@ -149,6 +149,7 @@ type Mutation {
   login(email: String!, password: String!): String!
   restoreAccessToken: String!
   logout: String!
+  uploadFile(files: [Upload!]!): [String!]!
   createCategory(name: String!): Category!
   createCourse(createCourseInput: CreateCourseInput!): Course!
   updateCourse(courseId: String!, updateCourseInput: UpdateCourseInput!): Course!
@@ -190,6 +191,9 @@ input UpdateUserInput {
   birth: DateTime
 }
 
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
+
 input CreateCourseInput {
   name: String!
   maxPrice: Int!
@@ -225,7 +229,6 @@ input UpdateCourseInput {
 }
 
 input CreateSpecificScheduleInput {
-  id: String!
   courseStartTime: DateTime!
   courseEndTime: DateTime!
   maxUsers: Int!
@@ -235,7 +238,6 @@ input CreateSpecificScheduleInput {
 }
 
 input UpdateSpecificScheduleInput {
-  id: String
   courseStartTime: DateTime
   courseEndTime: DateTime
   maxUsers: Int

@@ -16,6 +16,7 @@ import { SpecificScheduleModule } from './apis/specificSchedule/specificSchedule
 import { PickModule } from './apis/pick/pick.module';
 import { CategoryModule } from './apis/category/category.module';
 import { PaymentModule } from './apis/payment/payment.module';
+import { FileModule } from './apis/file/file.module';
 
 @Module({
   imports: [
@@ -49,7 +50,7 @@ import { PaymentModule } from './apis/payment/payment.module';
     ReviewModule,
     UserModule,
     AuthModule,
-    // FileModule,
+    FileModule,
     CategoryModule,
     CourseModule,
     CourseDateModule,

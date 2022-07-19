@@ -2,9 +2,6 @@ import { Field, InputType, Int } from '@nestjs/graphql';
 
 @InputType()
 export class CreateSpecificScheduleInput {
-  @Field(() => String)
-  id: string;
-
   @Field(() => Date)
   courseStartTime: Date;
 

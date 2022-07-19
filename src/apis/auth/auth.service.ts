@@ -50,7 +50,7 @@ export class AuthService {
       `refreshToken=${refreshToken}; path=/; domain=.jp.ngrok.io; SameSite=None; Secure; httpOnly;`,
     );
     //local 할때
-    // res.setHeader('Set-Cookie', `refreshToken=${refreshToken}; path=/;`);
+    //res.setHeader('Set-Cookie', `refreshToken=${refreshToken}; path=/;`);
   }
   async createSocialUser({ req, res }) {
     let userFound = await this.userRepository.findOne({

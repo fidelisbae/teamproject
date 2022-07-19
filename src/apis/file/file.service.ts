@@ -11,6 +11,7 @@ export class FileService {
       projectId: 'dabae-355905',
       keyFilename: 'gcp-file-storage.json',
     }).bucket('dabaeimage');
+    console.log(Storage);
 
     const results = await Promise.all(
       waitedFiles.map((el) => {
