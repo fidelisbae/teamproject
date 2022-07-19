@@ -4,7 +4,7 @@ import { graphqlUploadExpress } from 'graphql-upload';
 import { AppModuleLocal } from './app.moduleLocal';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModuleLocal);
+  const app = await NestFactory.create(AppModule);
   app.use(graphqlUploadExpress());
   app.enableCors({
     origin: 'http://localhost:3000',

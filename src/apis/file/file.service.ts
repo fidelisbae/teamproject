@@ -9,7 +9,7 @@ export class FileService {
 
     const storage = new Storage({
       projectId: 'dabae-355905',
-      keyFilename: 'gcp-file-storage.json',
+      keyFilename: '/my-secret/gcp-file-storage.json',
     }).bucket('dabaeimage');
     console.log(Storage);
 
