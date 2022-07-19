@@ -40,6 +40,7 @@ export class CourseService {
     return result;
   }
 
+  // 인기코스, pick이 높은 순서대로 뽑는다. j의 크기만큼의 갯수를 리턴함
   async hotCourses() {
     const allCourses = await this.courseRepository.find();
     const result = [];

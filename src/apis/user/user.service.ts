@@ -98,8 +98,30 @@ export class UserService {
   }
 
   async checkPhone(phone) {
-    const phoneForm = /^010-?([0-9]{4})-?([0-9]{4})$/.test(phone);
-    return phoneForm;
+    const phoneForm = /^[a-zA-Z0-9+-.]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$/.test(
+      phone,
+    );
+    const hasPhone = await this.userRepository.findOne({
+      where: { phone: phone },
+    });
+
+    if (hasPhone === null && phoneForm) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  async checkNickname(nickname: string) {
+    const hasNickname = await this.userRepository.findOne({
+      where: { nickname: nickname },
+    });
+
+    if (hasNickname === null) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   async sendToken(phone: string) {

@@ -22,9 +22,28 @@ export class UserResolver {
     return await this.userService.findOne(id);
   }
 
-  @Mutation(() => Boolean)
+  @Mutation(() => Boolean, {
+    description:
+      '이메일 중복을 체크하는 api, 이메일이 중복이면 false, 중복이아니면 true 또한, 이메일이 올바른 양식인지도 판별함',
+  })
   async checkEmail(@Args('email') email: string) {
     return await this.userService.checkEmail(email);
+  }
+
+  @Mutation(() => Boolean, {
+    description:
+      '핸드폰 중복을 체크하는 api, 핸드폰번호가 중복이면 false, 중복이아니면 true 또한, 핸드폰 번호가 올바른 양식인지도 판별함',
+  })
+  async checkPhone(@Args('phone') phone: string) {
+    return await this.userService.checkPhone(phone);
+  }
+
+  @Mutation(() => Boolean, {
+    description:
+      '닉네임 중복을 체크하는 api, 닉네임이 중복이면 false, 중복이아니면 true',
+  })
+  async checkNickname(@Args('nickname') nickname: string) {
+    return await this.userService.checkNickname(nickname);
   }
 
   @Mutation(() => User)
