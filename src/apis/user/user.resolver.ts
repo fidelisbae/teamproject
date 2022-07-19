@@ -141,6 +141,7 @@ export class UserResolver {
     return await this.userService.findEmail({ email: currentUser.email });
   }
 
+  // 핸드폰 번호만 입력받고 인증이 완료되면 이메일을 리턴해주기
   @Mutation(() => User)
   async forgotPassword(
     @Args('email') email: string,
