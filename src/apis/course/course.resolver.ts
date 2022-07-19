@@ -1,5 +1,5 @@
 import { UseGuards } from '@nestjs/common';
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { GqlAuthAccessGuard } from 'src/common/auth/gql.auth.guard';
 import { CurrentUser, ICurrentUser } from 'src/common/auth/gql.user.param';
 import { CourseService } from './course.service';
@@ -17,8 +17,15 @@ export class CourseResolver {
   }
 
   @Query(() => [Course])
-  async fetchCourses() {
-    return await this.courseService.findAll();
+  async fetchCourses(
+    @Args('page') page: number, //
+  ) {
+    return await this.courseService.findAll(page);
+  }
+
+  @Query(() => Int)
+  sendCount() {
+    return this.courseService.findCount();
   }
 
   @Query(() => [Course], { description: '코스 이름으로 코스를 검색하는 api' })

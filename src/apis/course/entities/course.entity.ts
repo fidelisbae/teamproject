@@ -1,5 +1,4 @@
 import { Field, ObjectType, Int, Float } from '@nestjs/graphql';
-import { SpecificSchedule } from 'src/apis/specificSchedule/entities/specificSchedule.entity';
 import { Category } from 'src/apis/category/entities/categry.entity';
 import {
   Column,
@@ -14,6 +13,7 @@ import {
 } from 'typeorm';
 import { Image } from 'src/apis/image/entities/image.entity';
 import { User } from 'src/apis/user/entities/user.entity';
+import { CourseDate } from 'src/apis/courseDate/entities/courseDate.entity';
 
 @Entity()
 @ObjectType()
@@ -56,10 +56,6 @@ export class Course {
   @Field(() => Date)
   closingDate: Date;
 
-  @Column({ default: null })
-  @Field(() => Date)
-  courseDate: Date;
-
   @Column()
   @Field(() => String)
   address: string;
@@ -76,7 +72,6 @@ export class Course {
   @Field(() => User)
   host: User;
 
-  @JoinTable()
   @OneToMany(() => Image, (imageURLs) => imageURLs.course)
   @Field(() => [Image])
   imageURLs: Image[];
@@ -89,10 +84,6 @@ export class Course {
   // @Field(() => Float, { nullable: true })
   // lng: number;
 
-  @OneToMany(() => SpecificSchedule, (specificSchedule) => specificSchedule.id)
-  @Field(() => SpecificSchedule)
-  specificSchedule: SpecificSchedule;
-
   @ManyToOne(() => Category)
   @Field(() => Category, { nullable: true })
   category: Category;
@@ -104,4 +95,8 @@ export class Course {
   @JoinTable()
   @ManyToMany(() => User, (user) => user.course)
   user: User[];
+
+  @OneToMany(() => CourseDate, (courseDate) => courseDate.course)
+  @Field(() => [CourseDate])
+  courseDate: CourseDate[];
 }

@@ -1,4 +1,4 @@
-import { Field, InputType, Int } from '@nestjs/graphql';
+import { Field, Float, InputType, Int } from '@nestjs/graphql';
 
 @InputType()
 export class CreateCourseInput {
@@ -41,6 +41,12 @@ export class CreateCourseInput {
   @Field(() => String)
   category: string;
 
-  @Field(() => String)
-  specificScheduleId: string;
+  // @Field(() => String)
+  // specificScheduleId: string;
+
+  @Field(() => Float, { nullable: true })
+  lat: number;
+
+  @Field(() => Float, { nullable: true })
+  lng: number;
 }

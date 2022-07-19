@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { skip } from 'rxjs';
 import { Repository } from 'typeorm';
 import { Category } from '../category/entities/categry.entity';
 import { Image } from '../image/entities/image.entity';
@@ -20,13 +21,29 @@ export class CourseService {
   ) {}
 
   async findOne({ courseId }) {
-    return await this.courseRepository.findOne({
+    const result = await this.courseRepository.findOne({
       where: { id: courseId },
-      relations: ['specificSchedule', 'category', 'user', 'imageURLs', 'host'],
+      relations: [
+        'host',
+        'imageURLs',
+        'courseDate',
+        'courseDate.specificSchedule',
+      ],
     });
+
+    console.log(result);
+    return result;
   }
-  async findAll() {
-    return await this.courseRepository.find();
+  async findAll(page) {
+    return await this.courseRepository.find({
+      skip: (page - 1) * 10,
+      take: 10,
+    });
+    console.log(page);
+  }
+
+  async findCount() {
+    return await this.courseRepository.count();
   }
 
   async search(input: string) {
