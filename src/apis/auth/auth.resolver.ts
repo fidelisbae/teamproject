@@ -40,7 +40,29 @@ export class AuthResolver {
       user,
       res: Context.req.res,
     });
-    console.log(re);
+    const accessToken = await this.authService.getAccessToken({ user });
+    return accessToken;
+  }
+
+  @Mutation(() => String)
+  async hostLogin(
+    @Args('email') email: string,
+    @Args('password') password: string,
+    @Context() Context: IContext,
+  ) {
+    const user = await this.userService.findEmail({ email });
+    if (!user.isHost) {
+      throw new UnauthorizedException('호스트가 아닌 유저입니다.');
+    }
+    if (!user) throw new UnprocessableEntityException('이메일이 없습니다.');
+    const isAuth = await bcryptjs.compare(password, user.password);
+    if (!isAuth) {
+      throw new UnprocessableEntityException('비밀번호가 틀렸습니다.');
+    }
+    const re = await this.authService.setRefreshToken({
+      user,
+      res: Context.req.res,
+    });
     const accessToken = await this.authService.getAccessToken({ user });
     return accessToken;
   }

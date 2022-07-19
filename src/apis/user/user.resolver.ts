@@ -4,7 +4,11 @@ import { User } from './entities/user.entity';
 import { UserService } from './user.service';
 import * as bcryptjs from 'bcryptjs';
 import { GqlAuthAccessGuard } from 'src/common/auth/gql.auth.guard';
-import { ConflictException, UseGuards } from '@nestjs/common';
+import {
+  ConflictException,
+  UnauthorizedException,
+  UseGuards,
+} from '@nestjs/common';
 import { CurrentUser, ICurrentUser } from 'src/common/auth/gql.user.param';
 import { UpdateUserInput } from './dto/updateUser.input';
 
@@ -142,12 +146,25 @@ export class UserResolver {
   }
 
   // 핸드폰 번호만 입력받고 인증이 완료되면 이메일을 리턴해주기
-  @Mutation(() => User)
-  async forgotPassword(
-    @Args('email') email: string,
-    @Args('newPassword') newPassword: string,
+  @Mutation(() => String, {
+    description: '핸드폰을 입력받고 인증절차 진행',
+  })
+  async forgotPasswordSendToken(@Args('phone') phone: string) {
+    return await this.userService.sendToken(phone);
+  }
+
+  @Mutation(() => String, {
+    description: '유저에게 핸드폰 인증을 완료 받으면 이메일을 리턴함.',
+  })
+  async forgotPasswordAuthPhoneOk(
+    @Args('phone') phone: string,
+    @Args('inputToken') inputToken: string,
   ) {
-    const hashedpassword = await bcryptjs.hash(newPassword, 10);
-    return await this.userService.updatePassword({ email, hashedpassword });
+    const user = await this.userService.findPhone(phone);
+    if (await this.authPhoneOk(phone, inputToken)) {
+      return user.email;
+    } else {
+      throw new UnauthorizedException('인증번호가 일치하지 않습니다.');
+    }
   }
 }

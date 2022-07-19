@@ -74,7 +74,4 @@ export class User {
 
   @DeleteDateColumn()
   deletedAt: Date;
-
-  @ManyToMany(() => Course, (course) => course.user)
-  course: Course[];
 }

@@ -39,6 +39,12 @@ export class UserService {
     });
   }
 
+  async findPhone(phone: string) {
+    return await this.userRepository.findOne({
+      where: { phone: phone },
+    });
+  }
+
   async create(createUserInput) {
     const passwordAuth =
       /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,16}$/.test(

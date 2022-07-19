@@ -92,6 +92,7 @@ export class Course {
   @Field(() => Int)
   pick: number;
 
+
   @JoinTable()
   @ManyToMany(() => User, (user) => user.course)
   user: User[];
@@ -99,4 +100,5 @@ export class Course {
   @OneToMany(() => CourseDate, (courseDate) => courseDate.course)
   @Field(() => [CourseDate])
   courseDate: CourseDate[];
+
 }
