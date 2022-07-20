@@ -37,10 +37,6 @@ export class User {
   @Field(() => Int)
   point: number;
 
-  @Column({ default: null })
-  @Field(() => Boolean, { nullable: true })
-  gender: boolean;
-
   @Column()
   @Field(() => Boolean)
   isHost: boolean;
@@ -64,6 +60,14 @@ export class User {
   @Column({ default: null })
   @Field(() => Date, { nullable: true })
   birth: Date;
+
+  @Column({ default: null })
+  @Field(() => Boolean, { nullable: true })
+  gender: boolean;
+
+  @Column({ default: null })
+  @Field(() => String)
+  profileImageURL: string;
 
   @Column()
   @Field(() => Boolean)
