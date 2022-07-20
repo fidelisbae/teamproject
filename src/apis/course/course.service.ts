@@ -36,7 +36,7 @@ export class CourseService {
   async findAll(page) {
     return await this.courseRepository.find({
       relations: ['host'],
-      skip: (page - 1) * 10,
+      skip: (page - 1) * 16,
       take: 10,
     });
   }
@@ -53,7 +53,13 @@ export class CourseService {
         result.push(allCourses[i]);
       }
     }
-    return result;
+    console;
+    const pagination = [];
+    for (let i = (page - 1) * 16; i < page * 16; i++) {
+      if (result[i] !== undefined) pagination.push(result[i]);
+    }
+    console.log(pagination);
+    return pagination;
   }
 
   // 인기코스, pick이 높은 순서대로 뽑는다. j의 크기만큼의 갯수를 리턴함

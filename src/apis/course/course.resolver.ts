@@ -16,11 +16,9 @@ export class CourseResolver {
     return await this.courseService.findOne({ courseId });
   }
 
-  @Query(() => [Course])
-  async fetchCourses(
-    @Args('page') page: number, //
-  ) {
-    return await this.courseService.findAll(page);
+  @Query(() => [Course], { nullable: true })
+  async fetchCourses(@Args('input') input: string, @Args('page') page: number) {
+    return await this.courseService.search(input, page);
   }
 
   @Query(() => Int)

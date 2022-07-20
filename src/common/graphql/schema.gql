@@ -37,6 +37,12 @@ type CourseDate {
   specificSchedule: [SpecificSchedule!]!
 }
 
+type Material {
+  id: String!
+  material: String!
+  course: [Course!]!
+}
+
 type Course {
   id: String!
   name: String!
@@ -49,12 +55,12 @@ type Course {
   address: String!
   addressDetail: String!
   zipCode: String!
-  materials: String!
   host: User!
   imageURLs: [Image!]!
   category: Category
   pick: Int!
   courseDate: [CourseDate!]!
+  material: [Material!]!
 }
 
 type User {
@@ -110,7 +116,7 @@ type Query {
   fetchUser(id: String!): User!
   fetchLoginUser: User!
   fetchCourse(courseId: String!): Course!
-  fetchCourses(page: Float!): [Course!]!
+  fetchCourses(input: String!, page: Float!): [Course!]
   sendCount: Int!
 
   """코스 이름으로 코스를 검색하는 api"""
