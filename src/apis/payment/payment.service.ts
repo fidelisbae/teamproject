@@ -68,7 +68,7 @@ export class PaymentService {
 
   async findAll() {
     const result = await this.paymentRepository.find({
-      relations: ['user', 'course'],
+      relations: ['user', 'course', 'specificSchedule'],
     });
     return result;
   }
@@ -76,7 +76,7 @@ export class PaymentService {
   async findOne({ email }) {
     return await this.paymentRepository.findOne({
       where: { id: email },
-      relations: ['user'],
+      relations: ['user', 'course', 'specificSchedule'],
     });
   }
 

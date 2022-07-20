@@ -37,6 +37,12 @@ type CourseDate {
   specificSchedule: [SpecificSchedule!]!
 }
 
+type Material {
+  id: String!
+  material: String!
+  course: [Course!]!
+}
+
 type Course {
   id: String!
   name: String!
@@ -49,12 +55,12 @@ type Course {
   address: String!
   addressDetail: String!
   zipCode: String!
-  materials: String!
   host: User!
   imageURLs: [Image!]!
   category: Category
   pick: Int!
   courseDate: [CourseDate!]!
+  material: [Material!]!
 }
 
 type User {
@@ -98,6 +104,7 @@ type Payment {
   impUid: String
   course: Course!
   user: User!
+  specificSchedule: SpecificSchedule!
 }
 
 enum PAYMENT_STATUS_ENUM {
@@ -213,7 +220,7 @@ input CreateCourseInput {
   addressDetail: String!
   zipCode: String!
   difficulty: String!
-  materials: String!
+  materials: [String!]
   contents: String!
   openingDate: DateTime!
   closingDate: DateTime!
@@ -229,7 +236,7 @@ input UpdateCourseInput {
   addressDetail: String
   zipCode: String
   difficulty: String
-  materials: String
+  materials: [String!]
   contents: String
   openingDate: DateTime
   closingDate: DateTime
