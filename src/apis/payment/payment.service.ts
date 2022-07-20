@@ -7,6 +7,7 @@ import { Payment, PAYMENT_STATUS_ENUM } from './entities/payment.entity';
 import axios from 'axios';
 import { Course } from '../course/entities/course.entity';
 import { Point } from '../point/entities/point.entity';
+import { SpecificSchedule } from '../specificSchedule/entities/specificSchedule.entity';
 
 @Injectable()
 export class PaymentService {
@@ -22,6 +23,9 @@ export class PaymentService {
 
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+
+    @InjectRepository(SpecificSchedule)
+    private readonly scheduleRepository: Repository<User>,
 
     private readonly iamportService: IamportService,
   ) {}
@@ -41,6 +45,10 @@ export class PaymentService {
       where: { id: createPaymentInput.courseId },
     });
 
+    const scheduleFound = await this.scheduleRepository.findOne({
+      where: { id: createPaymentInput.scheduleId },
+    });
+
     // Payment 만들기
 
     const result = await this.paymentRepository.save({
@@ -48,6 +56,7 @@ export class PaymentService {
       course: courseFound,
       user: userFound,
       status: PAYMENT_STATUS_ENUM.PAYMENT,
+      specificSchedule: scheduleFound,
     });
     console.log(result);
 

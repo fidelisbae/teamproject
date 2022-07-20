@@ -272,4 +272,5 @@ input CreatePaymentInput {
   quantity: Int!
   amount: Int!
   courseId: String!
+  scheduleId: String!
 }
