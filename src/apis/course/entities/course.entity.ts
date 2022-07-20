@@ -14,6 +14,7 @@ import {
 import { Image } from 'src/apis/image/entities/image.entity';
 import { User } from 'src/apis/user/entities/user.entity';
 import { CourseDate } from 'src/apis/courseDate/entities/courseDate.entity';
+import { Material } from 'src/apis/material/entities/material.entity';
 
 @Entity()
 @ObjectType()
@@ -68,10 +69,6 @@ export class Course {
   @Field(() => String)
   zipCode: string;
 
-  @Column()
-  @Field(() => String)
-  materials: string;
-
   @ManyToOne(() => User)
   @Field(() => User)
   host: User;
@@ -103,4 +100,8 @@ export class Course {
   @OneToMany(() => CourseDate, (courseDate) => courseDate.course)
   @Field(() => [CourseDate])
   courseDate: CourseDate[];
+
+  @OneToMany(() => Material, (material) => material.course)
+  @Field(() => [Material])
+  material: Material[];
 }
