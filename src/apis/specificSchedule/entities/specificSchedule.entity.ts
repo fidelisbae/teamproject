@@ -17,7 +17,7 @@ export class SpecificSchedule {
   @Field(() => Date)
   courseEndTime: Date;
 
-  @Column({ default: 0 })
+  @Column()
   @Field(() => Int)
   maxUsers: number;
 
@@ -25,13 +25,13 @@ export class SpecificSchedule {
   @Field(() => Int)
   reservedPerson: number;
 
-  @Column({ default: null })
+  @Column()
   @Field(() => Date)
-  RecruitmentStartDate: Date;
+  recruitmentStartDate: Date;
 
-  @Column({ default: null })
+  @Column()
   @Field(() => Date)
-  RecruitmentEdnDate: Date;
+  recruitmentEndDate: Date;
 
   @ManyToOne(() => CourseDate)
   @Field(() => CourseDate)

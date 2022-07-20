@@ -35,6 +35,7 @@ export class CourseService {
   }
   async findAll(page) {
     return await this.courseRepository.find({
+      relations: ['host'],
       skip: (page - 1) * 10,
       take: 10,
     });
@@ -44,7 +45,7 @@ export class CourseService {
     return await this.courseRepository.count();
   }
 
-  async search(input: string) {
+  async search(input: string, page: number) {
     const allCourses = await this.courseRepository.find();
     const result = [];
     for (let i = 0; i < allCourses.length; i++) {

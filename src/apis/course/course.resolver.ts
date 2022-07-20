@@ -29,8 +29,8 @@ export class CourseResolver {
   }
 
   @Query(() => [Course], { description: '코스 이름으로 코스를 검색하는 api' })
-  async searchCourse(@Args('input') input: string) {
-    return await this.courseService.search(input);
+  async searchCourse(@Args('input') input: string, @Args('page') page: number) {
+    return await this.courseService.search(input, page);
   }
 
   @Query(() => [Course])

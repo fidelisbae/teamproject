@@ -20,8 +20,8 @@ type SpecificSchedule {
   courseEndTime: DateTime!
   maxUsers: Int!
   reservedPerson: Int!
-  RecruitmentStartDate: DateTime!
-  RecruitmentEdnDate: DateTime!
+  recruitmentStartDate: DateTime!
+  recruitmentEndDate: DateTime!
   courseDate: CourseDate!
 }
 
@@ -114,7 +114,7 @@ type Query {
   sendCount: Int!
 
   """코스 이름으로 코스를 검색하는 api"""
-  searchCourse(input: String!): [Course!]!
+  searchCourse(input: String!, page: Float!): [Course!]!
   hotCourses: [Course!]!
   fethchCourseDate(courseDateId: String!): CourseDate!
   fetchSpecificSchedule: SpecificSchedule!
@@ -153,6 +153,9 @@ type Mutation {
 
   """유저에게 핸드폰 인증을 완료 받으면 이메일을 리턴함."""
   forgotPasswordAuthPhoneOk(phone: String!, inputToken: String!): String!
+
+  """휴대폰인증 완료시 비밀번호 변경 api"""
+  forgotPasswordUpdate(newPassword: String!, email: String!): String!
   login(email: String!, password: String!): String!
   hostLogin(email: String!, password: String!): String!
   restoreAccessToken: String!
@@ -210,14 +213,12 @@ input CreateCourseInput {
   addressDetail: String!
   zipCode: String!
   difficulty: String!
-  materials: [String!]
+  materials: String!
   contents: String!
   openingDate: DateTime!
   closingDate: DateTime!
   imageURLs: [String!]
   category: String!
-  lat: Float
-  lng: Float
 }
 
 input UpdateCourseInput {
@@ -228,32 +229,28 @@ input UpdateCourseInput {
   addressDetail: String
   zipCode: String
   difficulty: String
-  materials: [String!]
+  materials: String
   contents: String
   openingDate: DateTime
   closingDate: DateTime
   imageURLs: [String!]
   category: String
-  lat: Float
-  lng: Float
 }
 
 input CreateSpecificScheduleInput {
   courseStartTime: DateTime!
   courseEndTime: DateTime!
   maxUsers: Int!
-  reservedPerson: Int!
-  RecruitmentStartDate: DateTime!
-  RecruitmentEdnDate: DateTime!
+  recruitmentStartDate: DateTime!
+  recruitmentEndDate: DateTime!
 }
 
 input UpdateSpecificScheduleInput {
   courseStartTime: DateTime
   courseEndTime: DateTime
   maxUsers: Int
-  reservedPerson: Int
-  RecruitmentStartDate: DateTime
-  RecruitmentEdnDate: DateTime
+  recruitmentStartDate: DateTime
+  recruitmentEndDate: DateTime
 }
 
 input CreatePickInput {

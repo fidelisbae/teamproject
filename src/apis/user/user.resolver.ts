@@ -167,4 +167,27 @@ export class UserResolver {
       throw new UnauthorizedException('인증번호가 일치하지 않습니다.');
     }
   }
+
+  @Mutation(() => String, {
+    description: '휴대폰인증 완료시 비밀번호 변경 api',
+  })
+  async forgotPasswordUpdate(
+    @Args('newPassword') newPassword: string,
+    @Args('email') email: string,
+  ) {
+    const passwordAuth =
+      /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,16}$/.test(
+        newPassword,
+      );
+    if (!passwordAuth) {
+      throw new ConflictException(
+        '비밀번호는 영문, 숫자, 특수문자를 최소 1자씩 포함하여 8~16자리로 입력해주세요.',
+      );
+    }
+
+    const hashedpassword = await bcryptjs.hash(newPassword, 10);
+
+    await this.userService.updatePassword({ email, hashedpassword });
+    return '새로운 비밀번호가 설정되었습니다.';
+  }
 }

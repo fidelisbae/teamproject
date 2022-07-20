@@ -11,12 +11,9 @@ export class CreateSpecificScheduleInput {
   @Field(() => Int)
   maxUsers: number;
 
-  @Field(() => Int)
-  reservedPerson: number;
+  @Field(() => Date)
+  recruitmentStartDate: Date;
 
   @Field(() => Date)
-  RecruitmentStartDate: Date;
-
-  @Field(() => Date)
-  RecruitmentEdnDate: Date;
+  recruitmentEndDate: Date;
 }

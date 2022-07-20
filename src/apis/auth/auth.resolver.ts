@@ -52,7 +52,7 @@ export class AuthResolver {
   ) {
     const user = await this.userService.findEmail({ email });
     if (!user.isHost) {
-      throw new UnauthorizedException('호스트가 아닌 유저입니다.');
+      throw new UnauthorizedException('호스트 계정이 아닙니다.');
     }
     if (!user) throw new UnprocessableEntityException('이메일이 없습니다.');
     const isAuth = await bcryptjs.compare(password, user.password);

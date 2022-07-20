@@ -44,9 +44,9 @@ export class CreateCourseInput {
   // @Field(() => String)
   // specificScheduleId: string;
 
-  @Field(() => Float, { nullable: true })
-  lat: number;
+  // @Field(() => Float, { nullable: true })
+  // lat: number;
 
-  @Field(() => Float, { nullable: true })
-  lng: number;
+  // @Field(() => Float, { nullable: true })
+  // lng: number;
 }
