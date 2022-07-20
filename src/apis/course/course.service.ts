@@ -102,9 +102,21 @@ export class CourseService {
     const result = await this.courseRepository.save({
       ...items,
       category: categoryResult,
-      // imageURLs: imgs,
       host: hostUser,
     });
+
+    await this.imageRepository.save({
+      isThumbnail: true,
+      imageURLs: imageURLs[0],
+      course: result,
+    });
+    for (let i = 1; i < imageURLs.length; i++) {
+      await this.imageRepository.save({
+        isThumbnail: false,
+        imageURLs: imageURLs[i],
+        course: result,
+      });
+    }
     return result;
   }
 
