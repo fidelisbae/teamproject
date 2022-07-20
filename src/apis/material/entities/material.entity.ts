@@ -1,5 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Course } from '../../course/entities/course.entity';
 
 @Entity()
@@ -13,7 +13,7 @@ export class Material {
   @Field(() => String)
   material: string;
 
-  @ManyToOne(() => Course)
-  @Field(() => Course)
-  course: Course;
+  @OneToMany(() => Course, (course) => course.material)
+  @Field(() => [Course])
+  course: Course[];
 }
