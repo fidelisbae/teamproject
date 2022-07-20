@@ -19,4 +19,7 @@ export class CreatePaymentInput {
 
   @Field(() => String)
   courseId: string;
+
+  @Field(() => String)
+  scheduleId: string;
 }
