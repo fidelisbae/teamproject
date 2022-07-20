@@ -74,4 +74,8 @@ export class User {
 
   @DeleteDateColumn()
   deletedAt: Date;
+
+  @JoinTable()
+  @ManyToMany(() => Course, (course) => course.user)
+  course: Course[];
 }
