@@ -8,4 +8,7 @@ export class UpdateUserInput extends PartialType(CreateUserInput) {
 
   @Field(() => Date, { nullable: true })
   birth: Date;
+
+  @Field(() => String, { nullable: true })
+  profileImageURL: string;
 }
