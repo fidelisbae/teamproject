@@ -45,20 +45,19 @@ export class CourseService {
     return await this.courseRepository.count();
   }
 
-  async search(input: string, page: number) {
+  async search(search: string, page: number) {
     const allCourses = await this.courseRepository.find();
     const result = [];
     for (let i = 0; i < allCourses.length; i++) {
-      if (allCourses[i].name.includes(input)) {
+      if (allCourses[i].name.includes(search)) {
         result.push(allCourses[i]);
       }
     }
-    console;
+    let tem = 0;
     const pagination = [];
     for (let i = (page - 1) * 16; i < page * 16; i++) {
       if (result[i] !== undefined) pagination.push(result[i]);
     }
-    console.log(pagination);
     return pagination;
   }
 
@@ -77,6 +76,45 @@ export class CourseService {
       }
       allCourses.splice(num, 1);
       result.push(max);
+    }
+    return result;
+  }
+
+  async newCourses() {
+    const allCourses = await this.courseRepository.find();
+    const result = [];
+    for (let j = 0; j < 4; j++) {
+      let latest = allCourses[0];
+      let num = 0;
+      for (let i = 0; i < allCourses.length; i++) {
+        if (latest.createdAt < allCourses[i].createdAt) {
+          latest = allCourses[i];
+          num = i;
+        }
+      }
+      allCourses.splice(num, 1);
+      result.push(latest);
+    }
+    return result;
+  }
+
+  async cheapCourses() {
+    const allCourses = await this.courseRepository.find();
+    const result = [];
+    for (let j = 0; j < 4; j++) {
+      let cheapest = allCourses[0];
+      let num = 0;
+      for (let i = 0; i < allCourses.length; i++) {
+        if (
+          cheapest.maxPrice - cheapest.minPrice <
+          allCourses[i].maxPrice - allCourses[i].minPrice
+        ) {
+          cheapest = allCourses[i];
+          num = i;
+        }
+      }
+      allCourses.splice(num, 1);
+      result.push(cheapest);
     }
     return result;
   }

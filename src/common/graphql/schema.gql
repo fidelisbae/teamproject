@@ -69,13 +69,14 @@ type User {
   nickname: String!
   phone: String
   point: Int!
-  gender: Boolean
   isHost: Boolean!
   account: String
   bank: String
   businessName: String
   businessNumber: String
   birth: DateTime
+  gender: Boolean
+  profileImageURL: String!
   marketingAgreement: Boolean!
 }
 
@@ -117,12 +118,10 @@ type Query {
   fetchUser(id: String!): User!
   fetchLoginUser: User!
   fetchCourse(courseId: String!): Course!
-  fetchCourses(input: String!, page: Float!): [Course!]
-  sendCount: Int!
-
-  """코스 이름으로 코스를 검색하는 api"""
-  searchCourse(input: String!, page: Float!): [Course!]!
+  fetchCourses(search: String!, page: Float = 1): [Course!]
   hotCourses: [Course!]!
+  newCourses: [Course!]!
+  cheapCourses: [Course!]!
   fethchCourseDate(courseDateId: String!): CourseDate!
   fetchSpecificSchedule: SpecificSchedule!
   fetchPicks: [Pick!]!
@@ -207,6 +206,7 @@ input UpdateUserInput {
   businessNumber: String
   gender: Boolean
   birth: DateTime
+  profileImageURL: String
 }
 
 """The `Upload` scalar type represents a file upload."""

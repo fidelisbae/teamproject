@@ -17,23 +17,26 @@ export class CourseResolver {
   }
 
   @Query(() => [Course], { nullable: true })
-  async fetchCourses(@Args('input') input: string, @Args('page') page: number) {
-    return await this.courseService.search(input, page);
-  }
-
-  @Query(() => Int)
-  sendCount() {
-    return this.courseService.findCount();
-  }
-
-  @Query(() => [Course], { description: '코스 이름으로 코스를 검색하는 api' })
-  async searchCourse(@Args('input') input: string, @Args('page') page: number) {
-    return await this.courseService.search(input, page);
+  async fetchCourses(
+    @Args('search') search: string,
+    @Args('page', { defaultValue: 1 }) page: number,
+  ) {
+    return await this.courseService.search(search, page);
   }
 
   @Query(() => [Course])
   async hotCourses() {
     return await this.courseService.hotCourses();
+  }
+
+  @Query(() => [Course])
+  async newCourses() {
+    return await this.courseService.newCourses();
+  }
+
+  @Query(() => [Course])
+  async cheapCourses() {
+    return await this.courseService.cheapCourses();
   }
 
   @UseGuards(GqlAuthAccessGuard)

@@ -22,7 +22,7 @@ import { FileModule } from './apis/file/file.module';
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'my-database',
+      host: 'localhost',
       port: 3306,
       username: 'root',
       password: 'root',
@@ -44,7 +44,7 @@ import { FileModule } from './apis/file/file.module';
     }),
     CacheModule.register<RedisClientOptions>({
       store: redisStore,
-      url: 'redis://my-redis:6379',
+      url: 'redis://localhost:6379',
       isGlobal: true,
     }),
     ReviewModule,
