@@ -45,7 +45,7 @@ export class CourseService {
     return await this.courseRepository.count();
   }
 
-  async search(search: string, page: number) {
+  async searchSortByCreated(search: string, page: number) {
     const allCourses = await this.courseRepository.find();
     const result = [];
     for (let i = 0; i < allCourses.length; i++) {
@@ -54,6 +54,68 @@ export class CourseService {
       }
     }
     let tem = 0;
+    for (let i = 0; i < result.length; i++) {
+      for (let j = i + 1; j < result.length; j++) {
+        if (result[i].createdAt < result[j].createdAt) {
+          tem = result[i];
+          result[i] = result[j];
+          result[j] = tem;
+        }
+      }
+    }
+    const pagination = [];
+    for (let i = (page - 1) * 16; i < page * 16; i++) {
+      if (result[i] !== undefined) pagination.push(result[i]);
+    }
+    return pagination;
+  }
+
+  async searchSortByPick(search: string, page: number) {
+    const allCourses = await this.courseRepository.find();
+    const result = [];
+    for (let i = 0; i < allCourses.length; i++) {
+      if (allCourses[i].name.includes(search)) {
+        result.push(allCourses[i]);
+      }
+    }
+    let tem = 0;
+    for (let i = 0; i < result.length; i++) {
+      for (let j = i + 1; j < result.length; j++) {
+        if (result[i].pick < result[j].pick) {
+          tem = result[i];
+          result[i] = result[j];
+          result[j] = tem;
+        }
+      }
+    }
+    const pagination = [];
+    for (let i = (page - 1) * 16; i < page * 16; i++) {
+      if (result[i] !== undefined) pagination.push(result[i]);
+    }
+    return pagination;
+  }
+
+  async searchSortByDiscount(search: string, page: number) {
+    const allCourses = await this.courseRepository.find();
+    const result = [];
+    for (let i = 0; i < allCourses.length; i++) {
+      if (allCourses[i].name.includes(search)) {
+        result.push(allCourses[i]);
+      }
+    }
+    let tem = 0;
+    for (let i = 0; i < result.length; i++) {
+      for (let j = i + 1; j < result.length; j++) {
+        if (
+          result[i].maxPrice - result[i].minPrice <
+          result[j].maxPrice - result[j].minPrice
+        ) {
+          tem = result[i];
+          result[i] = result[j];
+          result[j] = tem;
+        }
+      }
+    }
     const pagination = [];
     for (let i = (page - 1) * 16; i < page * 16; i++) {
       if (result[i] !== undefined) pagination.push(result[i]);
