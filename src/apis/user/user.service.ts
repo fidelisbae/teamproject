@@ -76,6 +76,20 @@ export class UserService {
     return await this.userRepository.save(newUser);
   }
 
+  async userToHost(email, businessName, businessNumber) {
+    const myUser = await this.userRepository.findOne({
+      where: { email: email },
+    });
+
+    const newUser = {
+      ...myUser,
+      isHost: true,
+      businessName: businessName,
+      businessNumber: businessNumber,
+    };
+    return await this.userRepository.save(newUser);
+  }
+
   async updatePassword({ email, hashedpassword: password }) {
     const myUser = await this.userRepository.findOne({
       where: { email: email },

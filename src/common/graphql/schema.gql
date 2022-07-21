@@ -148,9 +148,10 @@ type Mutation {
   """닉네임 중복을 체크하는 api, 닉네임이 중복이면 false, 중복이아니면 true"""
   checkNickname(nickname: String!): Boolean!
   createUser(createUserInput: CreateUserInput!): User!
+  userToHost(businessName: String!, businessNumber: String!): User!
   sendTokenToPhone(phone: String!): String!
   authPhoneOk(phone: String!, inputToken: String!): Boolean!
-  updateUser(email: String!, updateUserInput: UpdateUserInput!): User!
+  updateUser(updateUserInput: UpdateUserInput!): User!
 
   """유저가 마이페이지에서 비밀번호를 변경하는 api, 기존 비밀번호를 체크 후에 새 비밀번호를 양식에 따라 입력받는다."""
   updatePassword(newPassword: String!, inputPassword: String!): Boolean!

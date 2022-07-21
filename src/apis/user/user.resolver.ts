@@ -59,6 +59,21 @@ export class UserResolver {
     return await this.userService.create(createUserInput);
   }
 
+  @UseGuards(GqlAuthAccessGuard)
+  @Mutation(() => User)
+  async userToHost(
+    @CurrentUser() currentUser: ICurrentUser,
+    @Args('businessName') businessName: string,
+    @Args('businessNumber') businessNumber: string,
+  ) {
+    const email = currentUser.email;
+    return await this.userService.userToHost(
+      email,
+      businessName,
+      businessNumber,
+    );
+  }
+
   @Mutation(() => String)
   async sendTokenToPhone(@Args('phone') phone: string) {
     await this.userService.checkPhone(phone);
@@ -76,9 +91,10 @@ export class UserResolver {
   @UseGuards(GqlAuthAccessGuard)
   @Mutation(() => User)
   async updateUser(
-    @Args('email') email: string,
+    @CurrentUser() currentUser: ICurrentUser,
     @Args('updateUserInput') updateUserInput: UpdateUserInput,
   ) {
+    const email = currentUser.email;
     return await this.userService.update({ email, updateUserInput });
   }
 
