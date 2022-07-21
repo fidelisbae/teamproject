@@ -86,7 +86,7 @@ export class Course {
   lng: number;
 
   @ManyToOne(() => Category)
-  @Field(() => Category, { nullable: true })
+  @Field(() => Category)
   category: Category;
 
   @Column({ default: 0 })

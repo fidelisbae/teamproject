@@ -31,6 +31,7 @@ export class CourseService {
         'materials',
         'courseDate',
         'courseDate.specificSchedule',
+        'category',
       ],
     });
     return result;
@@ -43,6 +44,7 @@ export class CourseService {
         'materials',
         'courseDate',
         'courseDate.specificSchedule',
+        'category',
       ],
       skip: (page - 1) * 16,
       take: 10,

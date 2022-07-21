@@ -59,7 +59,7 @@ type Course {
   imageURLs: [Image!]!
   lat: Float
   lng: Float
-  category: Category
+  category: Category!
   pick: Int!
   courseDate: [CourseDate!]!
   materials: [Material!]!

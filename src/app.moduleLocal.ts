@@ -7,7 +7,6 @@ import * as redisStore from 'cache-manager-redis-store';
 import { AppService } from './app.service';
 import { UserModule } from './apis/user/user.module';
 import { AuthModule } from './apis/auth/auth.module';
-//import { FileModule } from './apis/file/file.module';
 import { CourseModule } from './apis/course/course.module';
 import { ReviewModule } from './apis/reivews/review.module';
 import { AppController } from './app.controller';
@@ -22,7 +21,7 @@ import { FileModule } from './apis/file/file.module';
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'localhost',
+      host: 'my-database',
       port: 3306,
       username: 'root',
       password: 'root',
@@ -44,7 +43,7 @@ import { FileModule } from './apis/file/file.module';
     }),
     CacheModule.register<RedisClientOptions>({
       store: redisStore,
-      url: 'redis://localhost:6379',
+      url: 'redis://my-redis:6379',
       isGlobal: true,
     }),
     ReviewModule,
