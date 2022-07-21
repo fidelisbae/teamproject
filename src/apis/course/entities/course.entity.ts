@@ -77,13 +77,13 @@ export class Course {
   @Field(() => [Image])
   imageURLs: Image[];
 
-  // @Column({ type: 'decimal', precision: 16, scale: 13 })
-  // @Field(() => Float, { nullable: true })
-  // lat: number;
+  @Column({ type: 'decimal', precision: 16, scale: 13 })
+  @Field(() => Float, { nullable: true })
+  lat: number;
 
-  // @Column({ type: 'decimal', precision: 16, scale: 13 })
-  // @Field(() => Float, { nullable: true })
-  // lng: number;
+  @Column({ type: 'decimal', precision: 16, scale: 13 })
+  @Field(() => Float, { nullable: true })
+  lng: number;
 
   @ManyToOne(() => Category)
   @Field(() => Category, { nullable: true })

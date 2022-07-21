@@ -17,11 +17,27 @@ export class CourseResolver {
   }
 
   @Query(() => [Course], { nullable: true })
-  async fetchCourses(
+  async fetchCoursesSortBycreated(
     @Args('search') search: string,
     @Args('page', { defaultValue: 1 }) page: number,
   ) {
-    return await this.courseService.search(search, page);
+    return await this.courseService.searchSortByCreated(search, page);
+  }
+
+  @Query(() => [Course], { nullable: true })
+  async fetchCoursesSortByPick(
+    @Args('search') search: string,
+    @Args('page', { defaultValue: 1 }) page: number,
+  ) {
+    return await this.courseService.searchSortByPick(search, page);
+  }
+
+  @Query(() => [Course], { nullable: true })
+  async fetchCoursesSortByDiscount(
+    @Args('search') search: string,
+    @Args('page', { defaultValue: 1 }) page: number,
+  ) {
+    return await this.courseService.searchSortByDiscount(search, page);
   }
 
   @Query(() => [Course])

@@ -57,6 +57,8 @@ type Course {
   zipCode: String!
   host: User!
   imageURLs: [Image!]!
+  lat: Float
+  lng: Float
   category: Category
   pick: Int!
   courseDate: [CourseDate!]!
@@ -118,7 +120,9 @@ type Query {
   fetchUser(id: String!): User!
   fetchLoginUser: User!
   fetchCourse(courseId: String!): Course!
-  fetchCourses(search: String!, page: Float = 1): [Course!]
+  fetchCoursesSortBycreated(search: String!, page: Float = 1): [Course!]
+  fetchCoursesSortByPick(search: String!, page: Float = 1): [Course!]
+  fetchCoursesSortByDiscount(search: String!, page: Float = 1): [Course!]
   hotCourses: [Course!]!
   newCourses: [Course!]!
   cheapCourses: [Course!]!
@@ -226,6 +230,8 @@ input CreateCourseInput {
   closingDate: DateTime!
   imageURLs: [String!]
   category: String!
+  lat: Float
+  lng: Float
 }
 
 input UpdateCourseInput {
@@ -242,6 +248,8 @@ input UpdateCourseInput {
   closingDate: DateTime
   imageURLs: [String!]
   category: String
+  lat: Float
+  lng: Float
 }
 
 input CreateSpecificScheduleInput {
