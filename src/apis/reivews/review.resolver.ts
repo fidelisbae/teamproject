@@ -10,14 +10,12 @@ export class ReviewResolver {
   async createReview(
     @Args('score') score: number,
     @Args('content') content: string,
-    @Args('created_At') created_At: Date,
-    @Args('url') url: string,
+    @Args('courseId') courseId: string,
   ) {
     return this.reviewService.create({
       score,
       content,
-      created_At,
-      url,
+      courseId,
     });
   }
 }

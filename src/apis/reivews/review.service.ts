@@ -1,21 +1,26 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { Course } from '../course/entities/course.entity';
 import { Review } from './entities/review.entity';
 
 @Injectable()
 export class ReviewService {
   constructor(
     @InjectRepository(Review)
-    private readonly reviewRepository: Repository<Review>, // @InjectRepository(Course) // private readonly courseRepository: Repository<Course>, // @InjectRepository(User) // private readonly UserRepository: Repository<User>, // @InjectRepository(Review) // private readonly ReviewRepository: Repository<Review>,
+    private readonly reviewRepository: Repository<Review>,
+    @InjectRepository(Course)
+    private readonly courseRepository: Repository<Course>,
   ) {}
 
-  async create({ score, content, created_At, url }) {
+  async create({ score, content, courseId }) {
+    const courseFound = await this.courseRepository.findOne({
+      where: { id: courseId },
+    });
     const result = await this.reviewRepository.save({
       score,
       content,
-      created_At,
-      url,
+      course: courseFound,
     });
     return result;
   }
