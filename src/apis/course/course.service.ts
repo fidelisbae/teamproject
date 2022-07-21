@@ -53,6 +53,7 @@ export class CourseService {
         result.push(allCourses[i]);
       }
     }
+
     let tem = 0;
     for (let i = 0; i < result.length; i++) {
       for (let j = i + 1; j < result.length; j++) {
@@ -116,6 +117,7 @@ export class CourseService {
         }
       }
     }
+
     const pagination = [];
     for (let i = (page - 1) * 16; i < page * 16; i++) {
       if (result[i] !== undefined) pagination.push(result[i]);
