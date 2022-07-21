@@ -29,13 +29,16 @@ export class CourseService {
         'courseDate.specificSchedule',
       ],
     });
-
-    console.log(result);
     return result;
   }
   async findAll(page) {
     return await this.courseRepository.find({
-      relations: ['host'],
+      relations: [
+        'host',
+        'imageURLs',
+        'courseDate',
+        'courseDate.specificSchedule',
+      ],
       skip: (page - 1) * 16,
       take: 10,
     });
@@ -46,7 +49,14 @@ export class CourseService {
   }
 
   async searchSortByCreated(search: string, page: number) {
-    const allCourses = await this.courseRepository.find();
+    const allCourses = await this.courseRepository.find({
+      relations: [
+        'host',
+        'imageURLs',
+        'courseDate',
+        'courseDate.specificSchedule',
+      ],
+    });
     const result = [];
     for (let i = 0; i < allCourses.length; i++) {
       if (allCourses[i].name.includes(search)) {
@@ -71,7 +81,14 @@ export class CourseService {
   }
 
   async searchSortByPick(search: string, page: number) {
-    const allCourses = await this.courseRepository.find();
+    const allCourses = await this.courseRepository.find({
+      relations: [
+        'host',
+        'imageURLs',
+        'courseDate',
+        'courseDate.specificSchedule',
+      ],
+    });
     const result = [];
     for (let i = 0; i < allCourses.length; i++) {
       if (allCourses[i].name.includes(search)) {
@@ -96,7 +113,14 @@ export class CourseService {
   }
 
   async searchSortByDiscount(search: string, page: number) {
-    const allCourses = await this.courseRepository.find();
+    const allCourses = await this.courseRepository.find({
+      relations: [
+        'host',
+        'imageURLs',
+        'courseDate',
+        'courseDate.specificSchedule',
+      ],
+    });
     const result = [];
     for (let i = 0; i < allCourses.length; i++) {
       if (allCourses[i].name.includes(search)) {
@@ -125,7 +149,14 @@ export class CourseService {
 
   // 인기코스, pick이 높은 순서대로 뽑는다. j의 크기만큼의 갯수를 리턴함
   async hotCourses() {
-    const allCourses = await this.courseRepository.find();
+    const allCourses = await this.courseRepository.find({
+      relations: [
+        'host',
+        'imageURLs',
+        'courseDate',
+        'courseDate.specificSchedule',
+      ],
+    });
     const result = [];
     for (let j = 0; j < 4; j++) {
       let max = allCourses[0];
@@ -143,7 +174,14 @@ export class CourseService {
   }
 
   async newCourses() {
-    const allCourses = await this.courseRepository.find();
+    const allCourses = await this.courseRepository.find({
+      relations: [
+        'host',
+        'imageURLs',
+        'courseDate',
+        'courseDate.specificSchedule',
+      ],
+    });
     const result = [];
     for (let j = 0; j < 4; j++) {
       let latest = allCourses[0];
@@ -161,7 +199,14 @@ export class CourseService {
   }
 
   async cheapCourses() {
-    const allCourses = await this.courseRepository.find();
+    const allCourses = await this.courseRepository.find({
+      relations: [
+        'host',
+        'imageURLs',
+        'courseDate',
+        'courseDate.specificSchedule',
+      ],
+    });
     const result = [];
     for (let j = 0; j < 4; j++) {
       let cheapest = allCourses[0];
