@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Category } from '../category/entities/categry.entity';
 import { Image } from '../image/entities/image.entity';
+import { Material } from '../material/entities/material.entity';
 import { User } from '../user/entities/user.entity';
 import { Course } from './entities/course.entity';
 
@@ -17,6 +18,8 @@ export class CourseService {
     private readonly categoryRepository: Repository<Category>,
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    @InjectRepository(Material)
+    private readonly materialRepository: Repository<Material>,
   ) {}
 
   async findOne({ courseId }) {
@@ -25,6 +28,7 @@ export class CourseService {
       relations: [
         'host',
         'imageURLs',
+        'materials',
         'courseDate',
         'courseDate.specificSchedule',
       ],
@@ -36,6 +40,7 @@ export class CourseService {
       relations: [
         'host',
         'imageURLs',
+        'materials',
         'courseDate',
         'courseDate.specificSchedule',
       ],
@@ -53,6 +58,7 @@ export class CourseService {
       relations: [
         'host',
         'imageURLs',
+        'materials',
         'courseDate',
         'courseDate.specificSchedule',
       ],
@@ -86,6 +92,7 @@ export class CourseService {
       relations: [
         'host',
         'imageURLs',
+        'materials',
         'courseDate',
         'courseDate.specificSchedule',
       ],
@@ -118,6 +125,7 @@ export class CourseService {
       relations: [
         'host',
         'imageURLs',
+        'materials',
         'courseDate',
         'courseDate.specificSchedule',
       ],
@@ -155,6 +163,7 @@ export class CourseService {
       relations: [
         'host',
         'imageURLs',
+        'materials',
         'courseDate',
         'courseDate.specificSchedule',
       ],
@@ -180,6 +189,7 @@ export class CourseService {
       relations: [
         'host',
         'imageURLs',
+        'materials',
         'courseDate',
         'courseDate.specificSchedule',
       ],
@@ -205,6 +215,7 @@ export class CourseService {
       relations: [
         'host',
         'imageURLs',
+        'materials',
         'courseDate',
         'courseDate.specificSchedule',
       ],
@@ -229,7 +240,7 @@ export class CourseService {
   }
 
   async create({ createCourseInput, currentUser }) {
-    const { imageURLs, category, ...items } = createCourseInput;
+    const { imageURLs, category, materials, ...items } = createCourseInput;
     let categoryResult = await this.categoryRepository.findOne({
       where: { name: category },
     });
@@ -244,19 +255,18 @@ export class CourseService {
       });
     }
 
-    // const imgs = await Promise.all(
-    //   imageURLs.map((url) => {
-    //     return this.imageRepository.save({
-    //       imageURLs: url,
-    //     });
-    //   }),
-    // );
-
     const result = await this.courseRepository.save({
       ...items,
       category: categoryResult,
       host: hostUser,
     });
+
+    for (let i = 0; i < materials.length; i++) {
+      await this.materialRepository.save({
+        materials: materials[i],
+        course: result,
+      });
+    }
 
     await this.imageRepository.save({
       isThumbnail: true,

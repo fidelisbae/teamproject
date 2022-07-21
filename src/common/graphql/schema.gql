@@ -40,7 +40,7 @@ type CourseDate {
 type Material {
   id: String!
   materials: String!
-  course: [Course!]!
+  course: Course!
 }
 
 type Course {
@@ -135,7 +135,7 @@ type Query {
 }
 
 type Mutation {
-  createReview(score: Float!, content: String!, created_At: DateTime!, url: String!): Review!
+  createReview(score: Float!, content: String!, courseId: String!): Review!
 
   """이메일 중복을 체크하는 api, 이메일이 중복이면 false, 중복이아니면 true 또한, 이메일이 올바른 양식인지도 판별함"""
   checkEmail(email: String!): Boolean!
