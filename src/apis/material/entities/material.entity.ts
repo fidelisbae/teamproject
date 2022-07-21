@@ -11,9 +11,9 @@ export class Material {
 
   @Column()
   @Field(() => String)
-  material: string;
+  materials: string;
 
-  @OneToMany(() => Course, (course) => course.material)
+  @OneToMany(() => Course, (course) => course.materials)
   @Field(() => [Course])
   course: Course[];
 }

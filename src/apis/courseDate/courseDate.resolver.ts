@@ -9,14 +9,10 @@ export class CourseDateResolver {
   @Mutation(() => CourseDate)
   createCourseDate(
     @Args('courseDate') courseDate: Date,
-    @Args('recruitmentStartDate') recruitmentStartDate: Date,
-    @Args('recruitmentEndDate') recruitmentEndDate: Date,
     @Args('courseId') courseId: string,
   ) {
     return this.courseDateService.create({
       courseDate,
-      recruitmentStartDate,
-      recruitmentEndDate,
       courseId,
     });
   }
