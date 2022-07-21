@@ -60,7 +60,7 @@ export class UserResolver {
   }
 
   @UseGuards(GqlAuthAccessGuard)
-  @Mutation(() => User)
+  @Mutation(() => User, { description: '유저를 호스트로 바꾸는 api' })
   async userToHost(
     @CurrentUser() currentUser: ICurrentUser,
     @Args('businessName') businessName: string,

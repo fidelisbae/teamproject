@@ -61,6 +61,7 @@ export class CourseService {
         'host',
         'imageURLs',
         'materials',
+        'category',
         'courseDate',
         'courseDate.specificSchedule',
       ],
@@ -94,6 +95,7 @@ export class CourseService {
       relations: [
         'host',
         'imageURLs',
+        'category',
         'materials',
         'courseDate',
         'courseDate.specificSchedule',
@@ -126,6 +128,7 @@ export class CourseService {
     const allCourses = await this.courseRepository.find({
       relations: [
         'host',
+        'category',
         'imageURLs',
         'materials',
         'courseDate',
@@ -164,6 +167,7 @@ export class CourseService {
     const allCourses = await this.courseRepository.find({
       relations: [
         'host',
+        'category',
         'imageURLs',
         'materials',
         'courseDate',
@@ -191,6 +195,7 @@ export class CourseService {
       relations: [
         'host',
         'imageURLs',
+        'category',
         'materials',
         'courseDate',
         'courseDate.specificSchedule',
@@ -217,6 +222,7 @@ export class CourseService {
       relations: [
         'host',
         'imageURLs',
+        'category',
         'materials',
         'courseDate',
         'courseDate.specificSchedule',
@@ -239,6 +245,30 @@ export class CourseService {
       result.push(cheapest);
     }
     return result;
+  }
+
+  async fetchCoursesByCategory(search, page) {
+    const allCourses = await this.courseRepository.find({
+      relations: [
+        'host',
+        'imageURLs',
+        'category',
+        'materials',
+        'courseDate',
+        'courseDate.specificSchedule',
+      ],
+    });
+    const result = [];
+    for (let i = 0; i < allCourses.length; i++) {
+      if (allCourses[i].category.name === search) {
+        result.push(allCourses[i]);
+      }
+    }
+    const pagination = [];
+    for (let i = (page - 1) * 16; i < page * 16; i++) {
+      if (result[i] !== undefined) pagination.push(result[i]);
+    }
+    return pagination;
   }
 
   async create({ createCourseInput, currentUser }) {

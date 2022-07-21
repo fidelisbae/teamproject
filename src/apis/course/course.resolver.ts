@@ -40,6 +40,14 @@ export class CourseResolver {
     return await this.courseService.searchSortByDiscount(search, page);
   }
 
+  @Query(() => [Course], { nullable: true })
+  async fetchCoursesByCategory(
+    @Args('search', { defaultValue: '' }) search: string,
+    @Args('page', { defaultValue: 1 }) page: number,
+  ) {
+    return await this.courseService.fetchCoursesByCategory(search, page);
+  }
+
   @Query(() => [Course])
   async hotCourses() {
     return await this.courseService.hotCourses();
