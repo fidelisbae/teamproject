@@ -96,10 +96,11 @@ export class UserService {
       where: { email: email },
     });
 
-    if (hasEmail === null && emailForm) {
-      return true;
-    } else {
-      return false;
+    if (!emailForm) {
+      throw new ConflictException('이메일이 올바르지 않습니다.');
+    }
+    if (hasEmail) {
+      throw new ConflictException('이미 가입된 이메일입니다.');
     }
   }
 
@@ -109,10 +110,12 @@ export class UserService {
       where: { phone: phone },
     });
 
-    if (hasPhone === null && phoneForm) {
-      return true;
-    } else {
-      return false;
+    if (!phoneForm) {
+      throw new ConflictException('핸드폰 번호가 올바르지 않습니다.');
+    }
+
+    if (hasPhone) {
+      throw new ConflictException('이미 가입된 핸드폰 번호입니다.');
     }
   }
 
