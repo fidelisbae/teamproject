@@ -10,8 +10,8 @@ export class MaterialService {
     private readonly MaterialRepository: Repository<Material>,
   ) {}
 
-  async create(material) {
-    const result = await this.MaterialRepository.save(material);
+  async create(materials) {
+    const result = await this.MaterialRepository.save(materials);
     return result;
   }
 

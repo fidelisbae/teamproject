@@ -39,7 +39,7 @@ type CourseDate {
 
 type Material {
   id: String!
-  material: String!
+  materials: String!
   course: [Course!]!
 }
 
@@ -60,7 +60,7 @@ type Course {
   category: Category
   pick: Int!
   courseDate: [CourseDate!]!
-  material: [Material!]!
+  materials: [Material!]!
 }
 
 type User {
@@ -171,7 +171,7 @@ type Mutation {
   createCourse(createCourseInput: CreateCourseInput!): Course!
   updateCourse(courseId: String!, updateCourseInput: UpdateCourseInput!): Course!
   deleteCourse(courseId: String!): Boolean!
-  createCourseDate(courseDate: DateTime!, recruitmentStartDate: DateTime!, recruitmentEndDate: DateTime!, courseId: String!): CourseDate!
+  createCourseDate(courseDate: DateTime!, courseId: String!): CourseDate!
   createSpecificSchedule(createSpecificScheduleInput: CreateSpecificScheduleInput!): SpecificSchedule!
   updateSpecificSchedule(specificScheduleId: String!, updateSpecificScheduleInput: UpdateSpecificScheduleInput!): SpecificSchedule!
   deleteSpecificSchedule(specificScheduleId: String!): Boolean!

@@ -7,8 +7,8 @@ export class MaterialResolver {
   constructor(private readonly materialService: MaterialService) {}
 
   @Mutation(() => Material)
-  createMaterial(@Args('materal') material: string) {
-    return this.materialService.create(material);
+  createMaterial(@Args('materals') materials: string) {
+    return this.materialService.create(materials);
   }
   @Query(() => Material)
   async fetchMaterial(@Args('id') id: string) {

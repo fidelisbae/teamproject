@@ -101,7 +101,7 @@ export class Course {
   @Field(() => [CourseDate])
   courseDate: CourseDate[];
 
-  @OneToMany(() => Material, (material) => material.course)
+  @OneToMany(() => Material, (materials) => materials.course)
   @Field(() => [Material])
-  material: Material[];
+  materials: Material[];
 }
