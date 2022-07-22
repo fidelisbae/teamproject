@@ -10,12 +10,12 @@ export class SpecificSchedule {
   id: string;
 
   @Column()
-  @Field(() => Date)
-  courseStartTime: Date;
+  @Field(() => String)
+  courseStartTime: string;
 
   @Column()
-  @Field(() => Date)
-  courseEndTime: Date;
+  @Field(() => String)
+  courseEndTime: string;
 
   @Column()
   @Field(() => Int)

@@ -2,11 +2,11 @@ import { Field, InputType, Int } from '@nestjs/graphql';
 
 @InputType()
 export class CreateSpecificScheduleInput {
-  @Field(() => Date)
-  courseStartTime: Date;
+  @Field(() => String)
+  courseStartTime: string;
 
-  @Field(() => Date)
-  courseEndTime: Date;
+  @Field(() => String)
+  courseEndTime: string;
 
   @Field(() => Int)
   maxUsers: number;

@@ -16,8 +16,8 @@ type Image {
 
 type SpecificSchedule {
   id: String!
-  courseStartTime: DateTime!
-  courseEndTime: DateTime!
+  courseStartTime: String!
+  courseEndTime: String!
   maxUsers: Int!
   reservedPerson: Int!
   recruitmentStartDate: DateTime!
@@ -92,7 +92,6 @@ type Review {
   id: String!
   score: Float!
   content: String!
-  url: String!
   course: Course!
   writer: User!
 }
@@ -116,6 +115,7 @@ enum PAYMENT_STATUS_ENUM {
 }
 
 type Query {
+  fethchCourseReviews(courseId: String!): Review!
   fetchUsers: [User!]!
   fetchUser(id: String!): User!
   fetchLoginUser: User!
@@ -126,7 +126,7 @@ type Query {
   hotCourses: [Course!]!
   newCourses: [Course!]!
   cheapCourses: [Course!]!
-  fethchCourseDate(courseDateId: String!): CourseDate!
+  fetchCourseDate(courseDateId: String!): CourseDate!
   fetchSpecificSchedule: SpecificSchedule!
   fetchPicks: [Pick!]!
   fetchPicksByUser(userID: String!): [String!]!
@@ -135,7 +135,8 @@ type Query {
 }
 
 type Mutation {
-  createReview(score: Float!, content: String!, courseId: String!): Review!
+  createCourseReview(score: Float!, content: String!, courseId: String!): Review!
+  deleteCourseReview(courseReviewId: String!): Boolean!
 
   """이메일 중복을 체크하는 api, 이메일이 중복이면 false, 중복이아니면 true 또한, 이메일이 올바른 양식인지도 판별함"""
   checkEmail(email: String!): Boolean!
@@ -253,16 +254,16 @@ input UpdateCourseInput {
 }
 
 input CreateSpecificScheduleInput {
-  courseStartTime: DateTime!
-  courseEndTime: DateTime!
+  courseStartTime: String!
+  courseEndTime: String!
   maxUsers: Int!
   recruitmentStartDate: DateTime!
   recruitmentEndDate: DateTime!
 }
 
 input UpdateSpecificScheduleInput {
-  courseStartTime: DateTime
-  courseEndTime: DateTime
+  courseStartTime: String
+  courseEndTime: String
   maxUsers: Int
   recruitmentStartDate: DateTime
   recruitmentEndDate: DateTime

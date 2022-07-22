@@ -7,6 +7,7 @@ import {
   Column,
   CreateDateColumn,
   ManyToOne,
+  DeleteDateColumn,
 } from 'typeorm';
 
 @Entity()
@@ -27,9 +28,11 @@ export class Review {
   @CreateDateColumn()
   created_At: Date;
 
-  @Column()
-  @Field(() => String)
-  url: string;
+  @DeleteDateColumn()
+  deleted_At: Date;
+  // @Column()
+  // @Field(() => String)
+  // url: string;
 
   @ManyToOne(() => Course)
   @Field(() => Course)
