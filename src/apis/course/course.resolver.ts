@@ -16,6 +16,14 @@ export class CourseResolver {
     return await this.courseService.findOne({ courseId });
   }
 
+  @Query(() => [Course])
+  async fetchCoursesByHost(
+    @Args('hostID') hostID: string,
+    @Args('page', { defaultValue: 1 }) page: number,
+  ) {
+    return await this.courseService.fetchCoursesByHost(hostID, page);
+  }
+
   @Query(() => [Course], { nullable: true })
   async fetchCoursesSortBycreated(
     @Args('search', { defaultValue: '' }) search: string,

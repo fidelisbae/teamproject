@@ -51,8 +51,32 @@ export class CourseService {
     });
   }
 
-  async findCount() {
-    return await this.courseRepository.count();
+  async fetchCoursesByHost(hostID, page) {
+    const host = await this.userRepository.findOne({
+      where: { id: hostID },
+    });
+
+    const courses = await this.courseRepository.find({
+      relations: [
+        'host',
+        'imageURLs',
+        'materials',
+        'courseDate',
+        'courseDate.specificSchedule',
+        'category',
+      ],
+    });
+    const result = [];
+    for (let i = 0; i < courses.length; i++) {
+      if (courses[i].host.id === hostID) {
+        result.push(courses[i]);
+      }
+    }
+    const pagination = [];
+    for (let i = (page - 1) * 16; i < page * 16; i++) {
+      if (result[i] !== undefined) pagination.push(result[i]);
+    }
+    return pagination;
   }
 
   async searchSortByCreated(search: string, page: number) {
@@ -61,7 +85,6 @@ export class CourseService {
         'host',
         'imageURLs',
         'materials',
-        'category',
         'courseDate',
         'courseDate.specificSchedule',
         'category',
@@ -173,7 +196,6 @@ export class CourseService {
         'materials',
         'courseDate',
         'courseDate.specificSchedule',
-        'category',
       ],
     });
     const result = [];
@@ -201,7 +223,6 @@ export class CourseService {
         'materials',
         'courseDate',
         'courseDate.specificSchedule',
-        'category',
       ],
     });
     const result = [];
@@ -229,7 +250,6 @@ export class CourseService {
         'materials',
         'courseDate',
         'courseDate.specificSchedule',
-        'category',
       ],
     });
     const result = [];
