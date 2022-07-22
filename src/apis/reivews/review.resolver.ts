@@ -1,4 +1,8 @@
+import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Resolver, Query } from '@nestjs/graphql';
+import { GqlAuthAccessGuard } from 'src/common/auth/gql.auth.guard';
+import { CurrentUser, ICurrentUser } from 'src/common/auth/gql.user.param';
+import { CreateReviewInput } from './dto/createReview.input';
 import { Review } from './entities/review.entity';
 import { ReviewService } from './review.service';
 
@@ -6,17 +10,14 @@ import { ReviewService } from './review.service';
 export class ReviewResolver {
   constructor(private readonly reviewService: ReviewService) {}
 
+  @UseGuards(GqlAuthAccessGuard)
   @Mutation(() => Review)
   async createCourseReview(
-    @Args('score') score: number,
-    @Args('content') content: string,
-    @Args('courseId') courseId: string,
+    @Args('createReviewInput') createReviewInput: CreateReviewInput,
+    // @Args('imageURL') imageURL: string,
+    @CurrentUser() currentUser: ICurrentUser,
   ) {
-    return this.reviewService.create({
-      score,
-      content,
-      courseId,
-    });
+    return this.reviewService.create(createReviewInput, currentUser);
   }
   @Query(() => Review)
   async fethchCourseReviews(

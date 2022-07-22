@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Course } from '../course/entities/course.entity';
-import { Image } from '../image/entities/image.entity';
+import { User } from '../user/entities/user.entity';
 import { Review } from './entities/review.entity';
 
 @Injectable()
@@ -12,17 +12,22 @@ export class ReviewService {
     private readonly reviewRepository: Repository<Review>,
     @InjectRepository(Course)
     private readonly courseRepository: Repository<Course>,
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
   ) {}
 
-  async create({ score, content, courseId }) {
+  async create(createReviewInput, currentUser) {
     const courseFound = await this.courseRepository.findOne({
-      where: { id: courseId },
+      where: { id: createReviewInput.courseId },
+    });
+    const userFound = await this.userRepository.findOne({
+      where: { id: currentUser.id },
     });
 
     const result = await this.reviewRepository.save({
-      score,
-      content,
+      user: userFound,
       course: courseFound,
+      ...createReviewInput,
     });
     return result;
   }
