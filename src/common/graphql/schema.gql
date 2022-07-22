@@ -90,10 +90,10 @@ type Pick {
 
 type Review {
   id: String!
-  score: Float!
-  content: String!
+  rate: Float!
+  contents: String!
   course: Course!
-  writer: User!
+  user: User!
 }
 
 type Payment {
@@ -136,7 +136,7 @@ type Query {
 }
 
 type Mutation {
-  createCourseReview(score: Float!, content: String!, courseId: String!): Review!
+  createCourseReview(createReviewInput: CreateReviewInput!): Review!
   deleteCourseReview(courseReviewId: String!): Boolean!
 
   """이메일 중복을 체크하는 api, 이메일이 중복이면 false, 중복이아니면 true 또한, 이메일이 올바른 양식인지도 판별함"""
@@ -187,6 +187,13 @@ type Mutation {
   togglePick(createPickInput: CreatePickInput!): Boolean!
   createPayment(createPaymentInput: CreatePaymentInput!): Payment!
   cancelPayment(impUid: String!): Boolean!
+}
+
+input CreateReviewInput {
+  courseId: String!
+  rate: Float!
+  contents: String!
+  imageURLs: String!
 }
 
 input CreateUserInput {

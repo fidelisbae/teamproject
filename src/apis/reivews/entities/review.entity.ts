@@ -19,20 +19,17 @@ export class Review {
 
   @Column()
   @Field(() => Float)
-  score: number;
+  rate: number;
 
   @Column()
   @Field(() => String)
-  content: string;
+  contents: string;
 
   @CreateDateColumn()
   created_At: Date;
 
   @DeleteDateColumn()
   deleted_At: Date;
-  // @Column()
-  // @Field(() => String)
-  // url: string;
 
   @ManyToOne(() => Course)
   @Field(() => Course)
@@ -40,5 +37,5 @@ export class Review {
 
   @ManyToOne(() => User)
   @Field(() => User)
-  writer: User;
+  user: User;
 }
