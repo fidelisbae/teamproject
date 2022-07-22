@@ -6,7 +6,7 @@ import { Course } from './entities/course.entity';
 import { Pick } from '../pick/entities/pick.entity';
 import { User } from '../user/entities/user.entity';
 import { Image } from '../image/entities/image.entity';
-import { Category } from '../category/entities/categry.entity';
+import { Category } from '../category/entities/category.entity';
 import { Material } from '../material/entities/material.entity';
 
 @Module({

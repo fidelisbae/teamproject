@@ -115,7 +115,7 @@ enum PAYMENT_STATUS_ENUM {
 }
 
 type Query {
-  fethchCourseReviews(courseId: String!): Review!
+  fetchCourseReviews(courseId: String!, page: Float = 1): [Review!]!
   fetchUsers: [User!]!
   fetchUser(id: String!): User!
   fetchLoginUser: User!
@@ -211,12 +211,8 @@ input CreateUserInput {
 }
 
 input UpdateUserInput {
-  isHost: Boolean
-  email: String
-  password: String
-  nickname: String
-  phone: String
-  marketingAgreement: Boolean
+  nickname: String!
+  marketingAgreement: Boolean!
   account: String
   bank: String
   businessName: String

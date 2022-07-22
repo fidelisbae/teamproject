@@ -31,14 +31,21 @@ export class ReviewService {
     });
     return result;
   }
-  async findAll(courseId) {
-    //page) {
-    return await this.reviewRepository.find({
+  async findAll({ courseId, page }) {
+    const reviews = await this.reviewRepository.find({
       relations: ['course'],
-      where: { id: courseId },
-      // skip: (page - 1) * 10,
-      // take: 10,
     });
+
+    const results = reviews.filter((element) => {
+      return element.course.id === courseId;
+    });
+
+    const pagination = [];
+
+    for (let i = (page - 1) * 10; i < page * 10; i++) {
+      if (results[i]) pagination.push(results[i]);
+    }
+    return pagination;
   }
   async findCount() {
     return await this.reviewRepository.count();

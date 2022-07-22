@@ -19,12 +19,12 @@ export class ReviewResolver {
   ) {
     return this.reviewService.create(createReviewInput, currentUser);
   }
-  @Query(() => Review)
-  async fethchCourseReviews(
+  @Query(() => [Review])
+  async fetchCourseReviews(
     @Args('courseId') courseId: string,
-    //  @Args('page', { defaultValue: 1 }) page: number,
+    @Args('page', { defaultValue: 1 }) page: number,
   ) {
-    return await this.reviewService.findAll(courseId); //page);
+    return await this.reviewService.findAll({ courseId, page }); //page);
   }
   @Mutation(() => Boolean)
   deleteCourseReview(@Args('courseReviewId') courseReviewId: string) {
