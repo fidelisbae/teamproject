@@ -40,17 +40,17 @@ export class AuthService {
     //   'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers',
     // );
     //배포할 때
-    // res.setHeader(
-    //   'Set-Cookie',
-    //   `refreshToken=${refreshToken}; path=/; domain=.dabae.co.kr; SameSite=None; Secure; httpOnly;`,
-    // );
+    res.setHeader(
+      'Set-Cookie',
+      `refreshToken=${refreshToken}; path=/; domain=.dabae.co.kr; SameSite=None; Secure; httpOnly;`,
+    );
     //ngrok 켤 때
     // res.setHeader(
     //   'Set-Cookie',
     //   `refreshToken=${refreshToken}; path=/; domain=.jp.ngrok.io; SameSite=None; Secure; httpOnly;`,
     // );
     //local 할때
-    res.setHeader('Set-Cookie', `refreshToken=${refreshToken}; path=/;`);
+    //res.setHeader('Set-Cookie', `refreshToken=${refreshToken}; path=/;`);
   }
   async createSocialUser({ req, res }) {
     let userFound = await this.userRepository.findOne({

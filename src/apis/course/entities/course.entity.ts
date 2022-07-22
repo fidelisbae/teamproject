@@ -1,5 +1,5 @@
 import { Field, ObjectType, Int, Float } from '@nestjs/graphql';
-import { Category } from 'src/apis/category/entities/categry.entity';
+import { Category } from 'src/apis/category/entities/category.entity';
 import {
   Column,
   CreateDateColumn,
