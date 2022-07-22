@@ -64,6 +64,7 @@ export class CourseService {
         'category',
         'courseDate',
         'courseDate.specificSchedule',
+        'category',
       ],
     });
     const result = [];
@@ -172,6 +173,7 @@ export class CourseService {
         'materials',
         'courseDate',
         'courseDate.specificSchedule',
+        'category',
       ],
     });
     const result = [];
@@ -199,6 +201,7 @@ export class CourseService {
         'materials',
         'courseDate',
         'courseDate.specificSchedule',
+        'category',
       ],
     });
     const result = [];
@@ -226,6 +229,7 @@ export class CourseService {
         'materials',
         'courseDate',
         'courseDate.specificSchedule',
+        'category',
       ],
     });
     const result = [];

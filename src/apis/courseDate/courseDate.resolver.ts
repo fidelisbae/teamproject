@@ -18,7 +18,7 @@ export class CourseDateResolver {
   }
 
   @Query(() => CourseDate)
-  async fethchCourseDate(@Args('courseDateId') courseDateId: string) {
+  async fetchCourseDate(@Args('courseDateId') courseDateId: string) {
     return await this.courseDateService.findOne({ courseDateId });
   }
 }

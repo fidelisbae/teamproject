@@ -45,7 +45,7 @@ import { FileModule } from './apis/file/file.module';
       port: 3306,
       username: 'root',
       password: '12345',
-      database: 'dabae_server',
+      database: 'dabae-database',
       entities: [__dirname + '/apis/**/*.entity.*'],
       synchronize: true,
       logging: true,
