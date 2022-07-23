@@ -169,8 +169,8 @@ export class CourseService {
     for (let i = 0; i < result.length; i++) {
       for (let j = i + 1; j < result.length; j++) {
         if (
-          result[i].maxPrice - result[i].minPrice <
-          result[j].maxPrice - result[j].minPrice
+          (result[i].maxPrice - result[i].minPrice) / result[i].maxPrice <
+          (result[j].maxPrice - result[j].minPrice) / result[j].minPrice
         ) {
           tem = result[i];
           result[i] = result[j];
@@ -258,8 +258,9 @@ export class CourseService {
       let num = 0;
       for (let i = 0; i < allCourses.length; i++) {
         if (
-          cheapest.maxPrice - cheapest.minPrice <
-          allCourses[i].maxPrice - allCourses[i].minPrice
+          (cheapest.maxPrice - cheapest.minPrice) / cheapest.maxPrice <
+          (allCourses[i].maxPrice - allCourses[i].minPrice) /
+            allCourses[i].maxPrice
         ) {
           cheapest = allCourses[i];
           num = i;

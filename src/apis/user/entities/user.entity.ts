@@ -66,7 +66,7 @@ export class User {
   gender: boolean;
 
   @Column({ default: null })
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   profileImageURL: string;
 
   @Column()

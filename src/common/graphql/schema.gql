@@ -78,7 +78,7 @@ type User {
   businessNumber: String
   birth: DateTime
   gender: Boolean
-  profileImageURL: String!
+  profileImageURL: String
   marketingAgreement: Boolean!
 }
 
@@ -103,7 +103,7 @@ type Payment {
   price: Int!
   quantity: Int!
   amount: Int!
-  impUid: String
+  impUid: String!
   course: Course!
   user: User!
   specificSchedule: SpecificSchedule!
@@ -283,8 +283,7 @@ input CreatePickInput {
 }
 
 input CreatePaymentInput {
-  userId: String!
-  impUid: String
+  impUid: String!
   price: Int!
   quantity: Int!
   amount: Int!

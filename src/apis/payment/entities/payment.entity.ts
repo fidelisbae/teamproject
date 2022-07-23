@@ -46,7 +46,7 @@ export class Payment {
   amount: number;
 
   @Column()
-  @Field(() => String, { nullable: true })
+  @Field(() => String)
   impUid: string;
 
   @ManyToOne(() => Course)

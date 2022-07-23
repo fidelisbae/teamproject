@@ -4,7 +4,7 @@ import { Payment } from './entities/payment.entity';
 import { PaymentService } from './payment.service';
 import { CreatePaymentInput } from './dto/createPayment.input';
 import { GqlAuthAccessGuard } from 'src/common/auth/gql.auth.guard';
-import { CurrentUser } from 'src/common/auth/gql.user.param';
+import { CurrentUser, ICurrentUser } from 'src/common/auth/gql.user.param';
 @Resolver()
 export class PaymentResolver {
   constructor(
@@ -26,9 +26,9 @@ export class PaymentResolver {
   @Mutation(() => Payment)
   async createPayment(
     @Args('createPaymentInput') createPaymentInput: CreatePaymentInput,
-    @CurrentUser() loginUser: any,
+    @CurrentUser() currentUser: ICurrentUser,
   ) {
-    return await this.paymentService.create({ loginUser, createPaymentInput });
+    return await this.paymentService.create(currentUser, createPaymentInput);
   }
 
   @UseGuards(GqlAuthAccessGuard)

@@ -25,19 +25,19 @@ export class PaymentService {
     private readonly userRepository: Repository<User>,
 
     @InjectRepository(SpecificSchedule)
-    private readonly scheduleRepository: Repository<User>,
+    private readonly scheduleRepository: Repository<SpecificSchedule>,
 
     private readonly iamportService: IamportService,
   ) {}
 
-  async create({ loginUser, createPaymentInput }) {
+  async create(currentUser, createPaymentInput) {
     const { impUid, ...paymentInfo } = createPaymentInput;
     // 실제 결제내역인지 확인
     await this.iamportService.getData({ impUid });
 
     // input에서 입력받은 email로 실제 유저 엔티티 불러오기
     const userFound = await this.userRepository.findOne({
-      where: { email: loginUser.email },
+      where: { email: currentUser.email },
     });
 
     // input에서 입력받은 id로 실제 course 엔티티 불러오기
@@ -59,6 +59,9 @@ export class PaymentService {
       specificSchedule: scheduleFound,
     });
     console.log(result);
+
+    // 👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻
+    // 수정해야할것: 항상 최대할인율을 적용하는 방식이 아니라 스케쥴에서 최대인원과 현재인원을 받아서 인원비율로 할인율을 적용해야함
 
     // 최대가격 - 최소가격 / 최대가격 × 100% = 최대할인율
     const max = courseFound.maxPrice;
