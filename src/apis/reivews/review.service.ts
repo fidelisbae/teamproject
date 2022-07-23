@@ -35,7 +35,7 @@ export class ReviewService {
     const reviews = await this.reviewRepository.find({
       relations: ['course'],
     });
-
+    console.log(reviews);
     const results = reviews.filter((element) => {
       return element.course.id === courseId;
     });

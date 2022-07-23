@@ -16,12 +16,12 @@ type Image {
 
 type SpecificSchedule {
   id: String!
-  courseStartTime: String!
-  courseEndTime: String!
   maxUsers: Int!
   reservedPerson: Int!
-  recruitmentStartDate: DateTime!
   recruitmentEndDate: DateTime!
+  recruitmentStartDate: DateTime!
+  courseStartTime: DateTime!
+  courseEndTime: DateTime!
   courseDate: CourseDate!
 }
 
@@ -262,19 +262,21 @@ input UpdateCourseInput {
 }
 
 input CreateSpecificScheduleInput {
-  courseStartTime: String!
-  courseEndTime: String!
+  courseStartTime: DateTime!
+  courseEndTime: DateTime!
   maxUsers: Int!
   recruitmentStartDate: DateTime!
   recruitmentEndDate: DateTime!
+  courseDateId: String!
 }
 
 input UpdateSpecificScheduleInput {
-  courseStartTime: String
-  courseEndTime: String
+  courseStartTime: DateTime
+  courseEndTime: DateTime
   maxUsers: Int
   recruitmentStartDate: DateTime
   recruitmentEndDate: DateTime
+  courseDateId: String
 }
 
 input CreatePickInput {

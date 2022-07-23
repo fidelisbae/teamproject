@@ -10,14 +10,6 @@ export class SpecificSchedule {
   id: string;
 
   @Column()
-  @Field(() => String)
-  courseStartTime: string;
-
-  @Column()
-  @Field(() => String)
-  courseEndTime: string;
-
-  @Column()
   @Field(() => Int)
   maxUsers: number;
 
@@ -27,11 +19,19 @@ export class SpecificSchedule {
 
   @Column()
   @Field(() => Date)
+  recruitmentEndDate: Date;
+
+  @Column()
+  @Field(() => Date)
   recruitmentStartDate: Date;
 
   @Column()
   @Field(() => Date)
-  recruitmentEndDate: Date;
+  courseStartTime: Date;
+
+  @Column()
+  @Field(() => Date)
+  courseEndTime: Date;
 
   @ManyToOne(() => CourseDate)
   @Field(() => CourseDate)
