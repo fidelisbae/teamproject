@@ -14,7 +14,7 @@ services:
     platform: linux/x86_64
     image: mysql:latest
     environment:
-      MYSQL_DATABASE: 'dabae-database'
+      MYSQL_DATABASE: 'dabae-server'
       MYSQL_ROOT_PASSWORD: 'root'
     ports:
       - 3306:3306

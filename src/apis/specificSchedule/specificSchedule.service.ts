@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { CourseDate } from '../courseDate/entities/courseDate.entity';
 import { SpecificSchedule } from './entities/specificSchedule.entity';
 
 @Injectable()
@@ -8,6 +9,8 @@ export class SpecificScheduleService {
   constructor(
     @InjectRepository(SpecificSchedule)
     private readonly specificScheduleRepository: Repository<SpecificSchedule>,
+    @InjectRepository(CourseDate)
+    private readonly courseDateRepository: Repository<CourseDate>,
   ) {}
   async create({ createSpecificScheduleInput }) {
     const result = await this.specificScheduleRepository.save({

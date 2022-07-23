@@ -8,9 +8,11 @@ export class FileService {
     console.log(waitedFiles);
 
     const storage = new Storage({
-      projectId: 'dabae-355905',
-      keyFilename: '/my-secret/gcp-file-storage.json',
-    }).bucket('dabaeimage');
+      projectId: 'omega-research-357204',
+      keyFilename: './gcp-file-storage.json',
+      //배포용?
+      //keyFilename: '/my-secret/gcp-file-storage.json',
+    }).bucket('dabaeimage0');
     console.log(Storage);
 
     const results = await Promise.all(

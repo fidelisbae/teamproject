@@ -41,11 +41,11 @@ import { FileModule } from './apis/file/file.module';
     // 로컬용
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: '10.86.0.2',
+      host: '172.18.16.4',
       port: 3306,
       username: 'root',
       password: '12345',
-      database: 'dabae-database',
+      database: 'dabae-server',
       entities: [__dirname + '/apis/**/*.entity.*'],
       synchronize: true,
       logging: true,
@@ -63,7 +63,7 @@ import { FileModule } from './apis/file/file.module';
     }),
     CacheModule.register<RedisClientOptions>({
       store: redisStore,
-      url: 'redis://10.86.1.3:6379',
+      url: 'redis://172.18.17.3:6379',
       isGlobal: true,
     }),
     ReviewModule,
