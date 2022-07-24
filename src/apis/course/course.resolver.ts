@@ -56,6 +56,16 @@ export class CourseResolver {
     return await this.courseService.fetchCoursesByCategory(search, page);
   }
 
+  @UseGuards(GqlAuthAccessGuard)
+  @Query(() => [Course], { nullable: true })
+  async fetchCoursesByUser(
+    @CurrentUser() currentUser: ICurrentUser,
+    @Args('page', { defaultValue: 1 }) page: number,
+  ) {
+    const id = currentUser.id;
+    return await this.courseService.fetchCoursesByUser(id, page);
+  }
+
   @Query(() => [Course])
   async hotCourses() {
     return await this.courseService.hotCourses();

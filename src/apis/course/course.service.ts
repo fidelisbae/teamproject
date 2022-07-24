@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { Category } from '../category/entities/category.entity';
 import { Image } from '../image/entities/image.entity';
 import { Material } from '../material/entities/material.entity';
+import { Payment } from '../payment/entities/payment.entity';
 import { User } from '../user/entities/user.entity';
 import { Course } from './entities/course.entity';
 
@@ -20,6 +21,8 @@ export class CourseService {
     private readonly userRepository: Repository<User>,
     @InjectRepository(Material)
     private readonly materialRepository: Repository<Material>,
+    @InjectRepository(Payment)
+    private readonly paymentRepository: Repository<Payment>,
   ) {}
 
   async findOne({ courseId }) {
@@ -292,6 +295,31 @@ export class CourseService {
     const pagination = [];
     for (let i = (page - 1) * 16; i < page * 16; i++) {
       if (result[i] !== undefined) pagination.push(result[i]);
+    }
+    return pagination;
+  }
+
+  async fetchCoursesByUser(id, page) {
+    const user = await this.userRepository.findOne({
+      where: { id: id },
+    });
+    const courses = await this.paymentRepository.find({
+      where: { user: user },
+      relations: [
+        'host',
+        'imageURLs',
+        'category',
+        'materials',
+        'courseDate',
+        'courseDate.specificSchedule',
+        'user',
+        'course',
+        'specificSchedule',
+      ],
+    });
+    const pagination = [];
+    for (let i = (page - 1) * 10; i < page * 10; i++) {
+      if (courses[i] !== undefined) pagination.push(courses[i]);
     }
     return pagination;
   }

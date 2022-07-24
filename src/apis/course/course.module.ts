@@ -8,10 +8,19 @@ import { User } from '../user/entities/user.entity';
 import { Image } from '../image/entities/image.entity';
 import { Category } from '../category/entities/category.entity';
 import { Material } from '../material/entities/material.entity';
+import { Payment } from '../payment/entities/payment.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Course, User, Image, Pick, Category, Material]),
+    TypeOrmModule.forFeature([
+      Course,
+      User,
+      Image,
+      Pick,
+      Category,
+      Material,
+      Payment,
+    ]),
   ],
   exports: [CourseService],
   providers: [CourseResolver, CourseService],
