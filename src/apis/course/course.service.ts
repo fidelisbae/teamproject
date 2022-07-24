@@ -33,7 +33,7 @@ export class CourseService {
         'imageURLs',
         'materials',
         'courseDay',
-        'courseDate.specificSchedule',
+        'courseDay.specificSchedule',
         'category',
       ],
     });
@@ -46,7 +46,7 @@ export class CourseService {
         'imageURLs',
         'materials',
         'courseDay',
-        'courseDate.specificSchedule',
+        'courseDay.specificSchedule',
         'category',
       ],
       skip: (page - 1) * 16,
@@ -65,7 +65,7 @@ export class CourseService {
         'imageURLs',
         'materials',
         'courseDay',
-        'courseDate.specificSchedule',
+        'courseDay.specificSchedule',
         'category',
       ],
     });
@@ -89,7 +89,7 @@ export class CourseService {
         'imageURLs',
         'materials',
         'courseDay',
-        'courseDate.specificSchedule',
+        'courseDay.specificSchedule',
         'category',
       ],
     });
@@ -125,7 +125,7 @@ export class CourseService {
         'category',
         'materials',
         'courseDay',
-        'courseDate.specificSchedule',
+        'courseDay.specificSchedule',
       ],
     });
     const result = [];
@@ -159,7 +159,7 @@ export class CourseService {
         'imageURLs',
         'materials',
         'courseDay',
-        'courseDate.specificSchedule',
+        'courseDay.specificSchedule',
       ],
     });
     const result = [];
@@ -198,7 +198,8 @@ export class CourseService {
         'imageURLs',
         'materials',
         'courseDay',
-        'courseDate.specificSchedule',
+        'courseDay.specificSchedule',
+        'review',
       ],
     });
     const result = [];
@@ -225,7 +226,7 @@ export class CourseService {
         'category',
         'materials',
         'courseDay',
-        'courseDate.specificSchedule',
+        'courseDay.specificSchedule',
       ],
     });
     const result = [];
@@ -252,7 +253,8 @@ export class CourseService {
         'category',
         'materials',
         'courseDay',
-        'courseDate.specificSchedule',
+        'courseDay.specificSchedule',
+        'review',
       ],
     });
     const result = [];
@@ -283,7 +285,7 @@ export class CourseService {
         'category',
         'materials',
         'courseDay',
-        'courseDate.specificSchedule',
+        'courseDay.specificSchedule',
       ],
     });
     const result = [];
@@ -306,20 +308,32 @@ export class CourseService {
     const courses = await this.paymentRepository.find({
       where: { user: user },
       relations: [
-        'host',
-        'imageURLs',
-        'category',
-        'materials',
-        'courseDate',
-        'courseDate.specificSchedule',
+        // 'host',
+        // 'imageURLs',
+        // 'category',
+        // 'materials',
+        // 'courseDay',
+        // 'courseDay.specificSchedule',
         'user',
         'course',
         'specificSchedule',
       ],
     });
+    const courseFound = await this.courseRepository.find({
+      where: { id: id },
+      relations: [
+        'host',
+        'imageURLs',
+        'category',
+        'materials',
+        'courseDay',
+        'courseDay.specificSchedule',
+      ],
+    });
     const pagination = [];
     for (let i = (page - 1) * 10; i < page * 10; i++) {
-      if (courses[i] !== undefined) pagination.push(courses[i]);
+      if (courses[i] && courseFound[i] !== undefined)
+        pagination.push(courses[i], courseFound[i]);
     }
     return pagination;
   }

@@ -61,7 +61,7 @@ type Course {
   lng: Float
   category: Category!
   pick: Int!
-  courseDate: [CourseDate!]!
+  courseDay: [CourseDate!]!
   materials: [Material!]!
 }
 
@@ -88,14 +88,6 @@ type Pick {
   user: User!
 }
 
-type Review {
-  id: String!
-  rate: Float!
-  contents: String!
-  course: Course!
-  user: User!
-}
-
 type Payment {
   id: String!
   status: PAYMENT_STATUS_ENUM!
@@ -114,6 +106,14 @@ enum PAYMENT_STATUS_ENUM {
   CANCEL
 }
 
+type Review {
+  id: String!
+  rate: Float!
+  contents: String!
+  course: Course!
+  user: User!
+}
+
 type Query {
   fetchCourseReviews(courseId: String!, page: Float = 1): [Review!]!
   fetchUsers: [User!]!
@@ -125,6 +125,7 @@ type Query {
   fetchCoursesSortByPick(search: String = "", page: Float = 1): [Course!]
   fetchCoursesSortByDiscount(search: String = "", page: Float = 1): [Course!]
   fetchCoursesByCategory(search: String = "", page: Float = 1): [Course!]
+  fetchCoursesByUser(page: Float = 1): [Course!]
   hotCourses: [Course!]!
   newCourses: [Course!]!
   cheapCourses: [Course!]!
@@ -181,7 +182,7 @@ type Mutation {
   createCourse(createCourseInput: CreateCourseInput!): Course!
   updateCourse(courseId: String!, updateCourseInput: UpdateCourseInput!): Course!
   deleteCourse(courseId: String!): Boolean!
-  createCourseDate(courseDate: DateTime!, courseId: String!): CourseDate!
+  createCourseDate(courseDay: DateTime!, courseId: String!): CourseDate!
   createSpecificSchedule(createSpecificScheduleInput: CreateSpecificScheduleInput!): SpecificSchedule!
   updateSpecificSchedule(specificScheduleId: String!, updateSpecificScheduleInput: UpdateSpecificScheduleInput!): SpecificSchedule!
   deleteSpecificSchedule(specificScheduleId: String!): Boolean!
