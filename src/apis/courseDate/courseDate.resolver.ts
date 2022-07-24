@@ -8,11 +8,11 @@ export class CourseDateResolver {
 
   @Mutation(() => CourseDate)
   createCourseDate(
-    @Args('courseDate') courseDate: Date,
+    @Args('courseDay') courseDay: Date,
     @Args('courseId') courseId: string,
   ) {
     return this.courseDateService.create({
-      courseDate,
+      courseDay,
       courseId,
     });
   }

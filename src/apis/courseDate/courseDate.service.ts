@@ -9,9 +9,9 @@ export class CourseDateService {
     @InjectRepository(CourseDate)
     private readonly courseDateRepository: Repository<CourseDate>,
   ) {}
-  async create({ courseDate, courseId }) {
+  async create({ courseDay, courseId }) {
     const result = await this.courseDateRepository.save({
-      courseDate,
+      courseDay,
       course: { id: courseId },
     });
     return result;
