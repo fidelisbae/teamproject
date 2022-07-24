@@ -99,7 +99,7 @@ export class Course {
 
   @OneToMany(() => CourseDate, (courseDate) => courseDate.course)
   @Field(() => [CourseDate])
-  courseDate: CourseDate[];
+  courseDay: CourseDate[];
 
   @OneToMany(() => Material, (materials) => materials.course)
   @Field(() => [Material])
