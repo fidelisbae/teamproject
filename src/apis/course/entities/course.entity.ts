@@ -15,6 +15,7 @@ import { Image } from 'src/apis/image/entities/image.entity';
 import { User } from 'src/apis/user/entities/user.entity';
 import { CourseDate } from 'src/apis/courseDate/entities/courseDate.entity';
 import { Material } from 'src/apis/material/entities/material.entity';
+import { Review } from 'src/apis/reivews/entities/review.entity';
 
 @Entity()
 @ObjectType()
@@ -104,4 +105,8 @@ export class Course {
   @OneToMany(() => Material, (materials) => materials.course)
   @Field(() => [Material])
   materials: Material[];
+
+  @OneToMany(() => Review, (review) => review.course)
+  @Field(() => [Review])
+  review: Review[];
 }

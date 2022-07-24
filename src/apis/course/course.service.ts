@@ -199,6 +199,7 @@ export class CourseService {
         'materials',
         'courseDay',
         'courseDay.specificSchedule',
+        'review',
       ],
     });
     const result = [];
@@ -253,6 +254,7 @@ export class CourseService {
         'materials',
         'courseDay',
         'courseDay.specificSchedule',
+        'review',
       ],
     });
     const result = [];
