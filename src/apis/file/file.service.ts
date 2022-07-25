@@ -20,7 +20,7 @@ export class FileService {
         return new Promise((resolve, reject) => {
           el.createReadStream()
             .pipe(storage.file(el.filename).createWriteStream())
-            .on('finish', () => resolve(`dabaeimage/${el.filename}`))
+            .on('finish', () => resolve(`dabaeimage0/${el.filename}`))
             .on('error', () => reject());
         });
       }),

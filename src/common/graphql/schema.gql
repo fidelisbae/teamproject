@@ -43,6 +43,14 @@ type Material {
   course: Course!
 }
 
+type Review {
+  id: String!
+  rate: Float!
+  contents: String!
+  course: Course!
+  user: User!
+}
+
 type Course {
   id: String!
   name: String!
@@ -63,6 +71,7 @@ type Course {
   pick: Int!
   courseDay: [CourseDate!]!
   materials: [Material!]!
+  review: [Review!]!
 }
 
 type User {
@@ -104,14 +113,6 @@ type Payment {
 enum PAYMENT_STATUS_ENUM {
   PAYMENT
   CANCEL
-}
-
-type Review {
-  id: String!
-  rate: Float!
-  contents: String!
-  course: Course!
-  user: User!
 }
 
 type Query {
