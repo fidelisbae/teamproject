@@ -23,7 +23,7 @@ export class CreateCourseInput {
   @Field(() => String)
   difficulty: string;
 
-  @Field(() => [String], { nullable: true })
+  @Field(() => [String], { defaultValue: ['준비물없음'] })
   materials: string;
 
   @Field(() => String)

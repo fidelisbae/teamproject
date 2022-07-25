@@ -57,8 +57,6 @@ export class AuthService {
       where: { email: req.user.email },
     });
 
-    console.log(userFound);
-
     if (!userFound) {
       userFound = await this.userRepository.save({
         name: req.user.name,

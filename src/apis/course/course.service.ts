@@ -340,6 +340,8 @@ export class CourseService {
 
   async create({ createCourseInput, currentUser }) {
     const { imageURLs, category, materials, ...items } = createCourseInput;
+    console.log('1=======', materials);
+
     let categoryResult = await this.categoryRepository.findOne({
       where: { name: category },
     });
@@ -379,6 +381,8 @@ export class CourseService {
         course: result,
       });
     }
+
+    console.log('2============', result);
     return result;
   }
 

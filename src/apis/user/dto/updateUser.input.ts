@@ -3,10 +3,10 @@ import { CreateUserInput } from './createUser.input';
 
 @InputType()
 export class UpdateUserInput {
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   nickname: string;
 
-  @Field(() => Boolean)
+  @Field(() => Boolean, { nullable: true })
   marketingAgreement: boolean;
 
   @Field(() => String, { nullable: true })

@@ -7,7 +7,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModuleLocal);
   app.use(graphqlUploadExpress());
   app.enableCors({
-    origin: 'http://localhost:3000',
+    origin: 'http://127.0.0.1:3000',
     credentials: true,
     methods: ['GET', 'HEAD', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     exposedHeaders: ['Authorization', 'Set-Cookie', 'Cookie'],

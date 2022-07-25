@@ -43,6 +43,14 @@ type Material {
   course: Course!
 }
 
+type Review {
+  id: String!
+  rate: Float!
+  contents: String!
+  course: Course!
+  user: User!
+}
+
 type Course {
   id: String!
   name: String!
@@ -63,6 +71,7 @@ type Course {
   pick: Int!
   courseDay: [CourseDate!]!
   materials: [Material!]!
+  review: [Review!]!
 }
 
 type User {
@@ -104,14 +113,6 @@ type Payment {
 enum PAYMENT_STATUS_ENUM {
   PAYMENT
   CANCEL
-}
-
-type Review {
-  id: String!
-  rate: Float!
-  contents: String!
-  course: Course!
-  user: User!
 }
 
 type Query {
@@ -212,8 +213,8 @@ input CreateUserInput {
 }
 
 input UpdateUserInput {
-  nickname: String!
-  marketingAgreement: Boolean!
+  nickname: String
+  marketingAgreement: Boolean
   account: String
   bank: String
   businessName: String
@@ -234,7 +235,7 @@ input CreateCourseInput {
   addressDetail: String!
   zipCode: String!
   difficulty: String!
-  materials: [String!]
+  materials: [String!] = ["준비물없음"]
   contents: String!
   openingDate: DateTime!
   closingDate: DateTime!
@@ -252,7 +253,7 @@ input UpdateCourseInput {
   addressDetail: String
   zipCode: String
   difficulty: String
-  materials: [String!]
+  materials: [String!] = ["준비물없음"]
   contents: String
   openingDate: DateTime
   closingDate: DateTime
