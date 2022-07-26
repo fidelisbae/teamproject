@@ -32,11 +32,8 @@ export class AuthResolver {
   ) {
     const user = await this.userService.findEmail({ email });
     if (!user) throw new UnprocessableEntityException('이메일이 없습니다.');
-    const isAuth = await bcryptjs.compare(password, user.password);
-    if (!isAuth) {
-      throw new UnprocessableEntityException('비밀번호가 틀렸습니다.');
-    }
-    const re = await this.authService.setRefreshToken({
+    await this.userService.checkPassword(password, user.password);
+    await this.authService.setRefreshToken({
       user,
       res: Context.req.res,
     });
@@ -55,11 +52,8 @@ export class AuthResolver {
       throw new UnauthorizedException('호스트 계정이 아닙니다.');
     }
     if (!user) throw new UnprocessableEntityException('이메일이 없습니다.');
-    const isAuth = await bcryptjs.compare(password, user.password);
-    if (!isAuth) {
-      throw new UnprocessableEntityException('비밀번호가 틀렸습니다.');
-    }
-    const re = await this.authService.setRefreshToken({
+    await this.userService.checkPassword(password, user.password);
+    await this.authService.setRefreshToken({
       user,
       res: Context.req.res,
     });

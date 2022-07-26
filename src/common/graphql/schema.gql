@@ -179,7 +179,6 @@ type Mutation {
   restoreAccessToken: String!
   logout: String!
   uploadFile(files: [Upload!]!): [String!]!
-  createCategory(name: String!): Category!
   createCourse(createCourseInput: CreateCourseInput!): Course!
   updateCourse(courseId: String!, updateCourseInput: UpdateCourseInput!): Course!
   deleteCourse(courseId: String!): Boolean!
