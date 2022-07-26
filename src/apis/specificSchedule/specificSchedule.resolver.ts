@@ -30,8 +30,10 @@ export class SpecificScheduleResolver {
     });
   }
   @Query(() => SpecificSchedule)
-  fetchSpecificSchedule() {
-    return this.specificSheduleService.findAll();
+  fetchSpecificSchedule(
+    @Args('specificScheduleId') specificScheduleId: string,
+  ) {
+    return this.specificSheduleService.findOne({ specificScheduleId });
   }
 
   @Mutation(() => Boolean)

@@ -17,9 +17,9 @@ export class CourseDateService {
     return result;
   }
 
-  async findOne({ courseDateId }) {
+  async findOne({ courseDayId }) {
     return await this.courseDateRepository.findOne({
-      where: { id: courseDateId },
+      where: { id: courseDayId },
     });
   }
 }

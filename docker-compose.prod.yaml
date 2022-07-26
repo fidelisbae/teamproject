@@ -2,10 +2,24 @@ version: '3.7'
 
 services:
   my-backend:
-    image: asia.gcr.io/omega-research-357204/dabae:2.6
+    image: asia.gcr.io/omega-research-357204/dabae:3.6
     platform: linux/x86_64
     build:
       context: .
       dockerfile: Dockerfile
     ports:
       - 3000:3000
+
+  my-database:
+    platform: linux/x86_64
+    image: mysql:latest
+    environment:
+      MYSQL_DATABASE: 'dabae-database'
+      MYSQL_ROOT_PASSWORD: 'root'
+    ports:
+      - 3306:3306
+
+  my-redis:
+    image: redis:latest
+    ports:
+      - 6379:6379

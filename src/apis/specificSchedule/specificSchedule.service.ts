@@ -31,9 +31,10 @@ export class SpecificScheduleService {
     return await this.specificScheduleRepository.save(newCourse);
   }
 
-  async findAll() {
-    return await this.specificScheduleRepository.find({
-      relations: ['courseDate'],
+  async findOne({ specificScheduleId }) {
+    return await this.specificScheduleRepository.findOne({
+      where: { id: specificScheduleId },
+      relations: ['courseDay'],
     });
   }
   async delete({ specificScheduleId }) {

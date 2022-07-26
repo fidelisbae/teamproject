@@ -20,13 +20,13 @@ export class CourseDate {
   @Field(() => Date)
   courseDay: Date;
 
-  @ManyToOne(() => Course)
+  @ManyToOne(() => Course, (course) => course.courseDay)
   @Field(() => Course)
   course: Course;
 
   @OneToMany(
     () => SpecificSchedule,
-    (specificSchedule) => specificSchedule.courseDate,
+    (specificSchedule) => specificSchedule.courseDay,
   )
   @Field(() => [SpecificSchedule])
   specificSchedule: SpecificSchedule[];

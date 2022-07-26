@@ -33,7 +33,7 @@ export class SpecificSchedule {
   @Field(() => Date)
   courseEndTime: Date;
 
-  @ManyToOne(() => CourseDate)
+  @ManyToOne(() => CourseDate, (courseDate) => courseDate.specificSchedule)
   @Field(() => CourseDate)
-  courseDate: CourseDate;
+  courseDay: CourseDate;
 }

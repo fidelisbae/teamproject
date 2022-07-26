@@ -5,6 +5,7 @@ import { Category } from '../category/entities/category.entity';
 import { Image } from '../image/entities/image.entity';
 import { Material } from '../material/entities/material.entity';
 import { Payment } from '../payment/entities/payment.entity';
+import { SpecificSchedule } from '../specificSchedule/entities/specificSchedule.entity';
 import { User } from '../user/entities/user.entity';
 import { Course } from './entities/course.entity';
 
@@ -23,6 +24,8 @@ export class CourseService {
     private readonly materialRepository: Repository<Material>,
     @InjectRepository(Payment)
     private readonly paymentRepository: Repository<Payment>,
+    @InjectRepository(SpecificSchedule)
+    private readonly specificScheduleRepository: Repository<SpecificSchedule>,
   ) {}
 
   async findOne({ courseId }) {

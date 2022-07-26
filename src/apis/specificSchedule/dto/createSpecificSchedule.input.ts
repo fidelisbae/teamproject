@@ -18,5 +18,5 @@ export class CreateSpecificScheduleInput {
   recruitmentEndDate: Date;
 
   @Field(() => String)
-  courseDateId: string;
+  courseDayId: string;
 }

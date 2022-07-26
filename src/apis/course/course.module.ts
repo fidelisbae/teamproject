@@ -9,6 +9,7 @@ import { Image } from '../image/entities/image.entity';
 import { Category } from '../category/entities/category.entity';
 import { Material } from '../material/entities/material.entity';
 import { Payment } from '../payment/entities/payment.entity';
+import { SpecificSchedule } from '../specificSchedule/entities/specificSchedule.entity';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { Payment } from '../payment/entities/payment.entity';
       Category,
       Material,
       Payment,
+      SpecificSchedule,
     ]),
   ],
   exports: [CourseService],
