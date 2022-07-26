@@ -1,5 +1,7 @@
+import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { CreatePickInput } from './dto/createPick.input';
+import { GqlAuthAccessGuard } from 'src/common/auth/gql.auth.guard';
+import { CurrentUser, ICurrentUser } from 'src/common/auth/gql.user.param';
 import { Pick } from './entities/pick.entity';
 import { PickService } from './pick.service';
 
@@ -17,14 +19,12 @@ export class PickResolver {
     return await this.pickService.picksByUser(userID);
   }
 
+  @UseGuards(GqlAuthAccessGuard)
   @Mutation(() => Boolean)
-  // async togglePick(@Args('createPickInput') createPickInput: CreatePickInput) {
-  //   return await this.pickService.toggle(
-  //     createPickInput.course,
-  //     createPickInput.user,
-  //   );
-  // }
-  async tooglePick(@Args('courseId') courseId: string) {
-    return await this.pickService.toggle(courseId);
+  async togglePick(
+    @CurrentUser() currentUser: ICurrentUser,
+    @Args('courseId') courseId: string,
+  ) {
+    return await this.pickService.toggle(courseId, currentUser.id);
   }
 }

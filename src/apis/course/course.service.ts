@@ -36,8 +36,9 @@ export class CourseService {
         'imageURLs',
         'materials',
         'courseDay',
-        'courseDay.specificSchedule',
+        'specificSchedule',
         'category',
+        'review',
       ],
     });
     return result;
@@ -49,8 +50,9 @@ export class CourseService {
         'imageURLs',
         'materials',
         'courseDay',
-        'courseDay.specificSchedule',
+        'specificSchedule',
         'category',
+        'review',
       ],
       skip: (page - 1) * 16,
       take: 10,
@@ -68,8 +70,9 @@ export class CourseService {
         'imageURLs',
         'materials',
         'courseDay',
-        'courseDay.specificSchedule',
+        'specificSchedule',
         'category',
+        'review',
       ],
     });
     const result = [];
@@ -94,6 +97,7 @@ export class CourseService {
         'courseDay',
         'courseDay.specificSchedule',
         'category',
+        'review',
       ],
     });
     const result = [];
@@ -128,7 +132,8 @@ export class CourseService {
         'category',
         'materials',
         'courseDay',
-        'courseDay.specificSchedule',
+        'specificSchedule',
+        'review',
       ],
     });
     const result = [];
@@ -162,7 +167,8 @@ export class CourseService {
         'imageURLs',
         'materials',
         'courseDay',
-        'courseDay.specificSchedule',
+        'specificSchedule',
+        'review',
       ],
     });
     const result = [];
@@ -201,7 +207,7 @@ export class CourseService {
         'imageURLs',
         'materials',
         'courseDay',
-        'courseDay.specificSchedule',
+        'specificSchedule',
         'review',
       ],
     });
@@ -229,7 +235,8 @@ export class CourseService {
         'category',
         'materials',
         'courseDay',
-        'courseDay.specificSchedule',
+        'specificSchedule',
+        'review',
       ],
     });
     const result = [];
@@ -256,7 +263,7 @@ export class CourseService {
         'category',
         'materials',
         'courseDay',
-        'courseDay.specificSchedule',
+        'specificSchedule',
         'review',
       ],
     });
@@ -288,7 +295,8 @@ export class CourseService {
         'category',
         'materials',
         'courseDay',
-        'courseDay.specificSchedule',
+        'specificSchedule',
+        'review',
       ],
     });
     const result = [];
@@ -330,7 +338,7 @@ export class CourseService {
         'category',
         'materials',
         'courseDay',
-        'courseDay.specificSchedule',
+        'specificSchedule',
       ],
     });
     const pagination = [];
@@ -343,14 +351,13 @@ export class CourseService {
 
   async create({ createCourseInput, currentUser }) {
     const { imageURLs, category, materials, ...items } = createCourseInput;
-    console.log('1=======', materials);
-
-    let categoryResult = await this.categoryRepository.findOne({
-      where: { name: category },
-    });
 
     const hostUser = await this.userRepository.findOne({
       where: { email: currentUser.email },
+    });
+
+    let categoryResult = await this.categoryRepository.findOne({
+      where: { name: category },
     });
 
     if (!categoryResult) {
@@ -385,8 +392,12 @@ export class CourseService {
       });
     }
 
-    console.log('2============', result);
-    return result;
+    const result2 = await this.courseRepository.findOne({
+      relations: ['host', 'imageURLs', 'category', 'materials'],
+      where: { id: result.id },
+    });
+
+    return result2;
   }
 
   async update({ courseId, updateCourseInput }) {
