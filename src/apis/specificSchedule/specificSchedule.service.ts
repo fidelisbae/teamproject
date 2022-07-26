@@ -15,6 +15,8 @@ export class SpecificScheduleService {
   async create({ createSpecificScheduleInput }) {
     const result = await this.specificScheduleRepository.save({
       ...createSpecificScheduleInput,
+      course: { id: createSpecificScheduleInput.courseId },
+      courseDate: { id: createSpecificScheduleInput.courseDateId },
     });
     return result;
   }
