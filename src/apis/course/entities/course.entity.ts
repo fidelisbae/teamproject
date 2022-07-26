@@ -98,7 +98,7 @@ export class Course {
   @ManyToMany(() => User, (user) => user.course)
   user: User[];
 
-  @OneToMany(() => CourseDate, (courseDate) => courseDate.course)
+  @OneToMany(() => CourseDate, (courseDay) => courseDay.course)
   @Field(() => [CourseDate])
   courseDay: CourseDate[];
 
