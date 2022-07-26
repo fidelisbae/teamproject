@@ -18,10 +18,13 @@ export class PickResolver {
   }
 
   @Mutation(() => Boolean)
-  async togglePick(@Args('createPickInput') createPickInput: CreatePickInput) {
-    return await this.pickService.toggle(
-      createPickInput.course,
-      createPickInput.user,
-    );
+  // async togglePick(@Args('createPickInput') createPickInput: CreatePickInput) {
+  //   return await this.pickService.toggle(
+  //     createPickInput.course,
+  //     createPickInput.user,
+  //   );
+  // }
+  async tooglePick(@Args('courseId') courseId: string) {
+    return await this.pickService.toggle(courseId);
   }
 }
