@@ -11,6 +11,7 @@ import {
 } from '@nestjs/common';
 import { CurrentUser, ICurrentUser } from 'src/common/auth/gql.user.param';
 import { UpdateUserInput } from './dto/updateUser.input';
+import { use } from 'passport';
 
 @Resolver()
 export class UserResolver {
@@ -65,10 +66,12 @@ export class UserResolver {
     @CurrentUser() currentUser: ICurrentUser,
     @Args('businessName') businessName: string,
     @Args('businessNumber') businessNumber: string,
+    @Args('inputPassword') inputPassword: string,
   ) {
-    const email = currentUser.email;
+    const user = await this.userService.findOne(currentUser.id);
+    await this.userService.checkPassword(inputPassword, user.password);
     return await this.userService.userToHost(
-      email,
+      currentUser.email,
       businessName,
       businessNumber,
     );

@@ -185,7 +185,7 @@ export class UserService {
   async checkPassword(inputPassword: string, password: string) {
     const isAuth = await bcryptjs.compare(inputPassword, password);
     if (!isAuth) {
-      throw new UnauthorizedException('비밀번호가 틀렸습니다.');
+      throw new UnauthorizedException('비밀번호가 일치하지 않습니다.');
     }
   }
 }

@@ -155,7 +155,7 @@ type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
 
   """유저를 호스트로 바꾸는 api"""
-  userToHost(businessName: String!, businessNumber: String!): User!
+  userToHost(businessName: String!, businessNumber: String!, inputPassword: String!): User!
   sendTokenToPhone(phone: String!): String!
   authPhoneOk(phone: String!, inputToken: String!): Boolean!
   updateUser(updateUserInput: UpdateUserInput!): User!
