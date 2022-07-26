@@ -33,7 +33,7 @@ export class CourseService {
         'imageURLs',
         'materials',
         'courseDay',
-        'courseDay.specificSchedule',
+        'specificSchedule',
         'category',
         'review',
       ],
@@ -47,7 +47,7 @@ export class CourseService {
         'imageURLs',
         'materials',
         'courseDay',
-        'courseDay.specificSchedule',
+        'specificSchedule',
         'category',
         'review',
       ],
@@ -67,7 +67,7 @@ export class CourseService {
         'imageURLs',
         'materials',
         'courseDay',
-        'courseDay.specificSchedule',
+        'specificSchedule',
         'category',
         'review',
       ],
@@ -129,7 +129,7 @@ export class CourseService {
         'category',
         'materials',
         'courseDay',
-        'courseDay.specificSchedule',
+        'specificSchedule',
         'review',
       ],
     });
@@ -164,7 +164,7 @@ export class CourseService {
         'imageURLs',
         'materials',
         'courseDay',
-        'courseDay.specificSchedule',
+        'specificSchedule',
         'review',
       ],
     });
@@ -204,7 +204,7 @@ export class CourseService {
         'imageURLs',
         'materials',
         'courseDay',
-        'courseDay.specificSchedule',
+        'specificSchedule',
         'review',
       ],
     });
@@ -232,7 +232,7 @@ export class CourseService {
         'category',
         'materials',
         'courseDay',
-        'courseDay.specificSchedule',
+        'specificSchedule',
         'review',
       ],
     });
@@ -260,7 +260,7 @@ export class CourseService {
         'category',
         'materials',
         'courseDay',
-        'courseDay.specificSchedule',
+        'specificSchedule',
         'review',
       ],
     });
@@ -292,7 +292,7 @@ export class CourseService {
         'category',
         'materials',
         'courseDay',
-        'courseDay.specificSchedule',
+        'specificSchedule',
         'review',
       ],
     });
@@ -335,7 +335,7 @@ export class CourseService {
         'category',
         'materials',
         'courseDay',
-        'courseDay.specificSchedule',
+        'specificSchedule',
       ],
     });
     const pagination = [];

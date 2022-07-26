@@ -23,6 +23,7 @@ type SpecificSchedule {
   courseStartTime: DateTime!
   courseEndTime: DateTime!
   courseDate: CourseDate!
+  course: Course!
 }
 
 """
@@ -186,7 +187,7 @@ type Mutation {
   createSpecificSchedule(createSpecificScheduleInput: CreateSpecificScheduleInput!): SpecificSchedule!
   updateSpecificSchedule(specificScheduleId: String!, updateSpecificScheduleInput: UpdateSpecificScheduleInput!): SpecificSchedule!
   deleteSpecificSchedule(specificScheduleId: String!): Boolean!
-  togglePick(createPickInput: CreatePickInput!): Boolean!
+  togglePick(courseId: String!): Boolean!
   createPayment(createPaymentInput: CreatePaymentInput!): Payment!
   cancelPayment(impUid: String!): Boolean!
 }
@@ -269,6 +270,7 @@ input CreateSpecificScheduleInput {
   recruitmentStartDate: DateTime!
   recruitmentEndDate: DateTime!
   courseDateId: String!
+  courseId: String!
 }
 
 input UpdateSpecificScheduleInput {
@@ -278,11 +280,7 @@ input UpdateSpecificScheduleInput {
   recruitmentStartDate: DateTime
   recruitmentEndDate: DateTime
   courseDateId: String
-}
-
-input CreatePickInput {
-  user: String!
-  course: String!
+  courseId: String
 }
 
 input CreatePaymentInput {

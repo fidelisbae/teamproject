@@ -19,4 +19,7 @@ export class CreateSpecificScheduleInput {
 
   @Field(() => String)
   courseDateId: string;
+
+  @Field(() => String)
+  courseId: string;
 }
