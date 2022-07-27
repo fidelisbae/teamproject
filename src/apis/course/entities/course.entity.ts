@@ -17,6 +17,7 @@ import { Material } from 'src/apis/material/entities/material.entity';
 import { Review } from 'src/apis/reivews/entities/review.entity';
 import { CourseDate } from 'src/apis/courseDate/entities/courseDate.entity';
 import { CourseTime } from 'src/apis/courseTime/entities/courseTime.entity';
+import { Payment } from 'src/apis/payment/entities/payment.entity';
 
 @Entity()
 @ObjectType()
@@ -71,14 +72,6 @@ export class Course {
   @Field(() => String)
   zipCode: string;
 
-  @ManyToOne(() => User)
-  @Field(() => User)
-  host: User;
-
-  @OneToMany(() => Image, (imageURLs) => imageURLs.course)
-  @Field(() => [Image])
-  imageURLs: Image[];
-
   @Column({ type: 'decimal', precision: 16, scale: 13 })
   @Field(() => Float, { nullable: true })
   lat: number;
@@ -87,17 +80,21 @@ export class Course {
   @Field(() => Float, { nullable: true })
   lng: number;
 
-  @ManyToOne(() => Category)
-  @Field(() => Category)
-  category: Category;
-
   @Column({ default: 0 })
   @Field(() => Int)
   pick: number;
 
-  @JoinTable()
-  @ManyToMany(() => User, (user) => user.course)
-  user: User[];
+  @ManyToOne(() => User)
+  @Field(() => User)
+  host: User;
+
+  @ManyToOne(() => Category)
+  @Field(() => Category)
+  category: Category;
+
+  @OneToMany(() => Image, (imageURLs) => imageURLs.course)
+  @Field(() => [Image])
+  imageURLs: Image[];
 
   @OneToMany(() => Material, (materials) => materials.course)
   @Field(() => [Material])
@@ -114,4 +111,8 @@ export class Course {
   @OneToMany(() => CourseTime, (courseTime) => courseTime.course)
   @Field(() => [CourseTime])
   courseTime: CourseTime[];
+
+  @OneToMany(() => Payment, (payment) => payment.course)
+  @Field(() => [Payment])
+  payment: Payment[];
 }

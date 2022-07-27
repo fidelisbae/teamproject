@@ -316,35 +316,29 @@ export class CourseService {
     const user = await this.userRepository.findOne({
       where: { id: id },
     });
-    const courses = await this.paymentRepository.find({
+    const payments = await this.paymentRepository.find({
       where: { user: user },
-      relations: [
-        // 'host',
-        // 'imageURLs',
-        // 'category',
-        // 'materials',
-        // 'courseDate',
-        // 'courseTime',
-        'user',
-        'course',
-        'courseTime',
-      ],
+      relations: ['user', 'course', 'courseTime'],
     });
-    const courseFound = await this.courseRepository.find({
-      where: { id: id },
-      relations: [
-        'host',
-        'imageURLs',
-        'category',
-        'materials',
-        'courseDate',
-        'courseTime',
-      ],
-    });
+    const courses = [];
+    for (let i = 0; i < payments.length; i++) {
+      let course = await this.courseRepository.findOne({
+        where: { payment: payments[i] },
+        relations: [
+          'host',
+          'imageURLs',
+          'category',
+          'materials',
+          'courseDate',
+          'courseTime',
+          'review',
+        ],
+      });
+      courses.push(course);
+    }
     const pagination = [];
     for (let i = (page - 1) * 10; i < page * 10; i++) {
-      if (courses[i] && courseFound[i] !== undefined)
-        pagination.push(courses[i], courseFound[i]);
+      if (courses[i] !== undefined) pagination.push(courses[i]);
     }
     return pagination;
   }
@@ -393,7 +387,15 @@ export class CourseService {
     }
 
     const result2 = await this.courseRepository.findOne({
-      relations: ['host', 'imageURLs', 'category', 'materials'],
+      relations: [
+        'host',
+        'imageURLs',
+        'category',
+        'materials',
+        'courseDate',
+        'courseTime',
+        'review',
+      ],
       where: { id: result.id },
     });
 

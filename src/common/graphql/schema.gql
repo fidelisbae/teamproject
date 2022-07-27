@@ -28,17 +28,6 @@ type Review {
   user: User!
 }
 
-type CourseDate {
-  id: String!
-  date: DateTime!
-  course: Course!
-}
-
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
-
 type CourseTime {
   id: String!
   maxUsers: Int!
@@ -49,6 +38,19 @@ type CourseTime {
   courseEndTime: DateTime!
   courseDate: CourseDate!
   course: Course!
+  payment: [Payment!]!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type CourseDate {
+  id: String!
+  date: DateTime!
+  course: Course!
+  courseTime: [CourseTime!]!
 }
 
 type Course {
@@ -63,39 +65,17 @@ type Course {
   address: String!
   addressDetail: String!
   zipCode: String!
-  host: User!
-  imageURLs: [Image!]!
   lat: Float
   lng: Float
-  category: Category!
   pick: Int!
+  host: User!
+  category: Category!
+  imageURLs: [Image!]!
   materials: [Material!]!
   review: [Review!]!
   courseDate: [CourseDate!]!
   courseTime: [CourseTime!]!
-}
-
-type User {
-  id: String!
-  email: String!
-  nickname: String!
-  phone: String
-  point: Int!
-  isHost: Boolean!
-  account: String
-  bank: String
-  businessName: String
-  businessNumber: String
-  birth: DateTime
-  gender: Boolean
-  profileImageURL: String
-  marketingAgreement: Boolean!
-}
-
-type Pick {
-  id: String!
-  course: Course!
-  user: User!
+  payment: [Payment!]!
 }
 
 type Payment {
@@ -114,6 +94,31 @@ type Payment {
 enum PAYMENT_STATUS_ENUM {
   PAYMENT
   CANCEL
+}
+
+type Pick {
+  id: String!
+  course: Course!
+  user: User!
+}
+
+type User {
+  id: String!
+  email: String!
+  nickname: String!
+  phone: String
+  point: Int!
+  isHost: Boolean!
+  account: String
+  bank: String
+  businessName: String
+  businessNumber: String
+  birth: DateTime
+  gender: Boolean
+  profileImageURL: String
+  marketingAgreement: Boolean!
+  pick: [Pick!]!
+  payment: [Payment!]!
 }
 
 type Query {

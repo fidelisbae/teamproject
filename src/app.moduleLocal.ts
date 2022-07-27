@@ -14,7 +14,6 @@ import { CourseDateModule } from './apis/courseDate/courseDate.module';
 import { PickModule } from './apis/pick/pick.module';
 import { PaymentModule } from './apis/payment/payment.module';
 import { FileModule } from './apis/file/file.module';
-import { CourseTime } from './apis/courseTime/entities/courseTime.entity';
 import { CourseTimeModule } from './apis/courseTime/courseTime.module';
 
 @Module({
