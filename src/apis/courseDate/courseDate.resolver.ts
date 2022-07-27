@@ -8,17 +8,14 @@ export class CourseDateResolver {
 
   @Mutation(() => CourseDate)
   createCourseDate(
-    @Args('courseDay') courseDay: Date,
+    @Args('date') date: Date,
     @Args('courseId') courseId: string,
   ) {
-    return this.courseDateService.create({
-      courseDay,
-      courseId,
-    });
+    return this.courseDateService.create(date, courseId);
   }
 
   @Query(() => CourseDate)
-  async fetchCourseDate(@Args('courseDayId') courseDayId: string) {
-    return await this.courseDateService.findOne({ courseDayId });
+  async fetchCourseDate(@Args('courseDateId') courseDateId: string) {
+    return await this.courseDateService.findOne({ courseDateId });
   }
 }

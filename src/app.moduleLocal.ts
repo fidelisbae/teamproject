@@ -11,16 +11,16 @@ import { CourseModule } from './apis/course/course.module';
 import { ReviewModule } from './apis/reivews/review.module';
 import { AppController } from './app.controller';
 import { CourseDateModule } from './apis/courseDate/courseDate.module';
-import { SpecificScheduleModule } from './apis/specificSchedule/specificSchedule.module';
 import { PickModule } from './apis/pick/pick.module';
 import { PaymentModule } from './apis/payment/payment.module';
 import { FileModule } from './apis/file/file.module';
+import { CourseTimeModule } from './apis/courseTime/courseTime.module';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'my-database',
+      host: 'localhost',
       port: 3306,
       username: 'root',
       password: 'root',
@@ -42,7 +42,7 @@ import { FileModule } from './apis/file/file.module';
     }),
     CacheModule.register<RedisClientOptions>({
       store: redisStore,
-      url: 'redis://my-redis:6379',
+      url: 'redis://localhost:6379',
       isGlobal: true,
     }),
     ReviewModule,
@@ -51,7 +51,7 @@ import { FileModule } from './apis/file/file.module';
     FileModule,
     CourseModule,
     CourseDateModule,
-    SpecificScheduleModule,
+    CourseTimeModule,
     PickModule,
     PaymentModule,
   ],

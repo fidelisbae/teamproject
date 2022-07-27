@@ -19,7 +19,7 @@ export class Material {
   @Field(() => String)
   materials: string;
 
-  @ManyToOne(() => Course, (course) => course.materials)
+  @ManyToOne(() => Course)
   @Field(() => Course)
   course: Course;
 }

@@ -1,6 +1,6 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { Course } from 'src/apis/course/entities/course.entity';
-import { SpecificSchedule } from 'src/apis/specificSchedule/entities/specificSchedule.entity';
+import { CourseTime } from 'src/apis/courseTime/entities/courseTime.entity';
 import {
   Column,
   Entity,
@@ -16,18 +16,21 @@ export class CourseDate {
   @Field(() => String)
   id: string;
 
-  @Column({ default: null })
+  @Column()
   @Field(() => Date)
-  courseDay: Date;
+  date: Date;
 
-  @ManyToOne(() => Course, (course) => course.courseDay)
+  @ManyToOne(() => Course)
   @Field(() => Course)
   course: Course;
 
-  @OneToMany(
-    () => SpecificSchedule,
-    (specificSchedule) => specificSchedule.courseDate,
-  )
-  @Field(() => [SpecificSchedule])
-  specificSchedule: SpecificSchedule[];
+  // @OneToMany(
+  //   () => SpecificSchedule,
+  //   (specificSchedule) => specificSchedule.courseDate,
+  // )
+  // @Field(() => [SpecificSchedule])
+  // specificSchedule: SpecificSchedule[];
+  @OneToMany(() => CourseTime, (courseTime) => courseTime.course)
+  @Field(() => [CourseTime])
+  courseTime: CourseTime[];
 }

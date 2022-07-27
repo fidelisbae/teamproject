@@ -7,15 +7,14 @@ import * as redisStore from 'cache-manager-redis-store';
 import { AppService } from './app.service';
 import { UserModule } from './apis/user/user.module';
 import { AuthModule } from './apis/auth/auth.module';
-
 import { CourseModule } from './apis/course/course.module';
 import { ReviewModule } from './apis/reivews/review.module';
 import { AppController } from './app.controller';
 import { CourseDateModule } from './apis/courseDate/courseDate.module';
-import { SpecificScheduleModule } from './apis/specificSchedule/specificSchedule.module';
 import { PickModule } from './apis/pick/pick.module';
 import { PaymentModule } from './apis/payment/payment.module';
 import { FileModule } from './apis/file/file.module';
+import { CourseTimeModule } from './apis/courseTime/courseTime.module';
 
 @Module({
   imports: [
@@ -71,7 +70,7 @@ import { FileModule } from './apis/file/file.module';
     FileModule,
     CourseModule,
     CourseDateModule,
-    SpecificScheduleModule,
+    CourseTimeModule,
     PickModule,
     PaymentModule,
   ],

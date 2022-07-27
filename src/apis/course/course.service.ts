@@ -2,10 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Category } from '../category/entities/category.entity';
+import { CourseTime } from '../courseTime/entities/courseTime.entity';
 import { Image } from '../image/entities/image.entity';
 import { Material } from '../material/entities/material.entity';
 import { Payment } from '../payment/entities/payment.entity';
-import { SpecificSchedule } from '../specificSchedule/entities/specificSchedule.entity';
 import { User } from '../user/entities/user.entity';
 import { Course } from './entities/course.entity';
 
@@ -24,8 +24,8 @@ export class CourseService {
     private readonly materialRepository: Repository<Material>,
     @InjectRepository(Payment)
     private readonly paymentRepository: Repository<Payment>,
-    @InjectRepository(SpecificSchedule)
-    private readonly specificScheduleRepository: Repository<SpecificSchedule>,
+    @InjectRepository(CourseTime)
+    private readonly courseTimeRepository: Repository<CourseTime>,
   ) {}
 
   async findOne({ courseId }) {
@@ -35,8 +35,8 @@ export class CourseService {
         'host',
         'imageURLs',
         'materials',
-        'courseDay',
-        'specificSchedule',
+        'courseDate',
+        'courseTime',
         'category',
         'review',
       ],
@@ -49,8 +49,8 @@ export class CourseService {
         'host',
         'imageURLs',
         'materials',
-        'courseDay',
-        'specificSchedule',
+        'courseDate',
+        'courseTime',
         'category',
         'review',
       ],
@@ -69,8 +69,8 @@ export class CourseService {
         'host',
         'imageURLs',
         'materials',
-        'courseDay',
-        'specificSchedule',
+        'courseDate',
+        'courseTime',
         'category',
         'review',
       ],
@@ -94,8 +94,8 @@ export class CourseService {
         'host',
         'imageURLs',
         'materials',
-        'courseDay',
-        'courseDay.specificSchedule',
+        'courseDate',
+        'courseTime',
         'category',
         'review',
       ],
@@ -131,8 +131,8 @@ export class CourseService {
         'imageURLs',
         'category',
         'materials',
-        'courseDay',
-        'specificSchedule',
+        'courseDate',
+        'courseTime',
         'review',
       ],
     });
@@ -166,8 +166,8 @@ export class CourseService {
         'category',
         'imageURLs',
         'materials',
-        'courseDay',
-        'specificSchedule',
+        'courseDate',
+        'courseTime',
         'review',
       ],
     });
@@ -206,8 +206,8 @@ export class CourseService {
         'category',
         'imageURLs',
         'materials',
-        'courseDay',
-        'specificSchedule',
+        'courseDate',
+        'courseTime',
         'review',
       ],
     });
@@ -234,8 +234,8 @@ export class CourseService {
         'imageURLs',
         'category',
         'materials',
-        'courseDay',
-        'specificSchedule',
+        'courseDate',
+        'courseTime',
         'review',
       ],
     });
@@ -262,8 +262,8 @@ export class CourseService {
         'imageURLs',
         'category',
         'materials',
-        'courseDay',
-        'specificSchedule',
+        'courseDate',
+        'courseTime',
         'review',
       ],
     });
@@ -294,8 +294,8 @@ export class CourseService {
         'imageURLs',
         'category',
         'materials',
-        'courseDay',
-        'specificSchedule',
+        'courseDate',
+        'courseTime',
         'review',
       ],
     });
@@ -316,35 +316,29 @@ export class CourseService {
     const user = await this.userRepository.findOne({
       where: { id: id },
     });
-    const courses = await this.paymentRepository.find({
+    const payments = await this.paymentRepository.find({
       where: { user: user },
-      relations: [
-        // 'host',
-        // 'imageURLs',
-        // 'category',
-        // 'materials',
-        // 'courseDay',
-        // 'courseDay.specificSchedule',
-        'user',
-        'course',
-        'specificSchedule',
-      ],
+      relations: ['user', 'course', 'courseTime'],
     });
-    const courseFound = await this.courseRepository.find({
-      where: { id: id },
-      relations: [
-        'host',
-        'imageURLs',
-        'category',
-        'materials',
-        'courseDay',
-        'specificSchedule',
-      ],
-    });
+    const courses = [];
+    for (let i = 0; i < payments.length; i++) {
+      let course = await this.courseRepository.findOne({
+        where: { payment: payments[i] },
+        relations: [
+          'host',
+          'imageURLs',
+          'category',
+          'materials',
+          'courseDate',
+          'courseTime',
+          'review',
+        ],
+      });
+      courses.push(course);
+    }
     const pagination = [];
     for (let i = (page - 1) * 10; i < page * 10; i++) {
-      if (courses[i] && courseFound[i] !== undefined)
-        pagination.push(courses[i], courseFound[i]);
+      if (courses[i] !== undefined) pagination.push(courses[i]);
     }
     return pagination;
   }
@@ -393,7 +387,15 @@ export class CourseService {
     }
 
     const result2 = await this.courseRepository.findOne({
-      relations: ['host', 'imageURLs', 'category', 'materials'],
+      relations: [
+        'host',
+        'imageURLs',
+        'category',
+        'materials',
+        'courseDate',
+        'courseTime',
+        'review',
+      ],
       where: { id: result.id },
     });
 

@@ -17,12 +17,10 @@ export class Pick {
   @Field(() => String)
   id: string;
 
-  @JoinColumn()
   @ManyToOne(() => Course)
   @Field(() => Course)
   course: Course;
 
-  @JoinColumn()
   @ManyToOne(() => User)
   @Field(() => User)
   user: User;

@@ -7,7 +7,7 @@ import { Payment, PAYMENT_STATUS_ENUM } from './entities/payment.entity';
 import axios from 'axios';
 import { Course } from '../course/entities/course.entity';
 import { Point } from '../point/entities/point.entity';
-import { SpecificSchedule } from '../specificSchedule/entities/specificSchedule.entity';
+import { CourseTime } from '../courseTime/entities/courseTime.entity';
 
 @Injectable()
 export class PaymentService {
@@ -24,8 +24,8 @@ export class PaymentService {
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
 
-    @InjectRepository(SpecificSchedule)
-    private readonly scheduleRepository: Repository<SpecificSchedule>,
+    @InjectRepository(CourseTime)
+    private readonly courseTimeRepository: Repository<CourseTime>,
 
     private readonly iamportService: IamportService,
   ) {}
@@ -37,7 +37,7 @@ export class PaymentService {
 
     // input에서 입력받은 email로 실제 유저 엔티티 불러오기
     const userFound = await this.userRepository.findOne({
-      where: { email: currentUser.email },
+      where: { id: currentUser.id },
     });
 
     // input에서 입력받은 id로 실제 course 엔티티 불러오기
@@ -45,8 +45,8 @@ export class PaymentService {
       where: { id: createPaymentInput.courseId },
     });
 
-    const scheduleFound = await this.scheduleRepository.findOne({
-      where: { id: createPaymentInput.scheduleId },
+    const courseTimeFound = await this.courseTimeRepository.findOne({
+      where: { id: createPaymentInput.courseTimeId },
     });
 
     // Payment 만들기
@@ -56,9 +56,8 @@ export class PaymentService {
       course: courseFound,
       user: userFound,
       status: PAYMENT_STATUS_ENUM.PAYMENT,
-      specificSchedule: scheduleFound,
+      courseTime: courseTimeFound,
     });
-    console.log(result);
 
     // 👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻
     // 수정해야할것: 항상 최대할인율을 적용하는 방식이 아니라 스케쥴에서 최대인원과 현재인원을 받아서 인원비율로 할인율을 적용해야함
@@ -80,7 +79,7 @@ export class PaymentService {
 
   async findAll() {
     const result = await this.paymentRepository.find({
-      relations: ['user', 'course', 'specificSchedule'],
+      relations: ['user', 'course', 'courseTime'],
     });
     return result;
   }
@@ -88,7 +87,7 @@ export class PaymentService {
   async findOne({ email }) {
     return await this.paymentRepository.findOne({
       where: { id: email },
-      relations: ['user', 'course', 'specificSchedule'],
+      relations: ['user', 'course', 'courseTime'],
     });
   }
 

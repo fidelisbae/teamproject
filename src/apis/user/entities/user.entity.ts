@@ -1,5 +1,7 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { Course } from 'src/apis/course/entities/course.entity';
+import { Payment } from 'src/apis/payment/entities/payment.entity';
+import { Pick } from 'src/apis/pick/entities/pick.entity';
 import {
   Column,
   CreateDateColumn,
@@ -7,6 +9,7 @@ import {
   Entity,
   JoinTable,
   ManyToMany,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -79,7 +82,11 @@ export class User {
   @DeleteDateColumn()
   deletedAt: Date;
 
-  @JoinTable()
-  @ManyToMany(() => Course, (course) => course.user)
-  course: Course[];
+  @OneToMany(() => Pick, (pick) => pick.user)
+  @Field(() => [Pick])
+  pick: Pick[];
+
+  @OneToMany(() => Payment, (payment) => payment.user)
+  @Field(() => [Payment])
+  payment: Payment[];
 }

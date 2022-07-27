@@ -9,7 +9,6 @@ import { Cache } from 'cache-manager';
 import { Args, Context, Mutation, Resolver } from '@nestjs/graphql';
 import { UserService } from '../user/user.service';
 import { AuthService } from './auth.service';
-import * as bcryptjs from 'bcryptjs';
 import { GqlAuthRefreshGuard } from 'src/common/auth/gql.auth.guard';
 import { CurrentUser, ICurrentUser } from 'src/common/auth/gql.user.param';
 import * as jwt from 'jsonwebtoken';
