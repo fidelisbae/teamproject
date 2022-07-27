@@ -31,14 +31,12 @@ export class AuthController {
   @Get('/login/naver')
   @UseGuards(AuthGuard('naver'))
   async loginNaver(@Req() req: Request & IOAuthUser, @Res() res: Response) {
-    console.log(res);
     return this.authService.createSocialUser({ req, res });
   }
 
   @Get('/login/kakao')
   @UseGuards(AuthGuard('kakaotalk'))
   async loginKakao(@Req() req: Request & IOAuthUser, @Res() res: Response) {
-    console.log('kakao--');
     return this.authService.createSocialUser({ req, res });
   }
 }

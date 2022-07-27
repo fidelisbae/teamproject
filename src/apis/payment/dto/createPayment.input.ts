@@ -18,5 +18,5 @@ export class CreatePaymentInput {
   courseId: string;
 
   @Field(() => String)
-  scheduleId: string;
+  courseTimeId: string;
 }

@@ -9,7 +9,7 @@ import { Image } from '../image/entities/image.entity';
 import { Category } from '../category/entities/category.entity';
 import { Material } from '../material/entities/material.entity';
 import { Payment } from '../payment/entities/payment.entity';
-import { SpecificSchedule } from '../specificSchedule/entities/specificSchedule.entity';
+import { CourseTime } from '../courseTime/entities/courseTime.entity';
 
 @Module({
   imports: [
@@ -21,7 +21,7 @@ import { SpecificSchedule } from '../specificSchedule/entities/specificSchedule.
       Category,
       Material,
       Payment,
-      SpecificSchedule,
+      CourseTime,
     ]),
   ],
   exports: [CourseService],

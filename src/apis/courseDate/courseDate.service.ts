@@ -9,17 +9,17 @@ export class CourseDateService {
     @InjectRepository(CourseDate)
     private readonly courseDateRepository: Repository<CourseDate>,
   ) {}
-  async create({ courseDay, courseId }) {
+  async create(date, courseId) {
     const result = await this.courseDateRepository.save({
-      courseDay,
+      date: date,
       course: { id: courseId },
     });
     return result;
   }
 
-  async findOne({ courseDayId }) {
+  async findOne({ courseDateId }) {
     return await this.courseDateRepository.findOne({
-      where: { id: courseDayId },
+      where: { id: courseDateId },
     });
   }
 }

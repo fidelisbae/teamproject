@@ -5,7 +5,7 @@ import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 @ObjectType()
-export class SpecificSchedule {
+export class CourseTime {
   @PrimaryGeneratedColumn('uuid')
   @Field(() => String)
   id: string;
@@ -16,15 +16,15 @@ export class SpecificSchedule {
 
   @Column({ default: 0 })
   @Field(() => Int)
-  reservedPerson: number;
-
-  @Column()
-  @Field(() => Date)
-  recruitmentEndDate: Date;
+  currentUsers: number;
 
   @Column()
   @Field(() => Date)
   recruitmentStartDate: Date;
+
+  @Column()
+  @Field(() => Date)
+  recruitmentEndDate: Date;
 
   @Column()
   @Field(() => Date)

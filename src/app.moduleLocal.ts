@@ -11,10 +11,11 @@ import { CourseModule } from './apis/course/course.module';
 import { ReviewModule } from './apis/reivews/review.module';
 import { AppController } from './app.controller';
 import { CourseDateModule } from './apis/courseDate/courseDate.module';
-import { SpecificScheduleModule } from './apis/specificSchedule/specificSchedule.module';
 import { PickModule } from './apis/pick/pick.module';
 import { PaymentModule } from './apis/payment/payment.module';
 import { FileModule } from './apis/file/file.module';
+import { CourseTime } from './apis/courseTime/entities/courseTime.entity';
+import { CourseTimeModule } from './apis/courseTime/courseTime.module';
 
 @Module({
   imports: [
@@ -51,7 +52,7 @@ import { FileModule } from './apis/file/file.module';
     FileModule,
     CourseModule,
     CourseDateModule,
-    SpecificScheduleModule,
+    CourseTimeModule,
     PickModule,
     PaymentModule,
   ],

@@ -14,17 +14,6 @@ type Image {
   course: Course!
 }
 
-type CourseDate {
-  id: String!
-  courseDay: DateTime!
-  course: Course!
-}
-
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
-
 type Material {
   id: String!
   materials: String!
@@ -37,6 +26,29 @@ type Review {
   contents: String!
   course: Course!
   user: User!
+}
+
+type CourseDate {
+  id: String!
+  date: DateTime!
+  course: Course!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type CourseTime {
+  id: String!
+  maxUsers: Int!
+  currentUsers: Int!
+  recruitmentStartDate: DateTime!
+  recruitmentEndDate: DateTime!
+  courseStartTime: DateTime!
+  courseEndTime: DateTime!
+  courseDate: CourseDate!
+  course: Course!
 }
 
 type Course {
@@ -57,9 +69,10 @@ type Course {
   lng: Float
   category: Category!
   pick: Int!
-  courseDay: [CourseDate!]!
   materials: [Material!]!
   review: [Review!]!
+  courseDate: [CourseDate!]!
+  courseTime: [CourseTime!]!
 }
 
 type User {
@@ -85,18 +98,6 @@ type Pick {
   user: User!
 }
 
-type SpecificSchedule {
-  id: String!
-  maxUsers: Int!
-  reservedPerson: Int!
-  recruitmentEndDate: DateTime!
-  recruitmentStartDate: DateTime!
-  courseStartTime: DateTime!
-  courseEndTime: DateTime!
-  courseDate: CourseDate!
-  course: Course!
-}
-
 type Payment {
   id: String!
   status: PAYMENT_STATUS_ENUM!
@@ -107,7 +108,7 @@ type Payment {
   impUid: String!
   course: Course!
   user: User!
-  specificSchedule: SpecificSchedule!
+  courseTime: CourseTime!
 }
 
 enum PAYMENT_STATUS_ENUM {
@@ -130,8 +131,9 @@ type Query {
   hotCourses: [Course!]!
   newCourses: [Course!]!
   cheapCourses: [Course!]!
-  fetchCourseDate(courseDayId: String!): CourseDate!
-  fetchSpecificSchedule(specificScheduleId: String!): SpecificSchedule!
+  fetchCourseDate(courseDateId: String!): CourseDate!
+  fetchCourseTime(courseTimeId: String!): CourseTime!
+  fetchCourseTimes: [CourseTime!]!
   fetchPicks: [Pick!]!
   fetchPicksByUser(userID: String!): [String!]!
   fetchPayments: [Payment!]!
@@ -182,10 +184,10 @@ type Mutation {
   createCourse(createCourseInput: CreateCourseInput!): Course!
   updateCourse(courseId: String!, updateCourseInput: UpdateCourseInput!): Course!
   deleteCourse(courseId: String!): Boolean!
-  createCourseDate(courseDay: DateTime!, courseId: String!): CourseDate!
-  createSpecificSchedule(createSpecificScheduleInput: CreateSpecificScheduleInput!): SpecificSchedule!
-  updateSpecificSchedule(specificScheduleId: String!, updateSpecificScheduleInput: UpdateSpecificScheduleInput!): SpecificSchedule!
-  deleteSpecificSchedule(specificScheduleId: String!): Boolean!
+  createCourseDate(date: DateTime!, courseId: String!): CourseDate!
+  createCourseTime(createCourseTimeInput: CreateCourseTimeInput!): CourseTime!
+  updateCourseTimeInput(courseTimeId: String!, updateCourseTimeInput: UpdateCourseTimeInput!): CourseTime!
+  deleteCourseTime(courseTimeId: String!): Boolean!
   togglePick(courseId: String!): Boolean!
   createPayment(createPaymentInput: CreatePaymentInput!): Payment!
   cancelPayment(impUid: String!): Boolean!
@@ -262,7 +264,7 @@ input UpdateCourseInput {
   lng: Float
 }
 
-input CreateSpecificScheduleInput {
+input CreateCourseTimeInput {
   courseStartTime: DateTime!
   courseEndTime: DateTime!
   maxUsers: Int!
@@ -272,7 +274,7 @@ input CreateSpecificScheduleInput {
   courseId: String!
 }
 
-input UpdateSpecificScheduleInput {
+input UpdateCourseTimeInput {
   courseStartTime: DateTime
   courseEndTime: DateTime
   maxUsers: Int
@@ -288,5 +290,5 @@ input CreatePaymentInput {
   quantity: Int!
   amount: Int!
   courseId: String!
-  scheduleId: String!
+  courseTimeId: String!
 }
