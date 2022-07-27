@@ -131,8 +131,8 @@ type Query {
   hotCourses: [Course!]!
   newCourses: [Course!]!
   cheapCourses: [Course!]!
-  fetchCourseDate(courseDateId: String!): CourseDate!
-  fetchSpecificSchedule: SpecificSchedule!
+  fetchCourseDate(courseDayId: String!): CourseDate!
+  fetchSpecificSchedule(specificScheduleId: String!): SpecificSchedule!
   fetchPicks: [Pick!]!
   fetchPicksByUser(userID: String!): [String!]!
   fetchPayments: [Payment!]!

@@ -26,7 +26,7 @@ export class CourseDate {
 
   @OneToMany(
     () => SpecificSchedule,
-    (specificSchedule) => specificSchedule.courseDay,
+    (specificSchedule) => specificSchedule.courseDate,
   )
   @Field(() => [SpecificSchedule])
   specificSchedule: SpecificSchedule[];

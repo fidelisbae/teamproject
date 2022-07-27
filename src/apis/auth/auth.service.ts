@@ -42,7 +42,7 @@ export class AuthService {
     //배포할 때
     res.setHeader(
       'Set-Cookie',
-      `refreshToken=${refreshToken}; path=/; domain=.dabae.co.kr; SameSite=None; Secure; httpOnly;`,
+      `refreshToken=${refreshToken}; path=/; domain=.dabae.shop; SameSite=None; Secure; httpOnly;`,
     );
     //ngrok 켤 때
     // res.setHeader(
