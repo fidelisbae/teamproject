@@ -18,7 +18,7 @@ export class Review {
   id: string;
 
   @Column()
-  @Field(() => Float)
+  @Field(() => Int)
   rate: number;
 
   @Column()
@@ -30,6 +30,10 @@ export class Review {
 
   @DeleteDateColumn()
   deleted_At: Date;
+
+  @Column()
+  @Field(() => String)
+  imageURLs: string;
 
   @ManyToOne(() => Course)
   @Field(() => Course)

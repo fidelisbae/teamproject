@@ -24,6 +24,12 @@ export class CourseDate {
   @Field(() => Course)
   course: Course;
 
+  // @OneToMany(
+  //   () => SpecificSchedule,
+  //   (specificSchedule) => specificSchedule.courseDate,
+  // )
+  // @Field(() => [SpecificSchedule])
+  // specificSchedule: SpecificSchedule[];
   @OneToMany(() => CourseTime, (courseTime) => courseTime.course)
   @Field(() => [CourseTime])
   courseTime: CourseTime[];

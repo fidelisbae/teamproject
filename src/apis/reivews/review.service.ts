@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Course } from '../course/entities/course.entity';
@@ -17,6 +17,10 @@ export class ReviewService {
   ) {}
 
   async create(createReviewInput, currentUser) {
+    if (createReviewInput.rate < 0 || createReviewInput.rate > 5) {
+      throw new ConflictException('다시 입력하세요.');
+    }
+
     const courseFound = await this.courseRepository.findOne({
       where: { id: createReviewInput.courseId },
     });
