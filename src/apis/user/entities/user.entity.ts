@@ -1,5 +1,4 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
-import { Course } from 'src/apis/course/entities/course.entity';
 import { Payment } from 'src/apis/payment/entities/payment.entity';
 import { Pick } from 'src/apis/pick/entities/pick.entity';
 import {
@@ -7,8 +6,6 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  JoinTable,
-  ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';

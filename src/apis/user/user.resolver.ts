@@ -11,7 +11,6 @@ import {
 } from '@nestjs/common';
 import { CurrentUser, ICurrentUser } from 'src/common/auth/gql.user.param';
 import { UpdateUserInput } from './dto/updateUser.input';
-import { use } from 'passport';
 
 @Resolver()
 export class UserResolver {
