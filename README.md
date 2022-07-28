@@ -41,8 +41,8 @@
 
 ### API Docs
 
-[https://dabae.shop/graphql](https://dabae.co.kr/graphql)
+[https://dabae.shop/graphql](https://dabae.shop/graphql)
 
-### 배포주소
+### 배포주소 (미완성)
 
 [https://dabae.co.kr](https://dabae.co.kr)
