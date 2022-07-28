@@ -2,20 +2,44 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type User {
+type Category {
   id: String!
-  email: String!
-  nickname: String!
-  phone: String
-  point: Int!
-  gender: Boolean
-  isHost: Boolean!
-  account: String
-  bank: String
-  businessName: String
-  businessNumber: String
-  birth: DateTime
-  marketingAgreement: Boolean!
+  name: String!
+}
+
+type Image {
+  id: String!
+  isThumbnail: Boolean!
+  imageURLs: String!
+  course: Course!
+}
+
+type Material {
+  id: String!
+  materials: String!
+  course: Course!
+}
+
+type Review {
+  id: String!
+  rate: Int!
+  contents: String!
+  imageURLs: String!
+  course: Course!
+  user: User!
+}
+
+type CourseTime {
+  id: String!
+  maxUsers: Int!
+  currentUsers: Int!
+  recruitmentStartDate: DateTime!
+  recruitmentEndDate: DateTime!
+  courseStartTime: DateTime!
+  courseEndTime: DateTime!
+  courseDate: CourseDate!
+  course: Course!
+  payment: [Payment!]!
 }
 
 """
@@ -25,25 +49,9 @@ scalar DateTime
 
 type CourseDate {
   id: String!
-  courseDate: DateTime!
+  date: DateTime!
   course: Course!
-  specificSchedule: SpecificSchedule!
-}
-
-type SpecificSchedule {
-  id: String!
-  courseStartTime: DateTime!
-  courseEndTime: DateTime!
-  maxUsers: Int!
-  reservedPerson: Int!
-  RecruitmentStartDate: DateTime!
-  RecruitmentEdnDate: DateTime!
-  courseDate: CourseDate!
-}
-
-type Category {
-  id: String!
-  name: String!
+  courseTime: [CourseTime!]!
 }
 
 type Course {
@@ -55,29 +63,20 @@ type Course {
   contents: String!
   openingDate: DateTime!
   closingDate: DateTime!
-  courseDate: DateTime!
   address: String!
   addressDetail: String!
   zipCode: String!
-  imageUrl: String!
-  specificSchedule: SpecificSchedule!
-  category: Category
+  lat: Float
+  lng: Float
   pick: Int!
-}
-
-type Pick {
-  id: String!
-  course: Course!
-  user: User!
-}
-
-type Review {
-  id: String!
-  score: Float!
-  content: String!
-  url: String!
-  course: Course!
-  writer: User!
+  host: User!
+  category: Category!
+  imageURLs: [Image!]!
+  materials: [Material!]!
+  review: [Review!]!
+  courseDate: [CourseDate!]!
+  courseTime: [CourseTime!]!
+  payment: [Payment!]!
 }
 
 type Payment {
@@ -87,9 +86,10 @@ type Payment {
   price: Int!
   quantity: Int!
   amount: Int!
-  impUid: String
+  impUid: String!
   course: Course!
   user: User!
+  courseTime: CourseTime!
 }
 
 enum PAYMENT_STATUS_ENUM {
@@ -97,14 +97,49 @@ enum PAYMENT_STATUS_ENUM {
   CANCEL
 }
 
+type Pick {
+  id: String!
+  course: Course!
+  user: User!
+}
+
+type User {
+  id: String!
+  email: String!
+  nickname: String!
+  phone: String
+  point: Int!
+  isHost: Boolean!
+  account: String
+  bank: String
+  businessName: String
+  businessNumber: String
+  birth: DateTime
+  gender: Boolean
+  profileImageURL: String
+  marketingAgreement: Boolean!
+  pick: [Pick!]!
+  payment: [Payment!]!
+}
+
 type Query {
+  fetchCourseReviews(courseId: String!, page: Float = 1): [Review!]!
   fetchUsers: [User!]!
   fetchUser(id: String!): User!
   fetchLoginUser: User!
   fetchCourse(courseId: String!): Course!
-  fetchCourses: [Course!]!
-  fethchCourseDate(courseDateId: String!): CourseDate!
-  fetchSpecificSchedule: SpecificSchedule!
+  fetchCoursesByHost(hostID: String!, page: Float = 1): [Course!]!
+  fetchCoursesSortBycreated(search: String = "", page: Float = 1): [Course!]
+  fetchCoursesSortByPick(search: String = "", page: Float = 1): [Course!]
+  fetchCoursesSortByDiscount(search: String = "", page: Float = 1): [Course!]
+  fetchCoursesByCategory(search: String = "", page: Float = 1): [Course!]
+  fetchCoursesByUser(page: Float = 1): [Course!]
+  hotCourses: [Course!]!
+  newCourses: [Course!]!
+  cheapCourses: [Course!]!
+  fetchCourseDate(courseDateId: String!): CourseDate!
+  fetchCourseTime(courseTimeId: String!): CourseTime!
+  fetchCourseTimes: [CourseTime!]!
   fetchPicks: [Pick!]!
   fetchPicksByUser(userID: String!): [String!]!
   fetchPayments: [Payment!]!
@@ -112,33 +147,63 @@ type Query {
 }
 
 type Mutation {
-  createReview(score: Float!, content: String!, created_At: DateTime!, url: String!): Review!
+  createCourseReview(createReviewInput: CreateReviewInput!): Review!
+  deleteCourseReview(courseReviewId: String!): Boolean!
+
+  """이메일 중복을 체크하는 api, 이메일이 중복이면 false, 중복이아니면 true 또한, 이메일이 올바른 양식인지도 판별함"""
   checkEmail(email: String!): Boolean!
+
+  """
+  핸드폰 중복을 체크하는 api, 핸드폰번호가 중복이면 false, 중복이아니면 true 또한, 핸드폰 번호가 올바른 양식인지도 판별함
+  """
+  checkPhone(phone: String!): Boolean!
+
+  """닉네임 중복을 체크하는 api, 닉네임이 중복이면 false, 중복이아니면 true"""
+  checkNickname(nickname: String!): Boolean!
   createUser(createUserInput: CreateUserInput!): User!
+
+  """유저를 호스트로 바꾸는 api"""
+  userToHost(businessName: String!, businessNumber: String!, inputPassword: String!): User!
   sendTokenToPhone(phone: String!): String!
   authPhoneOk(phone: String!, inputToken: String!): Boolean!
-  updateUser(email: String!, updateUserInput: UpdateUserInput!): User!
+  updateUser(updateUserInput: UpdateUserInput!): User!
 
   """유저가 마이페이지에서 비밀번호를 변경하는 api, 기존 비밀번호를 체크 후에 새 비밀번호를 양식에 따라 입력받는다."""
   updatePassword(newPassword: String!, inputPassword: String!): Boolean!
 
   """회원탈퇴 api,로그인된 유저가 비밀번호 체크 후에 유저삭제"""
   deleteLoginUser(inputPassword: String!): Boolean!
-  forgotPassword(email: String!, newPassword: String!): User!
+
+  """핸드폰을 입력받고 인증절차 진행"""
+  forgotPasswordSendToken(phone: String!): String!
+
+  """유저에게 핸드폰 인증을 완료 받으면 이메일을 리턴함."""
+  forgotPasswordAuthPhoneOk(phone: String!, inputToken: String!): String!
+
+  """휴대폰인증 완료시 비밀번호 변경 api"""
+  forgotPasswordUpdate(newPassword: String!, email: String!): String!
   login(email: String!, password: String!): String!
+  hostLogin(email: String!, password: String!): String!
   restoreAccessToken: String!
   logout: String!
-  createCategory(name: String!): Category!
+  uploadFile(files: [Upload!]!): [String!]!
   createCourse(createCourseInput: CreateCourseInput!): Course!
   updateCourse(courseId: String!, updateCourseInput: UpdateCourseInput!): Course!
   deleteCourse(courseId: String!): Boolean!
-  createCourseDate(courseDate: DateTime!, recruitmentStartDate: DateTime!, recruitmentEndDate: DateTime!): CourseDate!
-  createSpecificSchedule(createSpecificScheduleInput: CreateSpecificScheduleInput!): SpecificSchedule!
-  updateSpecificSchedule(specificScheduleId: String!, updateSpecificScheduleInput: UpdateSpecificScheduleInput!): SpecificSchedule!
-  deleteSpecificSchedule(specificScheduleId: String!): Boolean!
-  togglePick(createPickInput: CreatePickInput!): Boolean!
+  createCourseDate(date: DateTime!, courseId: String!): CourseDate!
+  createCourseTime(createCourseTimeInput: CreateCourseTimeInput!): CourseTime!
+  updateCourseTimeInput(courseTimeId: String!, updateCourseTimeInput: UpdateCourseTimeInput!): CourseTime!
+  deleteCourseTime(courseTimeId: String!): Boolean!
+  togglePick(courseId: String!): Boolean!
   createPayment(createPaymentInput: CreatePaymentInput!): Payment!
   cancelPayment(impUid: String!): Boolean!
+}
+
+input CreateReviewInput {
+  courseId: String!
+  rate: Int!
+  contents: String!
+  imageURLs: String!
 }
 
 input CreateUserInput {
@@ -155,11 +220,7 @@ input CreateUserInput {
 }
 
 input UpdateUserInput {
-  isHost: Boolean
-  email: String
-  password: String
   nickname: String
-  phone: String
   marketingAgreement: Boolean
   account: String
   bank: String
@@ -167,7 +228,11 @@ input UpdateUserInput {
   businessNumber: String
   gender: Boolean
   birth: DateTime
+  profileImageURL: String
 }
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
 
 input CreateCourseInput {
   name: String!
@@ -177,12 +242,14 @@ input CreateCourseInput {
   addressDetail: String!
   zipCode: String!
   difficulty: String!
-  materials: [String!]
+  materials: [String!] = ["준비물없음"]
   contents: String!
   openingDate: DateTime!
   closingDate: DateTime!
   imageURLs: [String!]
   category: String!
+  lat: Float
+  lng: Float
 }
 
 input UpdateCourseInput {
@@ -193,44 +260,41 @@ input UpdateCourseInput {
   addressDetail: String
   zipCode: String
   difficulty: String
-  materials: [String!]
+  materials: [String!] = ["준비물없음"]
   contents: String
   openingDate: DateTime
   closingDate: DateTime
   imageURLs: [String!]
   category: String
+  lat: Float
+  lng: Float
 }
 
-input CreateSpecificScheduleInput {
-  id: String!
+input CreateCourseTimeInput {
   courseStartTime: DateTime!
   courseEndTime: DateTime!
   maxUsers: Int!
-  reservedPerson: Int!
-  RecruitmentStartDate: DateTime!
-  RecruitmentEdnDate: DateTime!
+  recruitmentStartDate: DateTime!
+  recruitmentEndDate: DateTime!
+  courseDateId: String!
+  courseId: String!
 }
 
-input UpdateSpecificScheduleInput {
-  id: String
+input UpdateCourseTimeInput {
   courseStartTime: DateTime
   courseEndTime: DateTime
   maxUsers: Int
-  reservedPerson: Int
-  RecruitmentStartDate: DateTime
-  RecruitmentEdnDate: DateTime
-}
-
-input CreatePickInput {
-  user: String!
-  course: String!
+  recruitmentStartDate: DateTime
+  recruitmentEndDate: DateTime
+  courseDateId: String
+  courseId: String
 }
 
 input CreatePaymentInput {
-  userId: String!
-  impUid: String
+  impUid: String!
   price: Int!
   quantity: Int!
   amount: Int!
   courseId: String!
+  courseTimeId: String!
 }

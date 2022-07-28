@@ -39,6 +39,12 @@ export class UserService {
     });
   }
 
+  async findPhone(phone: string) {
+    return await this.userRepository.findOne({
+      where: { phone: phone },
+    });
+  }
+
   async create(createUserInput) {
     const passwordAuth =
       /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,16}$/.test(
@@ -70,6 +76,20 @@ export class UserService {
     return await this.userRepository.save(newUser);
   }
 
+  async userToHost(email, businessName, businessNumber) {
+    const myUser = await this.userRepository.findOne({
+      where: { email: email },
+    });
+
+    const newUser = {
+      ...myUser,
+      isHost: true,
+      businessName: businessName,
+      businessNumber: businessNumber,
+    };
+    return await this.userRepository.save(newUser);
+  }
+
   async updatePassword({ email, hashedpassword: password }) {
     const myUser = await this.userRepository.findOne({
       where: { email: email },
@@ -90,16 +110,39 @@ export class UserService {
       where: { email: email },
     });
 
-    if (hasEmail === null && emailForm) {
+    if (!emailForm) {
+      throw new ConflictException('이메일이 올바르지 않습니다.');
+    }
+    if (hasEmail) {
+      throw new ConflictException('이미 가입된 이메일입니다.');
+    }
+  }
+
+  async checkPhone(phone: string) {
+    const phoneForm = /^010-?([0-9]{4})-?([0-9]{4})$/.test(phone);
+    const hasPhone = await this.userRepository.findOne({
+      where: { phone: phone },
+    });
+
+    if (!phoneForm) {
+      throw new ConflictException('핸드폰 번호가 올바르지 않습니다.');
+    }
+
+    if (hasPhone) {
+      throw new ConflictException('이미 가입된 핸드폰 번호입니다.');
+    }
+  }
+
+  async checkNickname(nickname: string) {
+    const hasNickname = await this.userRepository.findOne({
+      where: { nickname: nickname },
+    });
+
+    if (hasNickname === null) {
       return true;
     } else {
       return false;
     }
-  }
-
-  async checkPhone(phone) {
-    const phoneForm = /^010-?([0-9]{4})-?([0-9]{4})$/.test(phone);
-    return phoneForm;
   }
 
   async sendToken(phone: string) {
@@ -142,7 +185,7 @@ export class UserService {
   async checkPassword(inputPassword: string, password: string) {
     const isAuth = await bcryptjs.compare(inputPassword, password);
     if (!isAuth) {
-      throw new UnauthorizedException('비밀번호가 틀렸습니다.');
+      throw new UnauthorizedException('비밀번호가 일치하지 않습니다.');
     }
   }
 }

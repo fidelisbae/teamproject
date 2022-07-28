@@ -9,7 +9,6 @@ import { Cache } from 'cache-manager';
 import { Args, Context, Mutation, Resolver } from '@nestjs/graphql';
 import { UserService } from '../user/user.service';
 import { AuthService } from './auth.service';
-import * as bcryptjs from 'bcryptjs';
 import { GqlAuthRefreshGuard } from 'src/common/auth/gql.auth.guard';
 import { CurrentUser, ICurrentUser } from 'src/common/auth/gql.user.param';
 import * as jwt from 'jsonwebtoken';
@@ -32,15 +31,33 @@ export class AuthResolver {
   ) {
     const user = await this.userService.findEmail({ email });
     if (!user) throw new UnprocessableEntityException('이메일이 없습니다.');
-    const isAuth = await bcryptjs.compare(password, user.password);
-    if (!isAuth) {
-      throw new UnprocessableEntityException('비밀번호가 틀렸습니다.');
-    }
-    const re = await this.authService.setRefreshToken({
+    await this.userService.checkPassword(password, user.password);
+    await this.authService.setRefreshToken({
       user,
       res: Context.req.res,
+      req: Context.req,
     });
-    console.log(re);
+    const accessToken = await this.authService.getAccessToken({ user });
+    return accessToken;
+  }
+
+  @Mutation(() => String)
+  async hostLogin(
+    @Args('email') email: string,
+    @Args('password') password: string,
+    @Context() Context: IContext,
+  ) {
+    const user = await this.userService.findEmail({ email });
+    if (!user.isHost) {
+      throw new UnauthorizedException('호스트 계정이 아닙니다.');
+    }
+    if (!user) throw new UnprocessableEntityException('이메일이 없습니다.');
+    await this.userService.checkPassword(password, user.password);
+    await this.authService.setRefreshToken({
+      user,
+      res: Context.req.res,
+      req: Context.req,
+    });
     const accessToken = await this.authService.getAccessToken({ user });
     return accessToken;
   }
@@ -52,7 +69,11 @@ export class AuthResolver {
     @CurrentUser() currentUser: ICurrentUser,
   ) {
     const user = await this.userService.findOne(currentUser.id);
-    await this.authService.setRefreshToken({ user: user, res: context.res });
+    await this.authService.setRefreshToken({
+      user: user,
+      res: context.res,
+      req: context.req,
+    });
     const accessToken = await this.authService.getAccessToken({ user: user });
     return accessToken;
   }

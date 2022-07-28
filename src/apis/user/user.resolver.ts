@@ -4,7 +4,11 @@ import { User } from './entities/user.entity';
 import { UserService } from './user.service';
 import * as bcryptjs from 'bcryptjs';
 import { GqlAuthAccessGuard } from 'src/common/auth/gql.auth.guard';
-import { ConflictException, UseGuards } from '@nestjs/common';
+import {
+  ConflictException,
+  UnauthorizedException,
+  UseGuards,
+} from '@nestjs/common';
 import { CurrentUser, ICurrentUser } from 'src/common/auth/gql.user.param';
 import { UpdateUserInput } from './dto/updateUser.input';
 
@@ -22,30 +26,59 @@ export class UserResolver {
     return await this.userService.findOne(id);
   }
 
-  @Mutation(() => Boolean)
+  @Mutation(() => Boolean, {
+    description:
+      '이메일 중복을 체크하는 api, 이메일이 중복이면 false, 중복이아니면 true 또한, 이메일이 올바른 양식인지도 판별함',
+  })
   async checkEmail(@Args('email') email: string) {
-    return await this.userService.checkEmail(email);
+    await this.userService.checkEmail(email);
+    return true;
+  }
+
+  @Mutation(() => Boolean, {
+    description:
+      '핸드폰 중복을 체크하는 api, 핸드폰번호가 중복이면 false, 중복이아니면 true 또한, 핸드폰 번호가 올바른 양식인지도 판별함',
+  })
+  async checkPhone(@Args('phone') phone: string) {
+    await this.userService.checkPhone(phone);
+    return true;
+  }
+
+  @Mutation(() => Boolean, {
+    description:
+      '닉네임 중복을 체크하는 api, 닉네임이 중복이면 false, 중복이아니면 true',
+  })
+  async checkNickname(@Args('nickname') nickname: string) {
+    return await this.userService.checkNickname(nickname);
   }
 
   @Mutation(() => User)
   async createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
-    const check1 = await this.userService.checkEmail(createUserInput.email);
-    if (!check1) {
-      throw new ConflictException('이메일이 올바르지 않습니다.');
-    }
-    const check2 = await this.userService.checkPhone(createUserInput.phone);
-    if (!check2) {
-      throw new ConflictException('핸드폰번호가 올바르지 않습니다.');
-    }
+    await this.userService.checkEmail(createUserInput.email);
+    await this.userService.checkPhone(createUserInput.phone);
     return await this.userService.create(createUserInput);
+  }
+
+  @UseGuards(GqlAuthAccessGuard)
+  @Mutation(() => User, { description: '유저를 호스트로 바꾸는 api' })
+  async userToHost(
+    @CurrentUser() currentUser: ICurrentUser,
+    @Args('businessName') businessName: string,
+    @Args('businessNumber') businessNumber: string,
+    @Args('inputPassword') inputPassword: string,
+  ) {
+    const user = await this.userService.findOne(currentUser.id);
+    await this.userService.checkPassword(inputPassword, user.password);
+    return await this.userService.userToHost(
+      currentUser.email,
+      businessName,
+      businessNumber,
+    );
   }
 
   @Mutation(() => String)
   async sendTokenToPhone(@Args('phone') phone: string) {
-    const check = await this.userService.checkPhone(phone);
-    if (!check) {
-      throw new ConflictException('핸드폰번호가 올바르지 않습니다.');
-    }
+    await this.userService.checkPhone(phone);
     return await this.userService.sendToken(phone);
   }
 
@@ -60,9 +93,10 @@ export class UserResolver {
   @UseGuards(GqlAuthAccessGuard)
   @Mutation(() => User)
   async updateUser(
-    @Args('email') email: string,
+    @CurrentUser() currentUser: ICurrentUser,
     @Args('updateUserInput') updateUserInput: UpdateUserInput,
   ) {
+    const email = currentUser.email;
     return await this.userService.update({ email, updateUserInput });
   }
 
@@ -122,12 +156,49 @@ export class UserResolver {
     return await this.userService.findEmail({ email: currentUser.email });
   }
 
-  @Mutation(() => User)
-  async forgotPassword(
-    @Args('email') email: string,
-    @Args('newPassword') newPassword: string,
+  // 핸드폰 번호만 입력받고 인증이 완료되면 이메일을 리턴해주기
+  @Mutation(() => String, {
+    description: '핸드폰을 입력받고 인증절차 진행',
+  })
+  async forgotPasswordSendToken(@Args('phone') phone: string) {
+    return await this.userService.sendToken(phone);
+  }
+
+  @Mutation(() => String, {
+    description: '유저에게 핸드폰 인증을 완료 받으면 이메일을 리턴함.',
+  })
+  async forgotPasswordAuthPhoneOk(
+    @Args('phone') phone: string,
+    @Args('inputToken') inputToken: string,
   ) {
+    const user = await this.userService.findPhone(phone);
+    if (await this.authPhoneOk(phone, inputToken)) {
+      return user.email;
+    } else {
+      throw new UnauthorizedException('인증번호가 일치하지 않습니다.');
+    }
+  }
+
+  @Mutation(() => String, {
+    description: '휴대폰인증 완료시 비밀번호 변경 api',
+  })
+  async forgotPasswordUpdate(
+    @Args('newPassword') newPassword: string,
+    @Args('email') email: string,
+  ) {
+    const passwordAuth =
+      /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,16}$/.test(
+        newPassword,
+      );
+    if (!passwordAuth) {
+      throw new ConflictException(
+        '비밀번호는 영문, 숫자, 특수문자를 최소 1자씩 포함하여 8~16자리로 입력해주세요.',
+      );
+    }
+
     const hashedpassword = await bcryptjs.hash(newPassword, 10);
-    return await this.userService.updatePassword({ email, hashedpassword });
+
+    await this.userService.updatePassword({ email, hashedpassword });
+    return '새로운 비밀번호가 설정되었습니다.';
   }
 }

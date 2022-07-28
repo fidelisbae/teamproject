@@ -1,5 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { User } from '../user/entities/user.entity';
 import { UserService } from '../user/user.service';
 
 @Injectable()
@@ -7,6 +10,8 @@ export class AuthService {
   constructor(
     private readonly jwtService: JwtService,
     private readonly userService: UserService,
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
   ) {}
 
   getAccessToken({ user }) {
@@ -17,7 +22,7 @@ export class AuthService {
     return accessToken;
   }
 
-  setRefreshToken({ user, res }) {
+  setRefreshToken({ user, res, req }) {
     const refreshToken = this.jwtService.sign(
       { email: user.email, sub: user.id },
       {
@@ -26,41 +31,51 @@ export class AuthService {
       },
     );
     // 개발환경
-    // res.setHeader('Set-Cookie', `refreshToken=${refreshToken}; path=/;`); // path 설정 반드시 필요!! (소셜로그인에서)
-    // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-    // res.setHeader('Access-Control-Allow-Credentials', 'true');
-    // res.setHeader('Access-Control-Allow-Methods', 'GET,HEAD,OPTIONS,POST,PUT');
-    // res.setHeader(
-    //   'Access-Control-Allow-Headers',
-    //   'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers',
-    // );
-    //배포할 때
-    // res.setHeader(
-    //   'Set-Cookie',
-    //   `refreshToken=${refreshToken}; path=/; domain=.dabae.co.kr; SameSite=None; Secure; httpOnly;`,
-    // );
-    //ngrok 켤 때
+    res.setHeader('Set-Cookie', `refreshToken=${refreshToken}; path=/;`); // path 설정 반드시 필요!! (소셜로그인에서)
+    const allowedOrigins = ['https://dabae.co.kr/', 'http://localhost:3000/'];
+    const origin = req.headers.origin;
+    if (allowedOrigins.includes(origin)) {
+      res.setHeader('Access-Control-Allow-Origin', origin);
+    }
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    res.setHeader('Access-Control-Allow-Methods', 'GET,HEAD,OPTIONS,POST,PUT');
+    res.setHeader(
+      'Access-Control-Allow-Headers',
+      'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers',
+    );
+    // 배포할 때
     res.setHeader(
       'Set-Cookie',
-      `refreshToken=${refreshToken}; path=/; domain=.jp.ngrok.io; SameSite=None; Secure; httpOnly;`,
+      `refreshToken=${refreshToken}; path=/; domain=.dabae.shop; SameSite=None; Secure; httpOnly;`,
     );
+    //ngrok 켤 때
+    // res.setHeader(
+    //   'Set-Cookie',
+    //   `refreshToken=${refreshToken}; path=/; domain=.jp.ngrok.io; SameSite=None; Secure; httpOnly;`,
+    // );
     //local 할때
-    // res.setHeader('Set-Cookie', `refreshToken=${refreshToken}; path=/;`);
+    res.setHeader('Set-Cookie', `refreshToken=${refreshToken}; path=/;`);
   }
-  async doWork({ req, res }) {
-    let user = await this.userService.findOne({ email: req.user.email });
+  async createSocialUser({ req, res }) {
+    let userFound = await this.userRepository.findOne({
+      where: { email: req.user.email },
+    });
 
-    if (!user) {
-      user = await this.userService.create({
+    if (!userFound) {
+      userFound = await this.userRepository.save({
+        name: req.user.name,
         email: req.user.email,
-        pwd: req.user.pwd,
+        password: req.user.password,
         nickname: req.user.nickname,
         phone: req.user.phone,
+        birth: req.user.DOB,
+        isHost: req.user.isHost,
+        marketingAgreement: true,
       });
     }
-    this.setRefreshToken({ user, res });
+    this.setRefreshToken({ user: userFound, res, req });
 
-    console.log(user);
-    res.redirect('http://localhost:3000');
+    res.redirect('https://dabae.co.kr');
+    return userFound;
   }
 }

@@ -11,7 +11,7 @@ export class Material {
 
   @Column()
   @Field(() => String)
-  material: string;
+  materials: string;
 
   @ManyToOne(() => Course)
   @Field(() => Course)

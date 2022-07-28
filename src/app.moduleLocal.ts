@@ -7,25 +7,24 @@ import * as redisStore from 'cache-manager-redis-store';
 import { AppService } from './app.service';
 import { UserModule } from './apis/user/user.module';
 import { AuthModule } from './apis/auth/auth.module';
-//import { FileModule } from './apis/file/file.module';
 import { CourseModule } from './apis/course/course.module';
 import { ReviewModule } from './apis/reivews/review.module';
 import { AppController } from './app.controller';
 import { CourseDateModule } from './apis/courseDate/courseDate.module';
-import { SpecificScheduleModule } from './apis/specificSchedule/specificSchedule.module';
 import { PickModule } from './apis/pick/pick.module';
-import { CategoryModule } from './apis/category/category.module';
 import { PaymentModule } from './apis/payment/payment.module';
+import { FileModule } from './apis/file/file.module';
+import { CourseTimeModule } from './apis/courseTime/courseTime.module';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: '127.0.0.1',
+      host: 'my-database',
       port: 3306,
       username: 'root',
       password: 'root',
-      database: 'dabae-database',
+      database: 'dabae-server',
       entities: [__dirname + '/apis/**/*.entity.*'],
       synchronize: true,
       logging: true,
@@ -43,17 +42,16 @@ import { PaymentModule } from './apis/payment/payment.module';
     }),
     CacheModule.register<RedisClientOptions>({
       store: redisStore,
-      url: 'redis://localhost:6379',
+      url: 'redis://my-redis:6379',
       isGlobal: true,
     }),
     ReviewModule,
     UserModule,
     AuthModule,
-    // FileModule,
-    CategoryModule,
+    FileModule,
     CourseModule,
     CourseDateModule,
-    SpecificScheduleModule,
+    CourseTimeModule,
     PickModule,
     PaymentModule,
   ],

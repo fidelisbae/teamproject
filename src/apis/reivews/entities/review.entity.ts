@@ -7,6 +7,7 @@ import {
   Column,
   CreateDateColumn,
   ManyToOne,
+  DeleteDateColumn,
 } from 'typeorm';
 
 @Entity()
@@ -17,19 +18,22 @@ export class Review {
   id: string;
 
   @Column()
-  @Field(() => Float)
-  score: number;
+  @Field(() => Int)
+  rate: number;
 
   @Column()
   @Field(() => String)
-  content: string;
+  contents: string;
 
   @CreateDateColumn()
   created_At: Date;
 
+  @DeleteDateColumn()
+  deleted_At: Date;
+
   @Column()
   @Field(() => String)
-  url: string;
+  imageURLs: string;
 
   @ManyToOne(() => Course)
   @Field(() => Course)
@@ -37,5 +41,5 @@ export class Review {
 
   @ManyToOne(() => User)
   @Field(() => User)
-  writer: User;
+  user: User;
 }

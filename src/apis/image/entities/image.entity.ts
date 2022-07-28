@@ -9,9 +9,13 @@ export class Image {
   @Field(() => String)
   id: string;
 
+  @Column({ default: false })
+  @Field(() => Boolean)
+  isThumbnail: boolean;
+
   @Column()
   @Field(() => String)
-  imageurls: string;
+  imageURLs: string;
 
   @ManyToOne(() => Course)
   @Field(() => Course)

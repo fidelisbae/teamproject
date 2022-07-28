@@ -1,5 +1,6 @@
 import { Field, Int, ObjectType, registerEnumType } from '@nestjs/graphql';
 import { Course } from 'src/apis/course/entities/course.entity';
+import { CourseTime } from 'src/apis/courseTime/entities/courseTime.entity';
 import { User } from 'src/apis/user/entities/user.entity';
 import {
   Column,
@@ -45,7 +46,7 @@ export class Payment {
   amount: number;
 
   @Column()
-  @Field(() => String, { nullable: true })
+  @Field(() => String)
   impUid: string;
 
   @ManyToOne(() => Course)
@@ -55,4 +56,8 @@ export class Payment {
   @ManyToOne(() => User)
   @Field(() => User)
   user: User;
+
+  @ManyToOne(() => CourseTime)
+  @Field(() => CourseTime)
+  courseTime: CourseTime;
 }

@@ -1,4 +1,8 @@
-import { Args, Mutation, Resolver } from '@nestjs/graphql';
+import { UseGuards } from '@nestjs/common';
+import { Args, Mutation, Resolver, Query } from '@nestjs/graphql';
+import { GqlAuthAccessGuard } from 'src/common/auth/gql.auth.guard';
+import { CurrentUser, ICurrentUser } from 'src/common/auth/gql.user.param';
+import { CreateReviewInput } from './dto/createReview.input';
 import { Review } from './entities/review.entity';
 import { ReviewService } from './review.service';
 
@@ -6,18 +10,24 @@ import { ReviewService } from './review.service';
 export class ReviewResolver {
   constructor(private readonly reviewService: ReviewService) {}
 
+  @UseGuards(GqlAuthAccessGuard)
   @Mutation(() => Review)
-  async createReview(
-    @Args('score') score: number,
-    @Args('content') content: string,
-    @Args('created_At') created_At: Date,
-    @Args('url') url: string,
+  async createCourseReview(
+    @Args('createReviewInput') createReviewInput: CreateReviewInput,
+    // @Args('imageURL') imageURL: string,
+    @CurrentUser() currentUser: ICurrentUser,
   ) {
-    return this.reviewService.create({
-      score,
-      content,
-      created_At,
-      url,
-    });
+    return this.reviewService.create(createReviewInput, currentUser);
+  }
+  @Query(() => [Review])
+  async fetchCourseReviews(
+    @Args('courseId') courseId: string,
+    @Args('page', { defaultValue: 1 }) page: number,
+  ) {
+    return await this.reviewService.findAll({ courseId, page }); //page);
+  }
+  @Mutation(() => Boolean)
+  deleteCourseReview(@Args('courseReviewId') courseReviewId: string) {
+    return this.reviewService.delete(courseReviewId);
   }
 }

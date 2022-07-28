@@ -11,26 +11,86 @@ import { Course } from './entities/course.entity';
 export class CourseResolver {
   constructor(private readonly courseService: CourseService) {}
 
+  @Query(() => Course)
+  async fetchCourse(@Args('courseId') courseId: string) {
+    return await this.courseService.findOne({ courseId });
+  }
+
+  @Query(() => [Course])
+  async fetchCoursesByHost(
+    @Args('hostID') hostID: string,
+    @Args('page', { defaultValue: 1 }) page: number,
+  ) {
+    return await this.courseService.fetchCoursesByHost(hostID, page);
+  }
+
+  @Query(() => [Course], { nullable: true })
+  async fetchCoursesSortBycreated(
+    @Args('search', { defaultValue: '' }) search: string,
+    @Args('page', { defaultValue: 1 }) page: number,
+  ) {
+    return await this.courseService.searchSortByCreated(search, page);
+  }
+
+  @Query(() => [Course], { nullable: true })
+  async fetchCoursesSortByPick(
+    @Args('search', { defaultValue: '' }) search: string,
+    @Args('page', { defaultValue: 1 }) page: number,
+  ) {
+    return await this.courseService.searchSortByPick(search, page);
+  }
+
+  @Query(() => [Course], { nullable: true })
+  async fetchCoursesSortByDiscount(
+    @Args('search', { defaultValue: '' }) search: string,
+    @Args('page', { defaultValue: 1 }) page: number,
+  ) {
+    return await this.courseService.searchSortByDiscount(search, page);
+  }
+
+  @Query(() => [Course], { nullable: true })
+  async fetchCoursesByCategory(
+    @Args('search', { defaultValue: '' }) search: string,
+    @Args('page', { defaultValue: 1 }) page: number,
+  ) {
+    return await this.courseService.fetchCoursesByCategory(search, page);
+  }
+
+  @UseGuards(GqlAuthAccessGuard)
+  @Query(() => [Course], { nullable: true })
+  async fetchCoursesByUser(
+    @CurrentUser() currentUser: ICurrentUser,
+    @Args('page', { defaultValue: 1 }) page: number,
+  ) {
+    const id = currentUser.id;
+    return await this.courseService.fetchCoursesByUser(id, page);
+  }
+
+  @Query(() => [Course])
+  async hotCourses() {
+    return await this.courseService.hotCourses();
+  }
+
+  @Query(() => [Course])
+  async newCourses() {
+    return await this.courseService.newCourses();
+  }
+
+  @Query(() => [Course])
+  async cheapCourses() {
+    return await this.courseService.cheapCourses();
+  }
+
   @UseGuards(GqlAuthAccessGuard)
   @Mutation(() => Course)
   createCourse(
     @CurrentUser() currentUser: ICurrentUser,
     @Args('createCourseInput') createCourseInput: CreateCourseInput,
   ) {
-    return this.courseService.create({ createCourseInput });
+    return this.courseService.create({ createCourseInput, currentUser });
   }
 
-  @Query(() => Course)
-  fetchCourse(@Args('courseId') courseId: string) {
-    console.log();
-    return this.courseService.findOne({ courseId });
-  }
-
-  @Query(() => [Course])
-  async fetchCourses() {
-    return await this.courseService.findAll();
-  }
-
+  // 호스트 본인이 쓴 글만 수정할 수 있도록 해야함
   @Mutation(() => Course) //호스트가 바꾸는 거
   async updateCourse(
     @Args('courseId') courseId: string,
@@ -42,6 +102,7 @@ export class CourseResolver {
     });
   }
 
+  // 호스트 본인이 쓴 글만 삭제할 수 있도록 해야함
   @Mutation(() => Boolean)
   deleteCourse(
     @Args('courseId') courseId: string, //

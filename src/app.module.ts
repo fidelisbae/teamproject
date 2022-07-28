@@ -7,15 +7,14 @@ import * as redisStore from 'cache-manager-redis-store';
 import { AppService } from './app.service';
 import { UserModule } from './apis/user/user.module';
 import { AuthModule } from './apis/auth/auth.module';
-
 import { CourseModule } from './apis/course/course.module';
 import { ReviewModule } from './apis/reivews/review.module';
 import { AppController } from './app.controller';
 import { CourseDateModule } from './apis/courseDate/courseDate.module';
-import { SpecificScheduleModule } from './apis/specificSchedule/specificSchedule.module';
 import { PickModule } from './apis/pick/pick.module';
-import { CategoryModule } from './apis/category/category.module';
 import { PaymentModule } from './apis/payment/payment.module';
+import { FileModule } from './apis/file/file.module';
+import { CourseTimeModule } from './apis/courseTime/courseTime.module';
 
 @Module({
   imports: [
@@ -40,11 +39,11 @@ import { PaymentModule } from './apis/payment/payment.module';
     // 로컬용
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: '10.86.0.2',
+      host: '172.18.16.4',
       port: 3306,
       username: 'root',
       password: '12345',
-      database: 'dabae-database',
+      database: 'dabae-server',
       entities: [__dirname + '/apis/**/*.entity.*'],
       synchronize: true,
       logging: true,
@@ -54,7 +53,7 @@ import { PaymentModule } from './apis/payment/payment.module';
       autoSchemaFile: './src/common/graphql/schema.gql',
       context: ({ req, res }) => ({ req, res }),
       cors: {
-        origin: 'http://localhost:3000',
+        origin: ['http://localhost:3000', 'http://127.0.0.1:5500', 'ggfghfhg'],
         credentials: 'include',
         methods: ['GET', 'HEAD', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
         exposedHeaders: ['Authorization', 'Set-Cookie', 'Cookie'],
@@ -62,17 +61,16 @@ import { PaymentModule } from './apis/payment/payment.module';
     }),
     CacheModule.register<RedisClientOptions>({
       store: redisStore,
-      url: 'redis://10.86.1.3:6379',
+      url: 'redis://172.18.17.3:6379',
       isGlobal: true,
     }),
     ReviewModule,
     UserModule,
     AuthModule,
-    // FileModule,
-    CategoryModule,
+    FileModule,
     CourseModule,
     CourseDateModule,
-    SpecificScheduleModule,
+    CourseTimeModule,
     PickModule,
     PaymentModule,
   ],

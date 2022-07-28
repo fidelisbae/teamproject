@@ -1,4 +1,4 @@
-<!-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
   <head>
     <title>결제하기</title>
@@ -45,7 +45,7 @@
                 {
                   query: `
                       mutation {
-                        createPayment(impUid: "${rsp.imp_uid}", amount: ${rsp.paid_amount}, payment_method: "card") {
+                        createPayment(impUid: ${rsp.imp_uid}, price: ${rsp.price},amount: ${rsp.amount},quantity: ${rsp.quantity}, courseId: ${rsp.courseId}, scheduleId:${rsp.scheduleId} ) {
                           id
                         }
                       }
@@ -54,7 +54,7 @@
                 {
                   headers: {
                     authorization:
-                      'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFhQGFhLmNvbSIsInN1YiI6IjdmOTNmMDY1LTdhOWQtNDRjMi1iMTM4LTQyYzNkZGFjZDBkMyIsImlhdCI6MTY1Nzk2OTY5MSwiZXhwIjoxNjU3OTczMjkxfQ.j6MdDgEEk4Rjo_FFrGWN1qLNsKM0YgfeZ_72-_SXUg0',
+                      'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFhQGFjYWFhLmNvbSIsInN1YiI6ImFmYzdiZWJlLTc4ZGItNGE4NS1iZWUwLTVhMmE3OWY5NDdiMyIsImlhdCI6MTY1ODM4NzgwNywiZXhwIjoxNjU4MzkxNDA3fQ.FYlYErxLH92dh4_HrgHBWYMJVyBzyzjZltx-NsgUprs',
                   },
                 },
               );
@@ -72,4 +72,4 @@
     결제할 금액: <input type="text" id="amount" />
     <button onclick="mypayment()">결제하기</button>
   </body>
-</html> -->
+</html>

@@ -1,9 +1,12 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { Payment } from 'src/apis/payment/entities/payment.entity';
+import { Pick } from 'src/apis/pick/entities/pick.entity';
 import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -34,10 +37,6 @@ export class User {
   @Field(() => Int)
   point: number;
 
-  @Column({ default: null })
-  @Field(() => Boolean, { nullable: true })
-  gender: boolean;
-
   @Column()
   @Field(() => Boolean)
   isHost: boolean;
@@ -62,6 +61,14 @@ export class User {
   @Field(() => Date, { nullable: true })
   birth: Date;
 
+  @Column({ default: null })
+  @Field(() => Boolean, { nullable: true })
+  gender: boolean;
+
+  @Column({ default: null })
+  @Field(() => String, { nullable: true })
+  profileImageURL: string;
+
   @Column()
   @Field(() => Boolean)
   marketingAgreement: boolean;
@@ -71,4 +78,12 @@ export class User {
 
   @DeleteDateColumn()
   deletedAt: Date;
+
+  @OneToMany(() => Pick, (pick) => pick.user)
+  @Field(() => [Pick])
+  pick: Pick[];
+
+  @OneToMany(() => Payment, (payment) => payment.user)
+  @Field(() => [Payment])
+  payment: Payment[];
 }
