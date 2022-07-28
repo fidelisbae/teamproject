@@ -1,11 +1,11 @@
-import { Field, Float, InputType } from '@nestjs/graphql';
+import { Field, InputType, Int } from '@nestjs/graphql';
 
 @InputType()
 export class CreateReviewInput {
   @Field(() => String)
   courseId: string;
 
-  @Field(() => Float)
+  @Field(() => Int)
   rate: number;
 
   @Field(() => String)

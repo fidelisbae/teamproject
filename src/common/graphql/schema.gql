@@ -22,8 +22,9 @@ type Material {
 
 type Review {
   id: String!
-  rate: Float!
+  rate: Int!
   contents: String!
+  imageURLs: String!
   course: Course!
   user: User!
 }
@@ -200,7 +201,7 @@ type Mutation {
 
 input CreateReviewInput {
   courseId: String!
-  rate: Float!
+  rate: Int!
   contents: String!
   imageURLs: String!
 }

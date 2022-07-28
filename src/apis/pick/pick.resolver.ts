@@ -25,6 +25,6 @@ export class PickResolver {
     @CurrentUser() currentUser: ICurrentUser,
     @Args('courseId') courseId: string,
   ) {
-    return await this.pickService.toggle(courseId, currentUser.id);
+    return await this.pickService.toggle(courseId, currentUser);
   }
 }

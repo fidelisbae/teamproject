@@ -35,6 +35,7 @@ export class AuthResolver {
     await this.authService.setRefreshToken({
       user,
       res: Context.req.res,
+      req: Context.req,
     });
     const accessToken = await this.authService.getAccessToken({ user });
     return accessToken;
@@ -55,6 +56,7 @@ export class AuthResolver {
     await this.authService.setRefreshToken({
       user,
       res: Context.req.res,
+      req: Context.req,
     });
     const accessToken = await this.authService.getAccessToken({ user });
     return accessToken;
@@ -67,7 +69,11 @@ export class AuthResolver {
     @CurrentUser() currentUser: ICurrentUser,
   ) {
     const user = await this.userService.findOne(currentUser.id);
-    await this.authService.setRefreshToken({ user: user, res: context.res });
+    await this.authService.setRefreshToken({
+      user: user,
+      res: context.res,
+      req: context.req,
+    });
     const accessToken = await this.authService.getAccessToken({ user: user });
     return accessToken;
   }

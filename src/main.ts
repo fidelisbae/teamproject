@@ -4,10 +4,14 @@ import { graphqlUploadExpress } from 'graphql-upload';
 import { AppModuleLocal } from './app.moduleLocal';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModuleLocal);
+  const app = await NestFactory.create(AppModule);
   app.use(graphqlUploadExpress());
   app.enableCors({
-    origin: ['http://localhost:3000', 'http://127.0.0.1:5500'],
+    origin: [
+      'http://localhost:3000',
+      'http://127.0.0.1:5500',
+      'https://dabae.co.kr',
+    ],
     credentials: true,
     methods: ['GET', 'HEAD', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     exposedHeaders: ['Authorization', 'Set-Cookie', 'Cookie'],
