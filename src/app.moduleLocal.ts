@@ -20,7 +20,7 @@ import { CourseTimeModule } from './apis/courseTime/courseTime.module';
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'localhost',
+      host: 'my-database',
       port: 3306,
       username: 'root',
       password: 'root',
@@ -42,7 +42,7 @@ import { CourseTimeModule } from './apis/courseTime/courseTime.module';
     }),
     CacheModule.register<RedisClientOptions>({
       store: redisStore,
-      url: 'redis://localhost:6379',
+      url: 'redis://my-redis:6379',
       isGlobal: true,
     }),
     ReviewModule,
