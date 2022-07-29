@@ -139,7 +139,7 @@ type Query {
   cheapCourses: [Course!]!
   fetchCourseDate(courseDateId: String!): CourseDate!
   fetchCourseTime(courseTimeId: String!): CourseTime!
-  fetchCourseTimes: [CourseTime!]!
+  fetchCourseTimes(courseDateId: String!): [CourseTime!]!
   fetchPicks: [Pick!]!
   fetchPicksByUser(userID: String!): [String!]!
   fetchPayments: [Payment!]!
