@@ -31,8 +31,10 @@ export class AuthService {
       },
     );
     // 개발환경
-    res.setHeader('Set-Cookie', `refreshToken=${refreshToken}; path=/;`); // path 설정 반드시 필요!! (소셜로그인에서)
-    const allowedOrigins = ['https://dabae.co.kr/', 'http://localhost:3000/'];
+    // res.setHeader('Set-Cookie', `refreshToken=${refreshToken}; path=/;`); // path 설정 반드시 필요!! (소셜로그인에서)
+    // 배포할 때
+    //---------
+    const allowedOrigins = ['https://dabae.co.kr', 'http://localhost:3000'];
     const origin = req.headers.origin;
     if (allowedOrigins.includes(origin)) {
       res.setHeader('Access-Control-Allow-Origin', origin);
@@ -43,18 +45,18 @@ export class AuthService {
       'Access-Control-Allow-Headers',
       'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers',
     );
-    // 배포할 때
     res.setHeader(
       'Set-Cookie',
       `refreshToken=${refreshToken}; path=/; domain=.dabae.shop; SameSite=None; Secure; httpOnly;`,
     );
+    //------
     //ngrok 켤 때
     // res.setHeader(
     //   'Set-Cookie',
     //   `refreshToken=${refreshToken}; path=/; domain=.jp.ngrok.io; SameSite=None; Secure; httpOnly;`,
     // );
     //local 할때
-    res.setHeader('Set-Cookie', `refreshToken=${refreshToken}; path=/;`);
+    // res.setHeader('Set-Cookie', `refreshToken=${refreshToken}; path=/;`);
   }
   async createSocialUser({ req, res }) {
     let userFound = await this.userRepository.findOne({

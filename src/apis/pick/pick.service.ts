@@ -41,12 +41,15 @@ export class PickService {
     const pickedCourse = await this.courseRepository.findOne({
       where: { id: course },
     });
+
     if (pickedCourse === null) {
       throw new ConflictException('존재하지않는 코스입니다.');
     }
+
     const pickingUser = await this.userRepository.findOne({
-      where: { id: user },
+      where: { id: user.id },
     });
+
     if (pickingUser === null) {
       throw new ConflictException('존재하지않는 유저입니다.');
     }
