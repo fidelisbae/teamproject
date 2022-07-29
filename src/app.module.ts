@@ -53,7 +53,11 @@ import { CourseTimeModule } from './apis/courseTime/courseTime.module';
       autoSchemaFile: './src/common/graphql/schema.gql',
       context: ({ req, res }) => ({ req, res }),
       cors: {
-        origin: ['http://localhost:3000', 'http://127.0.0.1:5500', 'ggfghfhg'],
+        origin: [
+          'http://localhost:3000',
+          'http://127.0.0.1:5500',
+          'https://dabae.co.kr',
+        ],
         credentials: 'include',
         methods: ['GET', 'HEAD', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
         exposedHeaders: ['Authorization', 'Set-Cookie', 'Cookie'],
