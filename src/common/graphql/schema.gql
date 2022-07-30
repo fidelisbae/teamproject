@@ -128,11 +128,13 @@ type Query {
   fetchUser(id: String!): User!
   fetchLoginUser: User!
   fetchCourse(courseId: String!): Course!
-  fetchCoursesByHost(hostID: String!, page: Float = 1): [Course!]!
+  fetchCoursesByHostId(hostID: String!, page: Float = 1): [Course!]!
   fetchCoursesSortBycreated(search: String = "", page: Float = 1): [Course!]
   fetchCoursesSortByPick(search: String = "", page: Float = 1): [Course!]
   fetchCoursesSortByDiscount(search: String = "", page: Float = 1): [Course!]
   fetchCoursesByCategory(search: String = "", page: Float = 1): [Course!]
+  fetchCoursesByAddress(search: String = "", page: Float = 1): [Course!]!
+  fetchCoursesByHostNickname(search: String = "", page: Float = 1): [Course!]!
   fetchCoursesByUser(page: Float = 1): [Course!]
   hotCourses: [Course!]!
   newCourses: [Course!]!

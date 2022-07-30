@@ -198,6 +198,56 @@ export class CourseService {
     return pagination;
   }
 
+  async searchAddress(search, page) {
+    const allCourses = await this.courseRepository.find({
+      relations: [
+        'host',
+        'category',
+        'imageURLs',
+        'materials',
+        'courseDate',
+        'courseDate.courseTime',
+        'review',
+      ],
+    });
+    const result = [];
+    for (let i = 0; i < allCourses.length; i++) {
+      if (allCourses[i].address.includes(search)) {
+        result.push(allCourses[i]);
+      }
+    }
+    const pagination = [];
+    for (let i = (page - 1) * 16; i < page * 16; i++) {
+      if (result[i] !== undefined) pagination.push(result[i]);
+    }
+    return pagination;
+  }
+
+  async searchHostNickname(search, page) {
+    const allCourses = await this.courseRepository.find({
+      relations: [
+        'host',
+        'category',
+        'imageURLs',
+        'materials',
+        'courseDate',
+        'courseDate.courseTime',
+        'review',
+      ],
+    });
+    const result = [];
+    for (let i = 0; i < allCourses.length; i++) {
+      if (allCourses[i].host.nickname.includes(search)) {
+        result.push(allCourses[i]);
+      }
+    }
+    const pagination = [];
+    for (let i = (page - 1) * 16; i < page * 16; i++) {
+      if (result[i] !== undefined) pagination.push(result[i]);
+    }
+    return pagination;
+  }
+
   // 인기코스, pick이 높은 순서대로 뽑는다. j의 크기만큼의 갯수를 리턴함
   async hotCourses() {
     const allCourses = await this.courseRepository.find({

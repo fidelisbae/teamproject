@@ -17,7 +17,7 @@ export class CourseResolver {
   }
 
   @Query(() => [Course])
-  async fetchCoursesByHost(
+  async fetchCoursesByHostId(
     @Args('hostID') hostID: string,
     @Args('page', { defaultValue: 1 }) page: number,
   ) {
@@ -54,6 +54,22 @@ export class CourseResolver {
     @Args('page', { defaultValue: 1 }) page: number,
   ) {
     return await this.courseService.fetchCoursesByCategory(search, page);
+  }
+
+  @Query(() => [Course])
+  async fetchCoursesByAddress(
+    @Args('search', { defaultValue: '' }) search: string,
+    @Args('page', { defaultValue: 1 }) page: number,
+  ) {
+    return await this.courseService.searchAddress(search, page);
+  }
+
+  @Query(() => [Course])
+  async fetchCoursesByHostNickname(
+    @Args('search', { defaultValue: '' }) search: string,
+    @Args('page', { defaultValue: 1 }) page: number,
+  ) {
+    return await this.courseService.searchHostNickname(search, page);
   }
 
   @UseGuards(GqlAuthAccessGuard)
