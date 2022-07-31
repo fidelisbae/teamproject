@@ -28,7 +28,7 @@ export class User {
   password: string;
 
   @Column()
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   nickname: string;
 
   @Column({ default: null })

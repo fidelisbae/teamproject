@@ -106,7 +106,7 @@ type Pick {
 type User {
   id: String!
   email: String!
-  nickname: String!
+  nickname: String
   phone: String
   point: Int!
   isHost: Boolean!
@@ -209,7 +209,7 @@ input CreateReviewInput {
 }
 
 input CreateUserInput {
-  isHost: Boolean!
+  isHost: Boolean
   email: String!
   password: String!
   nickname: String!

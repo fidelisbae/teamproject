@@ -15,6 +15,7 @@ import { PickModule } from './apis/pick/pick.module';
 import { PaymentModule } from './apis/payment/payment.module';
 import { FileModule } from './apis/file/file.module';
 import { CourseTimeModule } from './apis/courseTime/courseTime.module';
+import { AuthController } from './apis/auth/auth.controller';
 
 @Module({
   imports: [
