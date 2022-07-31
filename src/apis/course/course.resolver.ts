@@ -1,4 +1,4 @@
-import { UseGuards } from '@nestjs/common';
+import { ConflictException, UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { GqlAuthAccessGuard } from 'src/common/auth/gql.auth.guard';
 import { CurrentUser, ICurrentUser } from 'src/common/auth/gql.user.param';
@@ -25,11 +25,20 @@ export class CourseResolver {
   }
 
   @Query(() => [Course], { nullable: true })
-  async fetchCoursesSortBycreated(
+  async fetchCoursesSortByOption(
     @Args('search', { defaultValue: '' }) search: string,
     @Args('page', { defaultValue: 1 }) page: number,
+    @Args('option', { defaultValue: 'createdAt' }) option: string,
   ) {
-    return await this.courseService.searchSortByCreated(search, page);
+    if (option === 'pick') {
+      return await this.courseService.searchSortByPick(search, page);
+    } else if (option === 'discount') {
+      return await this.courseService.searchSortByDiscount(search, page);
+    } else if (option === 'createdAt') {
+      return await this.courseService.searchSortByCreated(search, page);
+    } else {
+      throw new ConflictException('옵션을 올바르게 입력해주세요.');
+    }
   }
 
   @Query(() => [Course], { nullable: true })
