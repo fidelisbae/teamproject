@@ -36,23 +36,19 @@ export class PointService {
       where: { id: currentUser.id },
     });
 
-    try {
-      await this.iamportService.getData({ impUid });
+    await this.iamportService.getData({ impUid });
 
-      const result = await this.pointRepository.save({
-        addedPoint: amount,
-        user: user,
-      });
+    const result = await this.pointRepository.save({
+      addedPoint: amount,
+      user: user,
+    });
 
-      await this.userRepository.save({
-        ...user,
-        point: user.point + amount,
-      });
+    await this.userRepository.save({
+      ...user,
+      point: user.point + amount,
+    });
 
-      return result;
-    } catch {
-      throw new ConflictException('결제오류발생');
-    }
+    return result;
   }
 
   async usePoint(currentUser: ICurrentUser, amount: number) {
