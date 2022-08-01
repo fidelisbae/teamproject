@@ -372,7 +372,7 @@ export class CourseService {
     });
     const courses = [];
     for (let i = 0; i < payments.length; i++) {
-      let course = await this.courseRepository.findOne({
+      const course = await this.courseRepository.findOne({
         where: { payment: payments[i] },
         relations: [
           'host',
@@ -460,8 +460,10 @@ export class CourseService {
     const prevImage = await this.imageRepository.find({
       where: { course: { id: courseId } },
     });
-    const prevUrl = prevImage.map((imageURLs) => imageURLs.imageURLs);
 
+    console.log(prevImage, '=====================');
+    const prevUrl = prevImage.map((imageURLs) => imageURLs.imageURLs);
+    console.log(prevUrl);
     await Promise.all(
       imageURLs.map((image) => {
         if (!prevUrl.includes(image)) {

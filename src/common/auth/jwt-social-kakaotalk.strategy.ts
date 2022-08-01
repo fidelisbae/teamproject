@@ -6,8 +6,8 @@ export class JwtKakaoStrategy extends PassportStrategy(Strategy, 'kakaotalk') {
   constructor() {
     super({
       clientID: process.env.KAKAO_CLIENT_ID,
-      // callbackURL: 'https://dabae.shop/login/kakao',
-      callbackURL: 'http://localhost:3000/login/kakao',
+      callbackURL: 'https://dabae.shop/login/kakao',
+      // callbackURL: 'http://localhost:3000/login/kakao',
     });
   }
   validate(accestoken, refreshToken, profile) {
