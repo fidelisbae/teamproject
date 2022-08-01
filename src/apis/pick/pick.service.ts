@@ -1,6 +1,6 @@
-import { ConflictException, flatten, Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { RelationId, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { Course } from '../course/entities/course.entity';
 import { User } from '../user/entities/user.entity';
 import { Pick } from './entities/pick.entity';
