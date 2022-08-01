@@ -129,7 +129,7 @@ type Query {
   fetchLoginUser: User!
   fetchCourse(courseId: String!): Course!
   fetchCoursesByHostId(hostID: String!, page: Float = 1): [Course!]!
-  fetchCoursesSortBycreated(search: String = "", page: Float = 1): [Course!]
+  fetchCoursesSortByOption(search: String = "", page: Float = 1, option: String = "createdAt"): [Course!]
   fetchCoursesSortByPick(search: String = "", page: Float = 1): [Course!]
   fetchCoursesSortByDiscount(search: String = "", page: Float = 1): [Course!]
   fetchCoursesByCategory(search: String = "", page: Float = 1): [Course!]
@@ -255,19 +255,18 @@ input CreateCourseInput {
 }
 
 input UpdateCourseInput {
-  name: String
-  maxPrice: Int
-  minPrice: Int
-  address: String
-  addressDetail: String
-  zipCode: String
-  difficulty: String
+  name: String!
+  maxPrice: Int!
+  minPrice: Int!
+  address: String!
+  addressDetail: String!
+  zipCode: String!
+  difficulty: String!
   materials: [String!] = ["준비물없음"]
-  contents: String
-  openingDate: DateTime
-  closingDate: DateTime
+  contents: String!
+  openingDate: DateTime!
+  closingDate: DateTime!
   imageURLs: [String!]
-  category: String
   lat: Float
   lng: Float
 }
