@@ -14,9 +14,10 @@ export class PickResolver {
     return await this.pickService.findAll();
   }
 
+  @UseGuards(GqlAuthAccessGuard)
   @Query(() => [String])
-  async fetchPicksByUser(@Args('userID') userID: string) {
-    return await this.pickService.picksByUser(userID);
+  async fetchPicksByUser(@CurrentUser() currentUser: ICurrentUser) {
+    return await this.pickService.picksByUser(currentUser.id);
   }
 
   @UseGuards(GqlAuthAccessGuard)
