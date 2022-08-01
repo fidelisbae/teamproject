@@ -106,7 +106,8 @@ type Pick {
 type User {
   id: String!
   email: String!
-  nickname: String
+  password: String!
+  nickname: String!
   phone: String
   point: Int!
   isHost: Boolean!
