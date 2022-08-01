@@ -56,26 +56,24 @@ export class AuthService {
     //   `refreshToken=${refreshToken}; path=/; domain=.jp.ngrok.io; SameSite=None; Secure; httpOnly;`,
     // );
     //local 할때
-    //   res.setHeader('Set-Cookie', `refreshToken=${refreshToken}; path=/;`);
+    // res.setHeader('Set-Cookie', `refreshToken=${refreshToken}; path=/;`);
   }
   async createSocialUser({ req, res }) {
     let userFound = await this.userRepository.findOne({
       where: { email: req.user.email },
     });
 
+    console.log(userFound);
     if (!userFound) {
       userFound = await this.userRepository.save({
-        name: req.user.name,
         email: req.user.email,
-        password: req.user.password,
         nickname: req.user.nickname,
-        phone: req.user.phone,
-        birth: req.user.DOB,
-        isHost: req.user.isHost,
-        marketingAgreement: true,
+        // phone: req.user.phone,
+        // birth: req.user.DOB,
+        // isHost: req.user.isHost,
+        // marketingAgreement: true,
       });
     }
-    console.log(req, res);
     this.setRefreshToken({ user: userFound, res, req });
 
     res.redirect('https://dabae.co.kr');

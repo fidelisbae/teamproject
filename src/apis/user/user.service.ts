@@ -158,7 +158,7 @@ export class UserService {
     // 문자 요금 청구될까봐 주석처리해둠
 
     const messageService = new coolsms(SMS_KEY, SMS_SECRET);
-    const result = await messageService.sendOne({
+    await messageService.sendOne({
       to: phone,
       from: process.env.SMS_SENDER,
       text: `[다배] 요청하신 인증번호는 [${token}] 입니다.`,
