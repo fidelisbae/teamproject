@@ -25,7 +25,7 @@ export class Course {
   @Field(() => String)
   id: string;
 
-  @Column({ default: null })
+  @Column()
   @Field(() => String)
   name: string;
 

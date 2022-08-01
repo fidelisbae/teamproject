@@ -123,6 +123,12 @@ type User {
   payment: [Payment!]!
 }
 
+type Point {
+  id: String!
+  createdAt: DateTime!
+  addedPoint: Int!
+}
+
 type Query {
   fetchCourseReviews(courseId: String!, page: Float = 1): [Review!]!
   fetchUsers: [User!]!
@@ -144,9 +150,10 @@ type Query {
   fetchCourseTime(courseTimeId: String!): CourseTime!
   fetchCourseTimes(courseDateId: String!): [CourseTime!]!
   fetchPicks: [Pick!]!
-  fetchPicksByUser(userID: String!): [String!]!
+  fetchPicksByUser: [String!]!
   fetchPayments: [Payment!]!
   fetchPayment(email: String!): Payment!
+  fetchPointHistory: [Point!]!
 }
 
 type Mutation {
@@ -200,6 +207,8 @@ type Mutation {
   togglePick(courseId: String!): Boolean!
   createPayment(createPaymentInput: CreatePaymentInput!): Payment!
   cancelPayment(impUid: String!): Boolean!
+  chargePoint(amount: Float!, impUid: String!): Point!
+  usePoint(amount: Float!): Point!
 }
 
 input CreateReviewInput {
