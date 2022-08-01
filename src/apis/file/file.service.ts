@@ -5,13 +5,12 @@ import { Storage } from '@google-cloud/storage';
 export class FileService {
   async upload({ files }) {
     const waitedFiles = await Promise.all(files);
-    console.log(waitedFiles);
 
     const storage = new Storage({
       projectId: 'omega-research-357204',
-      keyFilename: 'gcp-file-storage.json',
+      // keyFilename: 'omega-research-357204-a9c0c0e69b89.json',
       //배포용?
-      //keyFilename: '/my-secret/gcp-file-storage.json',
+      keyFilename: '/my-secret/omega-research-357204-a9c0c0e69b89.json',
     }).bucket('dabaeimage0');
 
     const results = await Promise.all(
@@ -24,6 +23,7 @@ export class FileService {
         });
       }),
     );
+
     return results;
   }
 }
