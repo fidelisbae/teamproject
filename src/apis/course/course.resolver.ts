@@ -3,13 +3,21 @@ import {
   UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
-import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
+import {
+  Args,
+  Int,
+  Mutation,
+  ObjectType,
+  Query,
+  Resolver,
+} from '@nestjs/graphql';
 import { GqlAuthAccessGuard } from 'src/common/auth/gql.auth.guard';
 import { CurrentUser, ICurrentUser } from 'src/common/auth/gql.user.param';
 import { CourseService } from './course.service';
 import { CreateCourseInput } from './dto/create.course.input';
 import { UpdateCourseInput } from './dto/update.course.input';
 import { Course } from './entities/course.entity';
+import { IRate } from 'src/common/types/IRate';
 
 @Resolver()
 export class CourseResolver {
@@ -122,7 +130,7 @@ export class CourseResolver {
   }
 
   @UseGuards(GqlAuthAccessGuard)
-  @Query(() => Object)
+  @Query(() => [String])
   async myCourseRate(@CurrentUser() currentUser: ICurrentUser) {
     return await this.courseService.myCourseRate(currentUser);
   }

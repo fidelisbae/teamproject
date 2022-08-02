@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { IRate } from 'src/common/types/IRate';
 import { Repository } from 'typeorm';
 import { Category } from '../category/entities/category.entity';
 import { CourseTime } from '../courseTime/entities/courseTime.entity';
@@ -400,6 +401,7 @@ export class CourseService {
     const host = await this.userRepository.findOne({
       where: { id: currentUser.id },
     });
+
     const myCourses = await this.courseRepository.find({
       relations: [
         'host',
@@ -410,19 +412,21 @@ export class CourseService {
         'courseDate.courseTime',
         'review',
       ],
-      where: { host: host },
+      where: { host: { id: host.id } },
     });
-    const result = {};
+
     let one = 0;
     let two = 0;
     let three = 0;
     let four = 0;
     let five = 0;
+
     for (let i = 0; i < myCourses.length; i++) {
       let myReview = await this.reviewRepository.find({
-        relations: ['image', 'course', 'user'],
-        where: { course: myCourses[i] },
+        relations: ['course', 'user'],
+        where: { course: { id: myCourses[i].id } },
       });
+      console.log(myReview);
       for (let j = 0; j < myReview.length; j++) {
         if (myReview[j].rate === 1) {
           one = one + 1;
@@ -437,11 +441,13 @@ export class CourseService {
         }
       }
     }
-    result['one'] = one;
-    result['two'] = two;
-    result['three'] = three;
-    result['four'] = four;
-    result['five'] = five;
+    const result = [];
+    result.push(one);
+    result.push(two);
+    result.push(three);
+    result.push(four);
+    result.push(five);
+
     return result;
   }
 
