@@ -17,9 +17,9 @@ export class PaymentResolver {
 
   @Query(() => Payment)
   async fetchPayment(
-    @Args('email') email: string, //
+    @Args('paymentId') paymentId: string, //
   ) {
-    return await this.paymentService.findOne({ email });
+    return await this.paymentService.findOne({ paymentId });
   }
 
   @UseGuards(GqlAuthAccessGuard)

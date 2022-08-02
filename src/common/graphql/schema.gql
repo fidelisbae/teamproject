@@ -152,7 +152,7 @@ type Query {
   fetchPicks: [Pick!]!
   fetchPicksByUser: [String!]!
   fetchPayments: [Payment!]!
-  fetchPayment(email: String!): Payment!
+  fetchPayment(paymentId: String!): Payment!
   fetchPointHistory: [Point!]!
 }
 

@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   my-backend:
-    image: asia.gcr.io/omega-research-357204/dabae:9.5
+    image: asia.gcr.io/omega-research-357204/dabae:9.7
     platform: linux/x86_64
     build:
       context: .
