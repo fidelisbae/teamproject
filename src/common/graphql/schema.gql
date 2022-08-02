@@ -71,8 +71,8 @@ type Course {
   pick: Int!
   host: User!
   category: Category!
-  imageURLs: [Image!]!
-  materials: [Material!]!
+  imageURLs: [Image!]
+  materials: [Material!]
   review: [Review!]!
   courseDate: [CourseDate!]!
   courseTime: [CourseTime!]!
@@ -201,6 +201,7 @@ type Mutation {
   updateCourse(courseId: String!, updateCourseInput: UpdateCourseInput!): Course!
   deleteCourse(courseId: String!): Boolean!
   createCourseDate(date: DateTime!, courseId: String!): CourseDate!
+  deleteCourseDate(courseDateId: String!): Boolean!
   createCourseTime(createCourseTimeInput: CreateCourseTimeInput!): CourseTime!
   updateCourseTimeInput(courseTimeId: String!, updateCourseTimeInput: UpdateCourseTimeInput!): CourseTime!
   deleteCourseTime(courseTimeId: String!): Boolean!
@@ -265,18 +266,19 @@ input CreateCourseInput {
 }
 
 input UpdateCourseInput {
-  name: String!
-  maxPrice: Int!
-  minPrice: Int!
-  address: String!
-  addressDetail: String!
-  zipCode: String!
-  difficulty: String!
+  name: String
+  maxPrice: Int
+  minPrice: Int
+  address: String
+  addressDetail: String
+  zipCode: String
+  difficulty: String
   materials: [String!] = ["준비물없음"]
-  contents: String!
-  openingDate: DateTime!
-  closingDate: DateTime!
+  contents: String
+  openingDate: DateTime
+  closingDate: DateTime
   imageURLs: [String!]
+  category: String
   lat: Float
   lng: Float
 }

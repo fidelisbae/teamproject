@@ -1,4 +1,5 @@
 import { Field, Float, InputType, Int } from '@nestjs/graphql';
+import { Column } from 'typeorm';
 
 @InputType()
 export class CreateCourseInput {
@@ -26,6 +27,7 @@ export class CreateCourseInput {
   @Field(() => [String], { defaultValue: ['준비물없음'] })
   materials: string[];
 
+  @Column({ type: 'mediumtext' })
   @Field(() => String)
   contents: string;
 

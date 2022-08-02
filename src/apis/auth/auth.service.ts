@@ -56,7 +56,7 @@ export class AuthService {
     //   `refreshToken=${refreshToken}; path=/; domain=.jp.ngrok.io; SameSite=None; Secure; httpOnly;`,
     // );
     //local 할때
-    // res.setHeader('Set-Cookie', `refreshToken=${refreshToken}; path=/;`);
+    //   res.setHeader('Set-Cookie', `refreshToken=${refreshToken}; path=/;`);
   }
   async createSocialUser({ req, res }) {
     let userFound = await this.userRepository.findOne({
@@ -68,15 +68,16 @@ export class AuthService {
       userFound = await this.userRepository.save({
         email: req.user.email,
         nickname: req.user.nickname,
-        // phone: req.user.phone,
-        // birth: req.user.DOB,
-        // isHost: req.user.isHost,
-        // marketingAgreement: true,
+        phone: req.user.phone,
+        birth: req.user.DOB,
+        isHost: req.user.isHost,
+        marketingAgreement: true,
       });
     }
     this.setRefreshToken({ user: userFound, res, req });
 
     res.redirect('https://dabae.co.kr');
+    //https://dabae.co.kr ,http://localhost:3000
     return userFound;
   }
 }

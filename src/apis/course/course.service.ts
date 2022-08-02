@@ -456,14 +456,17 @@ export class CourseService {
     const { imageURLs, ...updateCourse } = updateCourseInput;
     const myCourse = await this.courseRepository.findOne({
       where: { id: courseId },
+      relations: ['imageURLs'],
     });
     const prevImage = await this.imageRepository.find({
       where: { course: { id: courseId } },
     });
-
-    console.log(prevImage, '=====================');
+    if (!imageURLs)
+      return this.imageRepository.save({
+        ...myCourse,
+        ...updateCourseInput,
+      });
     const prevUrl = prevImage.map((imageURLs) => imageURLs.imageURLs);
-    console.log(prevUrl);
     await Promise.all(
       imageURLs.map((image) => {
         if (!prevUrl.includes(image)) {
