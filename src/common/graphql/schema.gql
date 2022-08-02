@@ -83,6 +83,8 @@ type Course {
 type Payment {
   id: String!
   status: PAYMENT_STATUS_ENUM!
+  createdAt: DateTime!
+  deletedAt: DateTime!
   price: Int!
   quantity: Int!
   amount: Int!

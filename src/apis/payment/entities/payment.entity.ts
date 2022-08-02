@@ -31,9 +31,11 @@ export class Payment {
   status: PAYMENT_STATUS_ENUM;
 
   @CreateDateColumn()
+  @Field(() => Date)
   createdAt: Date;
 
   @DeleteDateColumn()
+  @Field(() => Date)
   deletedAt: Date;
 
   @Column()
