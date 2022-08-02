@@ -16,6 +16,8 @@ import { Review } from 'src/apis/reivews/entities/review.entity';
 import { CourseDate } from 'src/apis/courseDate/entities/courseDate.entity';
 import { CourseTime } from 'src/apis/courseTime/entities/courseTime.entity';
 import { Payment } from 'src/apis/payment/entities/payment.entity';
+import { type } from 'os';
+import { text } from 'body-parser';
 
 @Entity()
 @ObjectType()
@@ -46,7 +48,7 @@ export class Course {
   @Field(() => String)
   difficulty: string;
 
-  @Column() //{ type: 'mediumtext' })
+  @Column(() => text) //{ type: 'mediumtext' })
   @Field(() => String)
   contents: string;
 

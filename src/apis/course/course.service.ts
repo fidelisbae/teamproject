@@ -456,21 +456,30 @@ export class CourseService {
     const { imageURLs, ...updateCourse } = updateCourseInput;
     const myCourse = await this.courseRepository.findOne({
       where: { id: courseId },
-      relations: ['imageURLs'],
+      relations: [
+        'host',
+        'imageURLs',
+        'category',
+        'materials',
+        'courseDate',
+        'courseDate.courseTime',
+        'review',
+      ],
     });
     const prevImage = await this.imageRepository.find({
       where: { course: { id: courseId } },
     });
-    if (!imageURLs)
-      return this.imageRepository.save({
-        ...myCourse,
-        ...updateCourseInput,
-      });
+    // if (!imageURLs) {
+    //   await this.imageRepository.save({
+    //     ...myCourse,
+    //     ...updateCourseInput,
+    //   });
+    // }
     const prevUrl = prevImage.map((imageURLs) => imageURLs.imageURLs);
     await Promise.all(
       imageURLs.map((image) => {
         if (!prevUrl.includes(image)) {
-          return this.imageRepository.save({
+          this.imageRepository.save({
             imageURLs: image,
             course: { id: courseId },
           });
