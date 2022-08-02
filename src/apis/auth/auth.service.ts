@@ -76,7 +76,7 @@ export class AuthService {
     }
     this.setRefreshToken({ user: userFound, res, req });
 
-    res.redirect('http://localhost:3000');
+    res.redirect('https://dabae.co.kr');
     //https://dabae.co.kr ,http://localhost:3000
     return userFound;
   }

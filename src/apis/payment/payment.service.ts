@@ -8,6 +8,7 @@ import axios from 'axios';
 import { Course } from '../course/entities/course.entity';
 import { Point } from '../point/entities/point.entity';
 import { CourseTime } from '../courseTime/entities/courseTime.entity';
+import { use } from 'passport';
 
 @Injectable()
 export class PaymentService {
@@ -75,11 +76,8 @@ export class PaymentService {
   }
 
   async fetchPaymentsByUser(currentUser) {
-    const user = await this.userRepository.findOne({
-      where: { id: currentUser.id },
-    });
     const result = await this.paymentRepository.find({
-      where: { user: user },
+      where: { user: { id: currentUser.id } },
       relations: ['user', 'course', 'courseTime'],
     });
     return result;
