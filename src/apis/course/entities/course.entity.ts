@@ -18,6 +18,7 @@ import { CourseTime } from 'src/apis/courseTime/entities/courseTime.entity';
 import { Payment } from 'src/apis/payment/entities/payment.entity';
 import { type } from 'os';
 import { text } from 'body-parser';
+import { blob } from 'stream/consumers';
 
 @Entity()
 @ObjectType()
@@ -48,7 +49,7 @@ export class Course {
   @Field(() => String)
   difficulty: string;
 
-  @Column(() => text) //{ type: 'mediumtext' })
+  @Column({ type: 'longtext' })
   @Field(() => String)
   contents: string;
 
