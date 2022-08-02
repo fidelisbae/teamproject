@@ -59,9 +59,6 @@ export class PaymentService {
       courseTime: courseTimeFound,
     });
 
-    // 👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻
-    // 수정해야할것: 항상 최대할인율을 적용하는 방식이 아니라 스케쥴에서 최대인원과 현재인원을 받아서 인원비율로 할인율을 적용해야함
-
     // 최대가격 - 최소가격 / 최대가격 × 100% = 최대할인율
     const max = courseFound.maxPrice;
     const min = courseFound.minPrice;

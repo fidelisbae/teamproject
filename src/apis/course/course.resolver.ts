@@ -111,15 +111,15 @@ export class CourseResolver {
     return await this.courseService.howManyCourses();
   }
 
-  @UseGuards(GqlAuthAccessGuard)
-  @Query(() => Object)
-  async myCourseRate(@CurrentUser() currentUser: ICurrentUser) {
-    return await this.courseService.myCourseRate(currentUser);
-  }
+  // @UseGuards(GqlAuthAccessGuard)
+  // @Query(() => Object)
+  // async myCourseRate(@CurrentUser() currentUser: ICurrentUser) {
+  //   return await this.courseService.myCourseRate(currentUser);
+  // }
 
   @UseGuards(GqlAuthAccessGuard)
   @Mutation(() => Course)
-  createCourse(
+  async createCourse(
     @CurrentUser() currentUser: ICurrentUser,
     @Args('createCourseInput') createCourseInput: CreateCourseInput,
   ) {
