@@ -18,6 +18,9 @@ export class JwtGoogleStrategy extends PassportStrategy(Strategy, 'google') {
       email: profile.emails[0].value,
       nickname: profile.emails[0].value.split('@')[0],
       isHost: false,
+      // phone: '011034123',
+      // birth: '2022-03-21',
+      // marketingAgreement: true,
     };
   }
 }

@@ -46,7 +46,7 @@ export class Course {
   @Field(() => String)
   difficulty: string;
 
-  @Column()
+  @Column() //{ type: 'mediumtext' })
   @Field(() => String)
   contents: string;
 
@@ -91,11 +91,11 @@ export class Course {
   category: Category;
 
   @OneToMany(() => Image, (imageURLs) => imageURLs.course)
-  @Field(() => [Image])
+  @Field(() => [Image], { nullable: true })
   imageURLs: Image[];
 
   @OneToMany(() => Material, (materials) => materials.course)
-  @Field(() => [Material])
+  @Field(() => [Material], { nullable: true })
   materials: Material[];
 
   @OneToMany(() => Review, (review) => review.course)
