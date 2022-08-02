@@ -1,4 +1,8 @@
-import { ConflictException, UseGuards } from '@nestjs/common';
+import {
+  ConflictException,
+  UnauthorizedException,
+  UseGuards,
+} from '@nestjs/common';
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { GqlAuthAccessGuard } from 'src/common/auth/gql.auth.guard';
 import { CurrentUser, ICurrentUser } from 'src/common/auth/gql.user.param';
@@ -111,11 +115,17 @@ export class CourseResolver {
     return await this.courseService.howManyCourses();
   }
 
-  // @UseGuards(GqlAuthAccessGuard)
-  // @Query(() => Object)
-  // async myCourseRate(@CurrentUser() currentUser: ICurrentUser) {
-  //   return await this.courseService.myCourseRate(currentUser);
-  // }
+  @UseGuards(GqlAuthAccessGuard)
+  @Query(() => Int)
+  async howManyCoursesByHost(@CurrentUser() currentUser: ICurrentUser) {
+    return await this.courseService.howManyCoursesByHost(currentUser);
+  }
+
+  @UseGuards(GqlAuthAccessGuard)
+  @Query(() => Object)
+  async myCourseRate(@CurrentUser() currentUser: ICurrentUser) {
+    return await this.courseService.myCourseRate(currentUser);
+  }
 
   @UseGuards(GqlAuthAccessGuard)
   @Mutation(() => Course)
@@ -126,20 +136,30 @@ export class CourseResolver {
     return await this.courseService.create({ createCourseInput, currentUser });
   }
 
-  // 호스트 본인이 쓴 글만 수정할 수 있도록 해야함
-  @Mutation(() => Course) //호스트가 바꾸는 거
+  @UseGuards(GqlAuthAccessGuard)
+  @Mutation(() => Course)
   async updateCourse(
     @Args('courseId') courseId: string,
+    @CurrentUser() currentUser: ICurrentUser,
     @Args('updateCourseInput') updateCourseInput: UpdateCourseInput,
   ) {
+    const myCourse = await this.courseService.findOne({ courseId });
+    if (myCourse.host.id !== currentUser.id) {
+      throw new UnauthorizedException('호스트가 등록한 코스가 아닙니다.');
+    }
     return await this.courseService.update(courseId, updateCourseInput);
   }
 
-  // 호스트 본인이 쓴 글만 삭제할 수 있도록 해야함
+  @UseGuards(GqlAuthAccessGuard)
   @Mutation(() => Boolean)
-  deleteCourse(
-    @Args('courseId') courseId: string, //
+  async deleteCourse(
+    @CurrentUser() currentUser: ICurrentUser,
+    @Args('courseId') courseId: string,
   ) {
+    const myCourse = await this.courseService.findOne({ courseId });
+    if (myCourse.host.id !== currentUser.id) {
+      throw new UnauthorizedException('호스트가 등록한 코스가 아닙니다.');
+    }
     return this.courseService.delete({ courseId });
   }
 }

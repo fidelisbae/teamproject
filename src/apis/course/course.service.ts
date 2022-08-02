@@ -412,7 +412,37 @@ export class CourseService {
       ],
       where: { host: host },
     });
-    // const myReview = await this.
+    const result = {};
+    let one = 0;
+    let two = 0;
+    let three = 0;
+    let four = 0;
+    let five = 0;
+    for (let i = 0; i < myCourses.length; i++) {
+      let myReview = await this.reviewRepository.find({
+        relations: ['image', 'course', 'user'],
+        where: { course: myCourses[i] },
+      });
+      for (let j = 0; j < myReview.length; j++) {
+        if (myReview[j].rate === 1) {
+          one = one + 1;
+        } else if (myReview[j].rate === 2) {
+          two = two + 1;
+        } else if (myReview[j].rate === 3) {
+          three = three + 1;
+        } else if (myReview[j].rate === 4) {
+          four = four + 1;
+        } else if (myReview[j].rate === 5) {
+          five = five + 1;
+        }
+      }
+    }
+    result['one'] = one;
+    result['two'] = two;
+    result['three'] = three;
+    result['four'] = four;
+    result['five'] = five;
+    return result;
   }
 
   async create({ createCourseInput, currentUser }) {
@@ -554,6 +584,14 @@ export class CourseService {
 
   async howManyCourses() {
     const courses = await this.courseRepository.find();
+    const result = courses.length;
+    return result;
+  }
+
+  async howManyCoursesByHost(currentUser) {
+    const courses = await this.courseRepository.find({
+      where: { host: { id: currentUser.id } },
+    });
     const result = courses.length;
     return result;
   }
