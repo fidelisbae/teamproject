@@ -145,6 +145,7 @@ type Query {
   hotCourses: [Course!]!
   newCourses: [Course!]!
   cheapCourses: [Course!]!
+  howManyCourses: Int!
   fetchCourseDate(courseDateId: String!): CourseDate!
   fetchCourseTime(courseTimeId: String!): CourseTime!
   fetchCourseTimes(courseDateId: String!): [CourseTime!]!

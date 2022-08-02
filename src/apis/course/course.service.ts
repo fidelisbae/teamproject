@@ -494,6 +494,12 @@ export class CourseService {
     return await this.courseRepository.save(newCourse);
   }
 
+  async howManyCourses() {
+    const courses = await this.courseRepository.find();
+    const result = courses.length;
+    return result;
+  }
+
   async delete({ courseId }) {
     const result = await this.courseRepository.softDelete({ id: courseId });
     return result.affected ? true : false;
