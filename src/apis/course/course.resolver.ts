@@ -112,12 +112,18 @@ export class CourseResolver {
   }
 
   @UseGuards(GqlAuthAccessGuard)
+  @Query(() => Object)
+  async myCourseRate(@CurrentUser() currentUser: ICurrentUser) {
+    return await this.courseService.myCourseRate(currentUser);
+  }
+
+  @UseGuards(GqlAuthAccessGuard)
   @Mutation(() => Course)
   createCourse(
     @CurrentUser() currentUser: ICurrentUser,
     @Args('createCourseInput') createCourseInput: CreateCourseInput,
   ) {
-    return this.courseService.create({ createCourseInput, currentUser });
+    return await this.courseService.create({ createCourseInput, currentUser });
   }
 
   // 호스트 본인이 쓴 글만 수정할 수 있도록 해야함

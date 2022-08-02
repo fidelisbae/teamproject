@@ -393,6 +393,24 @@ export class CourseService {
     return pagination;
   }
 
+  async myCourseRate(currentUser) {
+    const host = await this.userRepository.findOne({
+      where: { id: currentUser.id },
+    });
+    const myCourses = await this.courseRepository.find({
+      relations: [
+        'host',
+        'imageURLs',
+        'category',
+        'materials',
+        'courseDate',
+        'courseDate.courseTime',
+        'review',
+      ],
+      where: { host: host },
+    });
+  }
+
   async create({ createCourseInput, currentUser }) {
     const { imageURLs, category, materials, ...items } = createCourseInput;
 
