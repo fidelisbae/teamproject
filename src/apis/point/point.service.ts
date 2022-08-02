@@ -56,20 +56,18 @@ export class PointService {
       where: { id: currentUser.id },
     });
 
-    try {
-      const result = await this.pointRepository.save({
-        addedpoint: 0 - amount,
-        user: user,
-      });
+    const myPoint = 0 - amount;
 
-      await this.userRepository.save({
-        ...user,
-        point: user.point - amount,
-      });
+    const result = await this.pointRepository.save({
+      addedPoint: myPoint,
+      user: user,
+    });
 
-      return result;
-    } catch {
-      throw new ConflictException('포인트사용실패');
-    }
+    await this.userRepository.save({
+      ...user,
+      point: user.point - amount,
+    });
+
+    return result;
   }
 }

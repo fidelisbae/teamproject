@@ -125,7 +125,6 @@ type User {
 
 type Point {
   id: String!
-  createdAt: DateTime!
   addedPoint: Int!
 }
 
