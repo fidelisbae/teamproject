@@ -111,15 +111,15 @@ export class CourseResolver {
     return await this.courseService.howManyCourses();
   }
 
-  @UseGuards(GqlAuthAccessGuard)
-  @Query(() => Object)
-  async myCourseRate(@CurrentUser() currentUser: ICurrentUser) {
-    return await this.courseService.myCourseRate(currentUser);
-  }
+  // @UseGuards(GqlAuthAccessGuard)
+  // @Query(() => Object)
+  // async myCourseRate(@CurrentUser() currentUser: ICurrentUser) {
+  //   return await this.courseService.myCourseRate(currentUser);
+  // }
 
   @UseGuards(GqlAuthAccessGuard)
   @Mutation(() => Course)
-  createCourse(
+  async createCourse(
     @CurrentUser() currentUser: ICurrentUser,
     @Args('createCourseInput') createCourseInput: CreateCourseInput,
   ) {
@@ -132,10 +132,7 @@ export class CourseResolver {
     @Args('courseId') courseId: string,
     @Args('updateCourseInput') updateCourseInput: UpdateCourseInput,
   ) {
-    return await this.courseService.update({
-      courseId,
-      updateCourseInput,
-    });
+    return await this.courseService.update(courseId, updateCourseInput);
   }
 
   // 호스트 본인이 쓴 글만 삭제할 수 있도록 해야함

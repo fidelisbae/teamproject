@@ -6,6 +6,7 @@ import { CourseTime } from '../courseTime/entities/courseTime.entity';
 import { Image } from '../image/entities/image.entity';
 import { Material } from '../material/entities/material.entity';
 import { Payment } from '../payment/entities/payment.entity';
+import { Review } from '../reivews/entities/review.entity';
 import { User } from '../user/entities/user.entity';
 import { Course } from './entities/course.entity';
 
@@ -26,6 +27,8 @@ export class CourseService {
     private readonly paymentRepository: Repository<Payment>,
     @InjectRepository(CourseTime)
     private readonly courseTimeRepository: Repository<CourseTime>,
+    @InjectRepository(Review)
+    private readonly reviewRepository: Repository<Review>,
   ) {}
 
   async findOne({ courseId }) {
@@ -409,6 +412,7 @@ export class CourseService {
       ],
       where: { host: host },
     });
+    // const myReview = await this.
   }
 
   async create({ createCourseInput, currentUser }) {
@@ -470,10 +474,8 @@ export class CourseService {
     return result2;
   }
 
-  async update({ courseId, updateCourseInput }) {
-    const { imageURLs, ...updateCourse } = updateCourseInput;
+  async update(courseId, updateCourseInput) {
     const myCourse = await this.courseRepository.findOne({
-      where: { id: courseId },
       relations: [
         'host',
         'imageURLs',
@@ -483,36 +485,71 @@ export class CourseService {
         'courseDate.courseTime',
         'review',
       ],
+      where: { id: courseId },
     });
-    const prevImage = await this.imageRepository.find({
-      where: { course: { id: courseId } },
-    });
-    console.log(prevImage, '=======================');
-    // if (!imageURLs) {
-    //   await this.imageRepository.save({
-    //     ...myCourse,
-    //     ...updateCourseInput,
-    //   });
-    // }
-    const prevUrl = prevImage.map((imageURLs) => imageURLs.imageURLs);
-    console.log(prevUrl, '=================222======');
 
-    await Promise.all(
-      imageURLs.map((image) => {
-        if (!prevUrl.includes(image)) {
-          this.imageRepository.save({
-            imageURLs: image,
-            course: { id: courseId },
-          });
-        }
-      }),
-    );
-    const newCourse = {
+    const result = await this.courseRepository.save({
       ...myCourse,
-      id: courseId,
-      ...updateCourse,
-    };
-    return await this.courseRepository.save(newCourse);
+      ...updateCourseInput,
+    });
+
+    // 카테고리수정
+
+    // if (updateCourseInput.category) {
+    //   const category = updateCourseInput.category;
+    //   let categoryResult = await this.categoryRepository.findOne({
+    //     where: { name: category },
+    //   });
+    //   if (!categoryResult) {
+    //     categoryResult = await this.categoryRepository.save({
+    //       name: category,
+    //     });
+    //   }
+    //   result.category = categoryResult;
+    // }
+
+    if (updateCourseInput.materials) {
+      const materials = updateCourseInput.materials;
+      await this.materialRepository.softDelete({ course: result });
+      for (let i = 0; i < materials.length; i++) {
+        await this.materialRepository.save({
+          materials: materials[i],
+          course: result,
+        });
+      }
+    }
+
+    if (updateCourseInput.imageURLs) {
+      const imageURLs = updateCourseInput.imageURLs;
+      await this.imageRepository.softDelete({ course: result });
+      await this.imageRepository.save({
+        isThumbnail: true,
+        imageURLs: imageURLs[0],
+        course: result,
+      });
+      for (let i = 1; i < imageURLs.length; i++) {
+        await this.imageRepository.save({
+          isThumbnail: false,
+          imageURLs: imageURLs[i],
+          course: result,
+        });
+      }
+    }
+
+    const result2 = await this.courseRepository.findOne({
+      relations: [
+        'host',
+        'imageURLs',
+        'category',
+        'materials',
+        'courseDate',
+        'courseDate.courseTime',
+        'review',
+      ],
+      where: { id: result.id },
+    });
+
+    return result2;
   }
 
   async howManyCourses() {

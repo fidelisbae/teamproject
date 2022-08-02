@@ -24,10 +24,9 @@ export class CreateCourseInput {
   @Field(() => String)
   difficulty: string;
 
-  @Field(() => [String], { defaultValue: ['준비물없음'] })
+  @Field(() => [String])
   materials: string[];
 
-  @Column({ type: 'mediumtext' })
   @Field(() => String)
   contents: string;
 

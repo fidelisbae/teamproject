@@ -77,8 +77,12 @@ export class PaymentService {
     return result;
   }
 
-  async findAll() {
+  async fetchPaymentsByUser(currentUser) {
+    const user = await this.userRepository.findOne({
+      where: { id: currentUser.id },
+    });
     const result = await this.paymentRepository.find({
+      where: { user: user },
       relations: ['user', 'course', 'courseTime'],
     });
     return result;

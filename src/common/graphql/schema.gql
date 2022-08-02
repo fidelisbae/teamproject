@@ -5,6 +5,7 @@
 type Category {
   id: String!
   name: String!
+  course: [Course!]
 }
 
 type Image {
@@ -150,7 +151,7 @@ type Query {
   fetchCourseTimes(courseDateId: String!): [CourseTime!]!
   fetchPicks: [Pick!]!
   fetchPicksByUser: [String!]!
-  fetchPayments: [Payment!]!
+  fetchPaymentsByUser: [Payment!]!
   fetchPayment(paymentId: String!): Payment!
   fetchPointHistory: [Point!]!
 }
@@ -254,7 +255,7 @@ input CreateCourseInput {
   addressDetail: String!
   zipCode: String!
   difficulty: String!
-  materials: [String!] = ["준비물없음"]
+  materials: [String!]!
   contents: String!
   openingDate: DateTime!
   closingDate: DateTime!
@@ -272,7 +273,7 @@ input UpdateCourseInput {
   addressDetail: String
   zipCode: String
   difficulty: String
-  materials: [String!] = ["준비물없음"]
+  materials: [String!]
   contents: String
   openingDate: DateTime
   closingDate: DateTime
