@@ -487,6 +487,7 @@ export class CourseService {
     const prevImage = await this.imageRepository.find({
       where: { course: { id: courseId } },
     });
+    console.log(prevImage, '=======================');
     // if (!imageURLs) {
     //   await this.imageRepository.save({
     //     ...myCourse,
@@ -494,6 +495,8 @@ export class CourseService {
     //   });
     // }
     const prevUrl = prevImage.map((imageURLs) => imageURLs.imageURLs);
+    console.log(prevUrl, '=================222======');
+
     await Promise.all(
       imageURLs.map((image) => {
         if (!prevUrl.includes(image)) {

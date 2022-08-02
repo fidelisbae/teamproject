@@ -92,24 +92,19 @@ export class PaymentService {
 
   async cancelPayment({ impUid }) {
     const access_token = await this.iamportService.getToken();
-    console.log(access_token);
-    try {
-      const getCancelData = await axios({
-        url: 'https://api.iamport.kr/payments/cancel',
-        method: 'post',
-        headers: {
-          Authorization: access_token,
-          'Content-Type': 'application/json',
-        },
-        data: {
-          imp_uid: impUid,
-        },
-      });
-      console.log(getCancelData);
 
-      return true;
-    } catch (error) {
-      throw new UnauthorizedException(error);
-    }
+    await axios({
+      url: 'https://api.iamport.kr/payments/cancel',
+      method: 'post',
+      headers: {
+        Authorization: access_token,
+        'Content-Type': 'application/json',
+      },
+      data: {
+        imp_uid: impUid,
+      },
+    });
+    const result = await this.paymentRepository.softDelete({ impUid: impUid });
+    return result.affected ? true : false;
   }
 }
