@@ -84,10 +84,9 @@ export class PaymentService {
     return result;
   }
 
-  async findOne({ email }) {
+  async findOne({ paymentId }) {
     return await this.paymentRepository.findOne({
-      where: { id: email },
-      relations: ['user', 'course', 'courseTime'],
+      where: { id: paymentId },
     });
   }
 
