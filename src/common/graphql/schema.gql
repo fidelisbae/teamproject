@@ -70,7 +70,7 @@ type Course {
   lat: Float
   lng: Float
   pick: Int!
-  host: User!
+  host: User
   category: Category!
   imageURLs: [Image!]
   materials: [Material!]

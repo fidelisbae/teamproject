@@ -83,7 +83,7 @@ export class Course {
   pick: number;
 
   @ManyToOne(() => User)
-  @Field(() => User)
+  @Field(() => User, { nullable: true })
   host: User;
 
   @ManyToOne(() => Category)
