@@ -39,7 +39,8 @@ export class PickService {
 
   async toggle(course, user) {
     const pickedCourse = await this.courseRepository.findOne({
-      where: { id: course },
+      where: { id: course.id }, //고침
+      relations: ['course'], //고침
     });
 
     if (pickedCourse === null) {
