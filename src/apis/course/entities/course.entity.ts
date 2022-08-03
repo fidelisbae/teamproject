@@ -81,7 +81,7 @@ export class Course {
 
   @Column({ default: 0 })
   @Field(() => Int)
-  picks: number;
+  pick: number;
 
   @ManyToOne(() => User)
   @Field(() => User, { nullable: true })
@@ -117,5 +117,5 @@ export class Course {
 
   @OneToMany(() => Pick, (pick) => pick.course)
   @Field(() => [Pick])
-  pick: Pick[];
+  pickId: Pick[];
 }
