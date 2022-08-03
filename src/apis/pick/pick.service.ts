@@ -37,10 +37,9 @@ export class PickService {
     return result;
   }
 
-  async toggle(course, user) {
+  async toggle(courseId, currentUser) {
     const pickedCourse = await this.courseRepository.findOne({
-      where: { id: course.id }, //고침
-      relations: ['course'], //고침
+      where: { id: courseId },
     });
 
     if (pickedCourse === null) {
@@ -48,7 +47,7 @@ export class PickService {
     }
 
     const pickingUser = await this.userRepository.findOne({
-      where: { id: user.id },
+      where: { id: currentUser.id },
     });
 
     const allPicks = await this.pickRepository.find({
@@ -69,7 +68,10 @@ export class PickService {
 
     pickedCourse.picks = pickedCourse.picks + 1;
     await this.courseRepository.save(pickedCourse);
-    await this.pickRepository.save({ course: pickedCourse, user: pickingUser });
+    await this.pickRepository.save({
+      course: pickedCourse,
+      user: pickingUser,
+    });
     return true;
   }
 }
