@@ -74,9 +74,10 @@ export class CourseService {
         'imageURLs',
         'materials',
         'courseDate',
-        'courseDate.courseTime',
+        'courseTime',
         'category',
         'review',
+        'payment',
       ],
     });
     const result = [];
@@ -422,7 +423,7 @@ export class CourseService {
     let five = 0;
 
     for (let i = 0; i < myCourses.length; i++) {
-      let myReview = await this.reviewRepository.find({
+      const myReview = await this.reviewRepository.find({
         relations: ['course', 'user'],
         where: { course: { id: myCourses[i].id } },
       });
