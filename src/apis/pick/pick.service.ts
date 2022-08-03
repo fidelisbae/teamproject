@@ -59,14 +59,14 @@ export class PickService {
         allPicks[i].user.id === pickingUser.id &&
         allPicks[i].course.id === pickedCourse.id
       ) {
-        pickedCourse.picks = pickedCourse.picks - 1;
+        pickedCourse.pick = pickedCourse.pick - 1;
         await this.courseRepository.save(pickedCourse);
         await this.pickRepository.softDelete({ id: allPicks[i].id });
         return false;
       }
     }
 
-    pickedCourse.picks = pickedCourse.picks + 1;
+    pickedCourse.pick = pickedCourse.pick + 1;
     await this.courseRepository.save(pickedCourse);
     await this.pickRepository.save({
       course: pickedCourse,
