@@ -87,6 +87,7 @@ export class PaymentService {
     return await this.paymentRepository.findOne({
       relations: ['user', 'course', 'courseTime', 'course.imageURL'],
       where: { id: paymentId },
+      relations: ['user', 'course', 'courseTime'],
     });
   }
 
