@@ -16,6 +16,7 @@ import { Review } from 'src/apis/reivews/entities/review.entity';
 import { CourseDate } from 'src/apis/courseDate/entities/courseDate.entity';
 import { CourseTime } from 'src/apis/courseTime/entities/courseTime.entity';
 import { Payment } from 'src/apis/payment/entities/payment.entity';
+import { Pick } from 'src/apis/pick/entities/pick.entity';
 
 @Entity()
 @ObjectType()
@@ -80,7 +81,7 @@ export class Course {
 
   @Column({ default: 0 })
   @Field(() => Int)
-  pick: number;
+  picks: number;
 
   @ManyToOne(() => User)
   @Field(() => User, { nullable: true })
@@ -113,4 +114,8 @@ export class Course {
   @OneToMany(() => Payment, (payment) => payment.course)
   @Field(() => [Payment])
   payment: Payment[];
+
+  @OneToMany(() => Pick, (pick) => pick.course)
+  @Field(() => [Pick])
+  pick: Pick[];
 }

@@ -78,13 +78,14 @@ export class PaymentService {
   async fetchPaymentsByUser(currentUser) {
     const result = await this.paymentRepository.find({
       where: { user: { id: currentUser.id } },
-      relations: ['user', 'course', 'courseTime'],
+      relations: ['user', 'course', 'courseTime', 'course.imageURL'],
     });
     return result;
   }
 
   async findOne({ paymentId }) {
     return await this.paymentRepository.findOne({
+      relations: ['user', 'course', 'courseTime', 'course.imageURL'],
       where: { id: paymentId },
     });
   }

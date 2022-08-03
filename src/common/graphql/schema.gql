@@ -55,6 +55,12 @@ type CourseDate {
   courseTime: [CourseTime!]!
 }
 
+type Pick {
+  id: String!
+  course: Course!
+  user: User!
+}
+
 type Course {
   id: String!
   name: String!
@@ -69,7 +75,7 @@ type Course {
   zipCode: String!
   lat: Float
   lng: Float
-  pick: Int!
+  picks: Int!
   host: User
   category: Category!
   imageURLs: [Image!]
@@ -78,6 +84,7 @@ type Course {
   courseDate: [CourseDate!]!
   courseTime: [CourseTime!]!
   payment: [Payment!]!
+  pick: [Pick!]!
 }
 
 type Payment {
@@ -97,12 +104,6 @@ type Payment {
 enum PAYMENT_STATUS_ENUM {
   PAYMENT
   CANCEL
-}
-
-type Pick {
-  id: String!
-  course: Course!
-  user: User!
 }
 
 type User {
