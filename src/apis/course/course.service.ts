@@ -368,17 +368,14 @@ export class CourseService {
   }
 
   async fetchCoursesByUser(id, page) {
-    const user = await this.userRepository.findOne({
-      where: { id: id },
-    });
     const payments = await this.paymentRepository.find({
-      where: { user: user },
+      where: { user: { id: id } },
       relations: ['user', 'course', 'courseTime'],
     });
     const courses = [];
     for (let i = 0; i < payments.length; i++) {
       const course = await this.courseRepository.findOne({
-        where: { payment: payments[i] },
+        where: { payment: { id: payments[i].id } },
         relations: [
           'host',
           'imageURLs',
@@ -387,6 +384,7 @@ export class CourseService {
           'courseDate',
           'courseDate.courseTime',
           'review',
+          'payment',
         ],
       });
       courses.push(course);
