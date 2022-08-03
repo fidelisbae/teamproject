@@ -75,7 +75,7 @@ type Course {
   zipCode: String!
   lat: Float
   lng: Float
-  picks: Int!
+  pick: Int!
   host: User
   category: Category!
   imageURLs: [Image!]
@@ -84,7 +84,7 @@ type Course {
   courseDate: [CourseDate!]!
   courseTime: [CourseTime!]!
   payment: [Payment!]!
-  pick: [Pick!]!
+  pickId: [Pick!]!
 }
 
 type Payment {
@@ -122,7 +122,7 @@ type User {
   gender: Boolean
   profileImageURL: String
   marketingAgreement: Boolean!
-  pick: [Pick!]!
+  pickId: [Pick!]!
   payment: [Payment!]!
 }
 

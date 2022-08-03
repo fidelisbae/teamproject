@@ -54,15 +54,19 @@ export class PickService {
       relations: ['user', 'course'],
     });
 
-    for (let i = 0; i < allPicks.length; i++) {
-      if (
-        allPicks[i].user.id === pickingUser.id &&
-        allPicks[i].course.id === pickedCourse.id
-      ) {
-        pickedCourse.pick = pickedCourse.pick - 1;
-        await this.courseRepository.save(pickedCourse);
-        await this.pickRepository.softDelete({ id: allPicks[i].id });
-        return false;
+    if (allPicks) {
+      for (let i = 0; i < allPicks.length; i++) {
+        if (allPicks[i]) {
+          if (
+            allPicks[i].user.id === pickingUser.id &&
+            allPicks[i].course.id === pickedCourse.id
+          ) {
+            pickedCourse.pick = pickedCourse.pick - 1;
+            await this.courseRepository.save(pickedCourse);
+            await this.pickRepository.softDelete({ id: allPicks[i].id });
+            return false;
+          }
+        }
       }
     }
 
