@@ -79,7 +79,6 @@ export class Course {
   @Field(() => Float, { nullable: true })
   lng: number;
 
-  @OneToMany(() => Pick, (pick) => pick.course)
   @Column({ default: 0 })
   @Field(() => Int)
   picks: number;
