@@ -43,6 +43,6 @@
 
 [https://dabae.shop/graphql](https://dabae.shop/graphql)
 
-### 배포주소 (작업중)
+### 배포주소
 
 [https://dabae.co.kr](https://dabae.co.kr)
