@@ -56,6 +56,7 @@ export class PickService {
 
     if (allPicks) {
       for (let i = 0; i < allPicks.length; i++) {
+        console.log(allPicks[i].user.id);
         if (allPicks[i]) {
           if (
             allPicks[i].user.id === pickingUser.id &&

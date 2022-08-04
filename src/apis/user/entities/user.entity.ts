@@ -79,9 +79,9 @@ export class User {
   @DeleteDateColumn()
   deletedAt: Date;
 
-  @OneToMany(() => Pick, (pickId) => pickId.user)
-  @Field(() => [Pick])
-  pickId: Pick[];
+  // @OneToMany(() => Pick, (pickId) => pickId.user)
+  // @Field(() => [Pick])
+  // pickId: Pick[];
 
   @OneToMany(() => Payment, (payment) => payment.user)
   @Field(() => [Payment])

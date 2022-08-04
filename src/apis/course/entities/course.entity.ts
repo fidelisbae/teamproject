@@ -115,7 +115,7 @@ export class Course {
   @Field(() => [Payment])
   payment: Payment[];
 
-  @OneToMany(() => Pick, (pickId) => pickId.course)
-  @Field(() => [Pick])
-  pickId: Pick[];
+  // @OneToMany(() => Pick, (pickId) => pickId.course)
+  // @Field(() => [Pick])
+  // pickId: Pick[];
 }
