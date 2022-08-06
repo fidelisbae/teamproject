@@ -8,19 +8,19 @@ export class JwtGoogleStrategy extends PassportStrategy(Strategy, 'google') {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       callbackURL: 'https://dabae.shop/login/google',
+      //callbackURL: 'http://localhost:3000/login/google',
+
       scope: ['email', 'profile'],
     });
   }
   validate(accestoken, refreshToken, profile) {
     return {
       email: profile.emails[0].value,
-      nickname: 'sammmm',
-      pwd: '12093812093',
-      name: profile.displayName,
-      phone: '01034781231',
-      address: '',
-      DOB: '2002-04-12',
+      nickname: profile.emails[0].value.split('@')[0],
       isHost: false,
+      // phone: '011034123',
+      // birth: '2022-03-21',
+      // marketingAgreement: true,
     };
   }
 }

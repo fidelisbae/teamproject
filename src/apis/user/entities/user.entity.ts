@@ -17,15 +17,15 @@ export class User {
   @Field(() => String)
   id: string;
 
-  @Column()
+  @Column({ nullable: true })
   @Field(() => String)
   email: string;
 
-  @Column()
-  // @Field(() => String)
+  @Column({ nullable: true })
+  @Field(() => String)
   password: string;
 
-  @Column()
+  @Column({ nullable: true })
   @Field(() => String)
   nickname: string;
 
@@ -37,7 +37,7 @@ export class User {
   @Field(() => Int)
   point: number;
 
-  @Column()
+  @Column({ default: null })
   @Field(() => Boolean)
   isHost: boolean;
 
@@ -69,7 +69,7 @@ export class User {
   @Field(() => String, { nullable: true })
   profileImageURL: string;
 
-  @Column()
+  @Column({ default: null })
   @Field(() => Boolean)
   marketingAgreement: boolean;
 
