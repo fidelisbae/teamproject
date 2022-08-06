@@ -99,6 +99,12 @@ enum PAYMENT_STATUS_ENUM {
   CANCEL
 }
 
+type Pick {
+  id: String!
+  course: Course
+  user: User
+}
+
 type User {
   id: String!
   email: String!
@@ -115,13 +121,8 @@ type User {
   gender: Boolean
   profileImageURL: String
   marketingAgreement: Boolean!
+  pick: [Pick!]!
   payment: [Payment!]!
-}
-
-type Pick {
-  id: String!
-  course: Course!
-  user: User!
 }
 
 type Point {
@@ -153,7 +154,7 @@ type Query {
   fetchCourseTime(courseTimeId: String!): CourseTime!
   fetchCourseTimes(courseDateId: String!): [CourseTime!]!
   fetchPicks: [Pick!]!
-  fetchPicksByUser: [String!]!
+  fetchPicksByUser: [Course!]!
   fetchPaymentsByUser: [Payment!]!
   fetchPayment(paymentId: String!): Payment!
   fetchPointHistory: [Point!]!
@@ -208,6 +209,7 @@ type Mutation {
   createCourseTime(createCourseTimeInput: CreateCourseTimeInput!): CourseTime!
   updateCourseTimeInput(courseTimeId: String!, updateCourseTimeInput: UpdateCourseTimeInput!): CourseTime!
   deleteCourseTime(courseTimeId: String!): Boolean!
+  deletePicksInNullUser: Boolean!
   togglePick(courseId: String!): Boolean!
   createPayment(createPaymentInput: CreatePaymentInput!): Payment!
   cancelPayment(impUid: String!): Boolean!

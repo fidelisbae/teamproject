@@ -18,8 +18,24 @@ export class PickService {
     private readonly courseRepository: Repository<Course>,
   ) {}
 
-  async findAll() {
-    return await this.pickRepository.find();
+  async fetchPicks() {
+    return await this.pickRepository.find({
+      relations: ['user', 'course'],
+    });
+  }
+
+  async deletePicksInNullUser() {
+    const picks = await this.pickRepository.find({
+      where: { user: null },
+    });
+    let result;
+
+    for (let i = 0; i < picks.length; i++) {
+      result = await this.pickRepository.softDelete({
+        id: picks[i].id,
+      });
+    }
+    return result.affected ? true : false;
   }
 
   async picksByUser(userID) {
@@ -30,7 +46,11 @@ export class PickService {
     const result = [];
     for (let i = 0; i < allPicks.length; i++) {
       if (allPicks[i].user.id === userID) {
-        result.push(allPicks[i].course.id);
+        result.push(
+          await this.courseRepository.findOne({
+            where: { id: allPicks[i].course.id },
+          }),
+        );
       }
     }
 
@@ -42,7 +62,7 @@ export class PickService {
       where: { id: courseId },
     });
 
-    if (pickedCourse === null) {
+    if (!pickedCourse) {
       throw new ConflictException('존재하지않는 코스입니다.');
     }
 
@@ -54,19 +74,16 @@ export class PickService {
       relations: ['user', 'course'],
     });
 
-    if (allPicks) {
-      for (let i = 0; i < allPicks.length; i++) {
-        console.log(allPicks[i].user.id);
-        if (allPicks[i]) {
-          if (
-            allPicks[i].user.id === pickingUser.id &&
-            allPicks[i].course.id === pickedCourse.id
-          ) {
-            pickedCourse.pick = pickedCourse.pick - 1;
-            await this.courseRepository.save(pickedCourse);
-            await this.pickRepository.softDelete({ id: allPicks[i].id });
-            return false;
-          }
+    for (let i = 0; i < allPicks.length; i++) {
+      if (allPicks[i]) {
+        if (
+          allPicks[i].user.id === pickingUser.id &&
+          allPicks[i].course.id === pickedCourse.id
+        ) {
+          pickedCourse.pick = pickedCourse.pick - 1;
+          await this.courseRepository.save(pickedCourse);
+          await this.pickRepository.softDelete({ id: allPicks[i].id });
+          return false;
         }
       }
     }

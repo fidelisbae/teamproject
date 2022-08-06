@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { IRate } from 'src/common/types/IRate';
 import { Repository } from 'typeorm';
 import { Category } from '../category/entities/category.entity';
 import { CourseTime } from '../courseTime/entities/courseTime.entity';

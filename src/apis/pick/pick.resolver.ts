@@ -2,6 +2,7 @@ import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { GqlAuthAccessGuard } from 'src/common/auth/gql.auth.guard';
 import { CurrentUser, ICurrentUser } from 'src/common/auth/gql.user.param';
+import { Course } from '../course/entities/course.entity';
 import { Pick } from './entities/pick.entity';
 import { PickService } from './pick.service';
 
@@ -11,13 +12,19 @@ export class PickResolver {
 
   @Query(() => [Pick])
   async fetchPicks() {
-    return await this.pickService.findAll();
+    return await this.pickService.fetchPicks();
+  }
+
+  @Mutation(() => Boolean)
+  async deletePicksInNullUser() {
+    return await this.pickService.deletePicksInNullUser();
   }
 
   @UseGuards(GqlAuthAccessGuard)
-  @Query(() => [String])
+  @Query(() => [Course])
   async fetchPicksByUser(@CurrentUser() currentUser: ICurrentUser) {
-    return await this.pickService.picksByUser(currentUser.id);
+    const userID = currentUser.id;
+    return await this.pickService.picksByUser(userID);
   }
 
   @UseGuards(GqlAuthAccessGuard)
