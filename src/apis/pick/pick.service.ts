@@ -56,7 +56,6 @@ export class PickService {
 
     return result;
   }
-
   async toggle(courseId, currentUser) {
     const pickedCourse = await this.courseRepository.findOne({
       where: { id: courseId },
