@@ -28,14 +28,17 @@ export class PickService {
     const picks = await this.pickRepository.find({
       where: { user: null },
     });
-    let result;
 
-    for (let i = 0; i < picks.length; i++) {
-      result = await this.pickRepository.softDelete({
-        id: picks[i].id,
-      });
+    if (picks.length > 0) {
+      for (let i = 0; i < picks.length; i++) {
+        await this.pickRepository.softDelete({
+          id: picks[i].id,
+        });
+      }
+      return true;
+    } else {
+      return false;
     }
-    return result.affected ? true : false;
   }
 
   async picksByUser(userID) {
@@ -56,7 +59,6 @@ export class PickService {
 
     return result;
   }
-
   async toggle(courseId, currentUser) {
     const pickedCourse = await this.courseRepository.findOne({
       where: { id: courseId },

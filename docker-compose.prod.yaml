@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   my-backend:
-    image: asia.gcr.io/omega-research-357204/dabae:12.2
+    image: asia.gcr.io/integral-tensor-358905/dabae:0.5
     platform: linux/x86_64
     build:
       context: .

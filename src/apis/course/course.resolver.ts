@@ -111,14 +111,17 @@ export class CourseResolver {
   }
 
   @Query(() => Int)
-  async howManyCourses() {
-    return await this.courseService.howManyCourses();
+  async howManyCourses(@Args('search', { defaultValue: '' }) search: string) {
+    return await this.courseService.howManyCourses(search);
   }
 
   @UseGuards(GqlAuthAccessGuard)
   @Query(() => Int)
-  async howManyCoursesByHost(@CurrentUser() currentUser: ICurrentUser) {
-    return await this.courseService.howManyCoursesByHost(currentUser);
+  async howManyCoursesByHost(
+    @CurrentUser() currentUser: ICurrentUser,
+    @Args('search', { defaultValue: '' }) search: string,
+  ) {
+    return await this.courseService.howManyCoursesByHost(currentUser, search);
   }
 
   @UseGuards(GqlAuthAccessGuard)

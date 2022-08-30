@@ -22,7 +22,7 @@ export class User {
   email: string;
 
   @Column({ nullable: true })
-  @Field(() => String)
+  // @Field(() => String)
   password: string;
 
   @Column({ nullable: true })

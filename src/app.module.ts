@@ -19,32 +19,13 @@ import { PointModule } from './apis/point/point.module';
 
 @Module({
   imports: [
-    // 배포용
-    // TypeOrmModule.forRoot({
-    //   type: 'mysql',
-    //   host: '10.86.0.2',
-    //   port: 3306,
-    //   username: 'root',
-    //   password: '12345',
-    //   database: 'dabae-database',
-    //   entities: [__dirname + '/apis/**/*.entity.*'],
-    //   synchronize: true,
-    //   logging: true,
-    // }),
-    // CacheModule.register<RedisClientOptions>({
-    //   store: redisStore,
-    //   url: 'redis://10.86.1.3:6379',
-    //   isGlobal: true,
-    // }),
-
-    // 로컬용
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: '172.18.16.4',
+      host: '10.103.64.3',
       port: 3306,
       username: 'root',
       password: '12345',
-      database: 'dabae-server',
+      database: 'dabae-database',
       entities: [__dirname + '/apis/**/*.entity.*'],
       synchronize: true,
       logging: true,
@@ -58,6 +39,7 @@ import { PointModule } from './apis/point/point.module';
           'http://localhost:3000',
           'http://127.0.0.1:5500',
           'https://dabae.co.kr',
+          'https://dabae.shop',
         ],
         credentials: 'include',
         methods: ['GET', 'HEAD', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
@@ -66,7 +48,7 @@ import { PointModule } from './apis/point/point.module';
     }),
     CacheModule.register<RedisClientOptions>({
       store: redisStore,
-      url: 'redis://172.18.17.3:6379',
+      url: 'redis://10.103.65.3:6379',
       isGlobal: true,
     }),
     ReviewModule,
