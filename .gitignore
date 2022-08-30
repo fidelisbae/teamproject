@@ -42,4 +42,4 @@ lerna-debug.log*
 
 #git 올라가면 안되는거 
 *.env
-gcp-file-storage.json
+integral-tensor-358905-a8fa8c529899.json

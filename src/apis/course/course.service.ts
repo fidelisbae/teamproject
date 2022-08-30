@@ -586,18 +586,28 @@ export class CourseService {
     return result2;
   }
 
-  async howManyCourses() {
+  async howManyCourses(search) {
     const courses = await this.courseRepository.find();
-    const result = courses.length;
-    return result;
+    let count = 0;
+    for (let i = 0; i < courses.length; i++) {
+      if (courses[i].name.includes(search)) {
+        count++;
+      }
+    }
+    return count;
   }
 
-  async howManyCoursesByHost(currentUser) {
+  async howManyCoursesByHost(currentUser, search) {
     const courses = await this.courseRepository.find({
       where: { host: { id: currentUser.id } },
     });
-    const result = courses.length;
-    return result;
+    let count = 0;
+    for (let i = 0; i < courses.length; i++) {
+      if (courses[i].name.includes(search)) {
+        count++;
+      }
+    }
+    return count;
   }
 
   async delete({ courseId }) {
